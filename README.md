@@ -1,1 +1,1 @@
-# lab-mngmt-frontend
+# student-service-web
