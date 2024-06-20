@@ -1,3 +1,14 @@
+/* Estilos para la modal grande */
 .modal-lg {
-    max-width: 50%;
+  max-width: 50%; /* Ancho máximo de la modal */
 }
+
+/* Estilos para los botones de editar y eliminar */
+.editar-btn {
+  margin-right: 8px; /* Espacio a la derecha del botón Editar */
+}
+
+.eliminar-btn {
+  margin-left: 8px; /* Espacio a la izquierda del botón Eliminar */
+}
+
