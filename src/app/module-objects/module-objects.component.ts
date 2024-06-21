@@ -13,7 +13,6 @@ export class ModuleObjectsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
-    // Código de inicialización si es necesario
   }
 
   toggleMenuVisibility() {
