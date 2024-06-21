@@ -33,7 +33,7 @@ import {
   ɵɵdefineNgModule,
   ɵɵgetInheritedFactory,
   ɵɵinject
-} from "./chunk-OXTVSHVA.js";
+} from "./chunk-DTK5L7BL.js";
 
 // node_modules/@angular/core/fesm2022/rxjs-interop.mjs
 function toSignal(source, options) {
