@@ -265,6 +265,7 @@ footer img {
     list-style: none;
     padding: 10px;
     /* List padding adjustment */
+    font-size: 22px;
   }
 
   nav li {
@@ -277,16 +278,15 @@ footer img {
     color: #333;
     display: flex;
     align-items: center;
-    padding: 8px 12px;
     /* Internal padding */
     border-radius: 5px;
-    transition: background-color 0.3s ease;
-  }
+    transition: background-color 0.3s ease;  }
 
   nav a:hover {
     background-color: #f0f0f0;
     /* Color change on hover */
   }
+
 
   main {
     padding: 20px;
