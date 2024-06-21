@@ -1,0 +1,307 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  height: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e0f7fa;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: #80cbc4;
+  padding: 10px;
+  position: relative;
+  z-index: 2;
+  border: 5px solid #2b9980;
+}
+
+.menu-button {
+  font-size: 1.5em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  order: 1;
+  color: #fff;
+}
+
+h1 {
+  margin: 0;
+  order: 2;
+}
+
+.logo {
+  order: 3;
+}
+
+.logo img {
+  width: 30px;
+  height: auto;
+}
+
+.logo-utn {
+  height: 40px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  overflow: auto;
+}
+
+nav {
+  width: 250px;
+  max-width: 100%;
+  background-color: #fff;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  position: absolute;
+  top: 60px;
+  /* Adjusted to give space for the header */
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+nav.visible {
+  transform: translateX(0);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin: 1em 0;
+  text-align: left;
+  padding: 5%;
+  margin-top: 10%;
+}
+
+nav a {
+  text-decoration: none;
+  color: #345973;
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+}
+
+nav a:hover {
+  background-color: #f0f0f0;
+  /* Color change on hover */
+}
+
+.menu-icon {
+  font-size: 1em;
+  margin-right: 10px;
+  height: 40px;
+  width: auto;
+}
+
+main {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.title {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #345973;
+  text-align: center;
+  /* Center align title */
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+  /* Add top margin to cards */
+}
+
+.card {
+  width: 20%;
+  margin-bottom: 40px;
+  /* Increase bottom margin */
+  border: 2px solid #4b7bec;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-top: 5%;
+  min-height: 400px;
+  /* Set minimum height for cards */
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  font-size: 24px;
+  margin: 10px 0;
+  color: #2b9980;
+  margin-top: 25%;
+}
+
+.card p {
+  font-size: 16px;
+  color: #7f8c8d;
+  margin-bottom: 20px;
+}
+
+.card-button {
+  background-color: #2b9980;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.card-button:hover {
+  background-color: #99CFBF;
+}
+
+footer {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+footer img {
+  height: 40px;
+}
+
+@media (max-width: 769px) {
+  header {
+    height: 60px;
+    /* Fixed height for header on small screens */
+    flex-direction: row;
+    /* Changed from column to row */
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    /* Horizontal padding adjustment */
+  }
+
+  .menu-button {
+    order: 1;
+    margin-right: 10px;
+    /* Space between button and logo */
+  }
+
+  .logo {
+    order: 2;
+    /* Changed logo order */
+    margin: 0;
+    height: 40px;
+    /* Reduced logo size */
+  }
+
+  .content {
+    flex-direction: column;
+    align-items: center;
+    overflow: visible;
+  }
+
+  nav {
+    width: 200px;
+    /* Reduced width of side menu */
+    max-width: 80%;
+    /* Maximum allowed width */
+    height: calc(100% - 60px);
+    /* Calculate menu height */
+    top: 60px;
+    /* Adjusted to give space for header */
+    left: -200px;
+    /* Initially off-screen */
+    z-index: 1;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    /* Added scroll if necessary */
+  }
+
+  nav.visible {
+    transform: translateX(200px);
+    /* Show side menu */
+  }
+
+  nav ul {
+    list-style: none;
+    padding: 10px;
+    /* List padding adjustment */
+  }
+
+  nav li {
+    margin-bottom: 8px;
+    /* Spacing between list items */
+  }
+
+  nav a {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    /* Internal padding */
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  nav a:hover {
+    background-color: #f0f0f0;
+    /* Color change on hover */
+  }
+
+  main {
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 300px;
+    /* Maximum width of cards */
+    margin-bottom: 20px;
+  }
+}

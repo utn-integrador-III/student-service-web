@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  // selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'app-module-objects',
+  templateUrl: './module-objects.component.html',
+  styleUrls: ['./module-objects.component.css']
 })
-export class HomeComponent implements OnInit {
+export class ModuleObjectsComponent implements OnInit {
+
   menuVisible: boolean = false;
 
   constructor(private route: ActivatedRoute, private router: Router) { }
@@ -15,7 +16,10 @@ export class HomeComponent implements OnInit {
     // Código de inicialización si es necesario
   }
 
-  toggleMenu() {
+  toggleMenuVisibility() {
     this.menuVisible = !this.menuVisible;
+    console.log('Menu visible:', this.menuVisible);
   }
+  
+
 }
