@@ -11,7 +11,8 @@ import { ZonasComponent } from './zonas/zonas.component';
 import { ModalAgregarZonaComponent } from './modal-agregar-zona/modal-agregar-zona.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';4
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +28,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
+    HttpClientModule
   ],
   providers: [
     provideAnimationsAsync()

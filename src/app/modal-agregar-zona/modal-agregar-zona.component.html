@@ -2,10 +2,10 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
-      <h4 class="modal-title">Añadir zona</h4>
+      <h4 class="modal-title">{{ data.isEdit ? 'Editar zona' : 'Añadir zona' }}</h4>
     </div>
     <div class="modal-body">
-      <form>
+      <form #form="ngForm">
         <div class="form-group">
           <label for="nombre">Nombre de la zona:</label>
           <input type="text" class="form-control" id="nombre" name="nombre" [(ngModel)]="nombre" required>
@@ -18,7 +18,7 @@
     </div>
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-      <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+      <button type="button" class="btn btn-primary" [disabled]="!form.valid" (click)="guardar()">Guardar</button>
     </div>
   </div>
 </div>

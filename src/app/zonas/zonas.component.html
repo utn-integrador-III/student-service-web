@@ -1,50 +1,84 @@
-<div class="container">
-  <ul class='nav nav-pills'>
-    <li><a class='nav-link' [routerLink]="'/home'">Home</a></li>
-    <li><a class='nav-link' [routerLink]="'/zones'">Zones</a></li>
-  </ul>
-  <h1 class="mt-4">Zonas</h1>
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Buscar..." (input)="filtrarZonas($event)">
+<div class="content-wrapper">
+  <div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-light" style="background-color: #6fc0a8; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+      <a class="navbar-brand " [routerLink]="'/home'">Inicio</a>
+    </nav>
+    <h1 class="mt-4 text-center">Zonas</h1>
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Buscar..."
+            (input)="filtrarZonas($event)"
+          />
+        </div>
+      </div>
+      <div class="col-md-6 d-flex justify-content-end">
+        <button class="btn btn-success btn-agregar" (click)="abrirModal(1)">
+          Agregar
+        </button>
       </div>
     </div>
-    <div class="col-md-6 d-flex justify-content-end">
-      <button class="btn btn-success" (click)="abrirModal(1)">Agregar</button>
-    </div>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Localidad</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let zona of zonasFiltradas">
-        <td>{{ zona.nombre }}</td>
-        <td>{{ zona.localidad }}</td>
-        <td>
-          <button class="btn btn-primary editar-btn" (click)="editarZona(zona)">Editar</button>
-          <button class="btn btn-outline-danger eliminar-btn" (click)="eliminarZona(zona)">Eliminar</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Localidad</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let zona of zonasFiltradas">
+          <td>{{ zona.name }}</td>
+          <td>{{ zona.location }}</td>
+          <td>
+            <button class="btn btn-primary editar-btn" (click)="editarZona(zona)">
+              Editar
+            </button>
+            <button
+              class="btn btn-outline-danger eliminar-btn"
+              (click)="eliminarZona(zona)"
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-  <nav *ngIf="paginacion.paginas.length > 1">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="paginacion.paginaActual === 1">
-        <button class="page-link" (click)="cambiarPagina(paginacion.paginaActual - 1)">Anterior</button>
-      </li>
-      <li class="page-item" *ngFor="let pagina of paginacion.paginas" [class.active]="pagina === paginacion.paginaActual">
-        <button class="page-link" (click)="cambiarPagina(pagina)">{{ pagina }}</button>
-      </li>
-      <li class="page-item" [class.disabled]="paginacion.paginaActual === paginacion.paginas.length">
-        <button class="page-link" (click)="cambiarPagina(paginacion.paginaActual + 1)">Siguiente</button>
-      </li>
-    </ul>
-  </nav>
+    <nav *ngIf="paginacion.paginas.length > 1">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="paginacion.paginaActual === 1">
+          <button
+            class="page-link"
+            (click)="cambiarPagina(paginacion.paginaActual - 1)"
+          >
+            Anterior
+          </button>
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let pagina of paginacion.paginas"
+          [class.active]="pagina === paginacion.paginaActual"
+        >
+          <button class="page-link" (click)="cambiarPagina(pagina)">
+            {{ pagina }}
+          </button>
+        </li>
+        <li
+          class="page-item"
+          [class.disabled]="paginacion.paginaActual === paginacion.paginas.length"
+        >
+          <button
+            class="page-link"
+            (click)="cambiarPagina(paginacion.paginaActual + 1)"
+          >
+            Siguiente
+          </button>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </div>

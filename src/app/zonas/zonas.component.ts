@@ -1,45 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
+import { ZoneService } from '../zone.service';
 
 @Component({
   selector: 'app-zonas',
   templateUrl: './zonas.component.html',
   styleUrls: ['./zonas.component.css']
 })
-export class ZonasComponent {
-  zonas: any[] = [
-    { nombre: 'Zona 01', localidad: 'Localidad 01' },
-    { nombre: 'Zona 02', localidad: 'Localidad 02' },
-    { nombre: 'Zona 03', localidad: 'Localidad 03' },
-    { nombre: 'Zona 04', localidad: 'Localidad 04' },
-    { nombre: 'Zona 05', localidad: 'Localidad 05' },
-    { nombre: 'Zona 06', localidad: 'Localidad 06' },
-    { nombre: 'Zona 07', localidad: 'Localidad 07' },
-    { nombre: 'Zona 08', localidad: 'Localidad 08' },
-    { nombre: 'Zona 09', localidad: 'Localidad 09' },
-    { nombre: 'Zona 10', localidad: 'Localidad 10' },
-    { nombre: 'Zona 11', localidad: 'Localidad 11' },
-    { nombre: 'Zona 12', localidad: 'Localidad 12' },
-    { nombre: 'Zona 13', localidad: 'Localidad 13' },
-    { nombre: 'Zona 14', localidad: 'Localidad 14' },
-    { nombre: 'Zona 15', localidad: 'Localidad 15' },
-    { nombre: 'Zona 16', localidad: 'Localidad 16' },
-    { nombre: 'Zona 17', localidad: 'Localidad 17' },
-    { nombre: 'Zona 18', localidad: 'Localidad 18' },
-    { nombre: 'Zona 19', localidad: 'Localidad 19' },
-    { nombre: 'Zona 20', localidad: 'Localidad 20' },
-    { nombre: 'Zona 21', localidad: 'Localidad 21' },
-    { nombre: 'Zona 22', localidad: 'Localidad 22' },
-    { nombre: 'Zona 23', localidad: 'Localidad 23' },
-    { nombre: 'Zona 24', localidad: 'Localidad 24' },
-    { nombre: 'Zona 25', localidad: 'Localidad 25' },
-    { nombre: 'Zona 26', localidad: 'Localidad 26' },
-    { nombre: 'Zona 27', localidad: 'Localidad 27' },
-    { nombre: 'Zona 28', localidad: 'Localidad 28' },
-    { nombre: 'Zona 29', localidad: 'Localidad 29' },
-    { nombre: 'Zona 30', localidad: 'Localidad 30' }
-  ];
+export class ZonasComponent implements OnInit {
+  zonas: any[] = [];
   zonasFiltradas: any[] = [];
   paginacion: any = {
     paginaActual: 1,
@@ -48,26 +19,89 @@ export class ZonasComponent {
     paginas: []
   };
 
-  constructor(private dialog: MatDialog) {
-    this.paginacion.totalZonas = this.zonas.length;
-    this.calcularPaginas();
-    this.cargarZonasPagina();
+  constructor(
+    private dialog: MatDialog,
+    private zoneService: ZoneService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarZonas();
   }
 
-  abrirModal(opcion: number): void {
-    if (opcion === 1) {
-      const dialogRef = this.dialog.open(ModalAgregarZonaComponent, {
-        width: '500px',
-        autoFocus: true
-      });
+  cargarZonas(): void {
+    this.zoneService.getZonas().subscribe((data: any[]) => {
+      this.zonas = data;
+      console.log("Datos extraidos de la DB", this.zonas);
+      this.paginacion.totalZonas = this.zonas.length;
+      this.calcularPaginas();
+      this.cargarZonasPagina();
+    });
+  }
 
-      dialogRef.afterClosed().subscribe((result: any) => {
-        if (result) {
-          console.log(result); // Aquí puedes manejar el resultado del modal
-          // Realizar acciones adicionales si es necesario
+  abrirModal(opcion: number, zona?: any): void {
+    const dialogRef = this.dialog.open(ModalAgregarZonaComponent, {
+      width: '500px',
+      autoFocus: true,
+      data: {
+        zona: opcion === 2 ? zona : null,
+        isEdit: opcion === 2
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        console.log('Datos recibidos del modal:', result);
+
+        if (opcion === 1) {
+          const nuevaZona = { name: result.nombre, location: result.localidad };
+
+          this.zoneService.agregarZona(nuevaZona).subscribe({
+            next: (response) => {
+              console.log('Zona agregada:', response);
+
+              this.snackBar.open('Zona creada correctamente', 'Cerrar', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
+
+              this.cargarZonas();
+            },
+            error: (error) => {
+              console.error('Error al agregar zona:', error);
+              if (error.error && error.error.message_code === 'ZONE_ALREADY_EXIST') {
+                this.snackBar.open('La zona ya existe', 'Cerrar', {
+                  duration: 3000,
+                  horizontalPosition: 'end',
+                  verticalPosition: 'top',
+                });
+              } else {
+                this.snackBar.open('Error al agregar zona', 'Cerrar', {
+                  duration: 3000,
+                  horizontalPosition: 'end',
+                  verticalPosition: 'top',
+                });
+              }
+            }
+          });
+        } else if (opcion === 2 && zona) {
+          const zonaActualizada = { _id: zona._id, name: result.nombre, location: result.localidad };
+
+          this.zoneService.actualizarZona(zonaActualizada).subscribe(response => {
+            console.log('Zona actualizada:', response);
+
+            this.snackBar.open('Zona actualizada correctamente', 'Cerrar', {
+              duration: 3000,
+              horizontalPosition: 'end',
+              verticalPosition: 'top',
+            });
+
+            this.cargarZonas();
+          });
         }
-      });
-    }
+      }
+    });
   }
 
   filtrarZonas(event: Event): void {
@@ -82,8 +116,8 @@ export class ZonasComponent {
     }
 
     this.zonasFiltradas = this.zonas.filter(zona =>
-      zona.nombre.toLowerCase().includes(busqueda) ||
-      zona.localidad.toLowerCase().includes(busqueda)
+      zona.name.toLowerCase().includes(busqueda) ||
+      zona.location.toLowerCase().includes(busqueda)
     );
     this.paginacion.totalZonas = this.zonasFiltradas.length;
     this.paginacion.paginaActual = 1;
@@ -109,12 +143,20 @@ export class ZonasComponent {
   }
 
   editarZona(zona: any): void {
-    // Lógica para editar una zona
-    console.log('Editar:', zona);
+    this.abrirModal(2, zona);
   }
 
   eliminarZona(zona: any): void {
-    // Lógica para eliminar una zona
-    console.log('Eliminar:', zona);
+    this.zoneService.eliminarZona(zona._id).subscribe(response => {
+      console.log('Zona eliminada:', response);
+
+      this.snackBar.open('Zona eliminada correctamente', 'Cerrar', {
+        duration: 3000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+
+      this.cargarZonas();
+    });
   }
 }
