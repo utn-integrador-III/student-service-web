@@ -1,55 +1,55 @@
 /* Navbar */
 .navbar {
-  background-color: #6fc0a8; /* Color de fondo del navbar */
+  background-color: #6fc0a8; 
 }
 
 .navbar-brand {
-  color: #fff; /* Color del texto del brand del navbar */
+  color: #fff; 
   font-family: 'Times New Roman', Times, serif;
-  margin-left: auto; /* Alinear el brand del navbar a la derecha */
+  margin-left: auto; 
 }
 
 .modal-lg {
-  max-width: 50%; /* Ancho máximo del modal */
+  max-width: 50%; 
 }
 
 .editar-btn {
-  margin-right: 8px; /* Margen entre el botón Editar y el botón Eliminar */
+  margin-right: 8px; 
 }
 
 .eliminar-btn {
-  margin-left: 8px; /* Margen entre el botón Eliminar y otros elementos */
+  margin-left: 8px; 
 }
 
 .btn-agregar {
-  height: 40px; /* Altura del botón */
-  border: 2px solid #2B9980; /* Borde del botón */
-  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1); /* Sombra del botón */
+  height: 40px;
+  border: 2px solid #2B9980;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1); 
 }
 
 body {
-  background-color: #e8f2f4; /* Color de fondo del cuerpo */
-  margin: 0; /* Eliminar margen */
-  display: flex; /* Usar flexbox para que el contenido ocupe toda la altura */
-  flex-direction: column; /* Apilar elementos en una columna */
-  min-height: 100vh; /* Altura mínima del viewport */
+  background-color: #e8f2f4; 
+  margin: 0; 
+  display: flex; 
+  flex-direction: column; 
+  min-height: 100vh; 
 }
 
 .content-wrapper {
-  flex: 1; /* Flexbox para estirar el contenido */
+  flex: 1; 
 }
 
 .container-fluid {
-  background-color: #E8F2F4; /* Color de fondo del contenedor */
-  padding: 20px; /* Relleno del contenedor */
-  margin-top: 20px; /* Margen desde arriba */
-  border-radius: 10px; /* Radio de borde del contenedor */
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Sombra del contenedor */
+  background-color: #E8F2F4; 
+  padding: 20px; 
+  margin-top: 20px; 
+  border-radius: 10px; 
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
 }
 
 .text-center {
-  font-size: 40px; /* Tamaño de fuente */
-  animation: fadeInUp 1s ease; /* Animación fadeInUp */
+  font-size: 40px; 
+  animation: fadeInUp 1s ease; /* Animation fadeInUp */
 }
 
 @keyframes fadeInUp {
@@ -63,35 +63,35 @@ body {
   }
 }
 
-/* Estilos de la tabla */
+
 .table th,
 .table td {
-  padding: 8px; /* Relleno para separar el contenido de los bordes */
+  padding: 8px; 
   width: 30%;
-  white-space: nowrap; /* Evitar el retorno automático del texto en pantallas grandes */
-  overflow: hidden; /* Ocultar contenido desbordado */
-  text-overflow: ellipsis; /* Mostrar puntos suspensivos (...) para el texto desbordado */
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
-/* Ajuste para pantallas pequeñas */
+
 @media (max-width: 576px) {
   .table th,
   .table td {
-    width: auto; /* Ancho automático para cada columna en pantallas más pequeñas */
+    width: auto; 
     max-width: 200px; /* Ancho máximo para evitar que el contenido se extienda demasiado */
-    overflow-x: auto; /* Habilitar desplazamiento horizontal para tablas largas */
-    white-space: normal; /* Permitir que el texto brinque a la siguiente línea */
+    overflow-x: auto; /* Enable horizontal scrolling for long tables */
+    white-space: normal; /* Allow text to jump to next line */
   }
 
   .table-striped {
-    overflow-x: auto; /* Habilitar desplazamiento horizontal para tablas largas */
+    overflow-x: auto; /* Enable horizontal scrolling for long tables */
   }
 
   .editar-btn,
   .eliminar-btn {
-    margin: 4px 0; /* Margen entre los botones */
-    width: 100%; /* Ancho completo para los botones en pantallas más pequeñas */
-    display: block; /* Mostrar botones en bloque en pantallas más pequeñas */
+    margin: 4px 0; 
+    width: 100%; 
+    display: block; 
   }
 }
 

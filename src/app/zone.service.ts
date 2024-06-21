@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class ZoneService {
-  private apiUrl = 'https://9gp4l168-5001.use.devtunnels.ms/zone';
+  private apiUrl = 'http://127.0.0.1:5001/zone';
 
   constructor(private http: HttpClient) {}
 
