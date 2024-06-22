@@ -32,7 +32,6 @@ export class ZonasComponent implements OnInit {
   cargarZonas(): void {
     this.zoneService.getZonas().subscribe((data: any[]) => {
       this.zonas = data;
-      console.log("Datos extraidos de la DB", this.zonas);
       this.paginacion.totalZonas = this.zonas.length;
       this.calcularPaginas();
       this.cargarZonasPagina();
