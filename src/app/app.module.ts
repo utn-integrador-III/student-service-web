@@ -11,6 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
@@ -31,11 +33,13 @@ import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-an
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    CommonModule,
     //HttpClientModule,
     //ObjectPropertyModule,
     AppRoutingModule,
