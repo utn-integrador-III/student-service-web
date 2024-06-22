@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastService } from './services/toaster.service';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 // import { ObjectPropertyModule } from './Product/product.module';
 // import { LoginModule } from './login/login.module';
 
@@ -20,6 +21,8 @@ import { ToastrModule, provideToastr } from 'ngx-toastr';
     AppComponent
     , HomeComponent
     , ExampleComponent
+
+    ,ModuleObjectsComponent
   ],
   imports: [
     BrowserModule,    
