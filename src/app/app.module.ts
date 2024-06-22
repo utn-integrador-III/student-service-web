@@ -8,6 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer} from './store/app.reducer';
 
 import { HomeComponent } from './home/home.component';
+import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 // import { ObjectPropertyModule } from './Product/product.module';
 // import { LoginModule } from './login/login.module';
 
@@ -15,6 +16,7 @@ import { HomeComponent } from './home/home.component';
   declarations: [
     AppComponent
     , HomeComponent
+    ,ModuleObjectsComponent
   ],
   imports: [
     BrowserModule,    

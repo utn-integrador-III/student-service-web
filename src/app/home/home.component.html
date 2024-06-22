@@ -1,8 +1,54 @@
-<div class="home">
-    <div class ='header'>    
-        <h2>Here the tittle</h2>
+<div class="container">
+  <header>
+    <!-- Menu button to toggle visibility -->
+    <button class="menu-button" (click)="toggleMenu()">&#9776;</button>
+    <!-- Heading of the page -->
+    <h1>Inicio</h1>
+    <!-- Logo of the website -->
+    <div class="logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1024px-User_icon_2.svg.png"
+        alt="Logo">
     </div>
-    <div class="table-responsive">
-        <img src="../../assets/images/" width="200px" height="200px">
-    </div>
+  </header>
+  <div class="content">
+    <!-- Navigation menu with conditional visibility -->
+    <nav [class.visible]="menuVisible">
+      <ul>
+        <!-- Menu item linking to /objects with icon and text -->
+        <li>
+          <a routerLink="/objects">
+            <img src="https://cdn-icons-png.flaticon.com/512/4565/4565563.png" class="menu-icon">
+            <p>Objetos Pérdidos</p>
+          </a>
+        </li>
+        <!-- Menu item linking to /bitacoras with icon and text -->
+        <li>
+          <a routerLink="/bitacoras">
+            <img
+              src="https://4.bp.blogspot.com/-9dQa8S7UvBY/WxQkNYx2cuI/AAAAAAAADRU/mmIT6rpaSEoh4MqyWRgw3uqztRq8tXXoQCLcBGAs/s1600/19ac9c9b9ff7376fc86b45fee366a1a2-icono-de-lista-de-archivos-by-vexels.png"
+              class="menu-icon">
+            <p>Bitacoras</p>
+          </a>
+        </li>
+        <!-- Menu item linking to /foros with icon and text -->
+        <li>
+          <a routerLink="/foros">
+            <img src="https://international.lcms.org/wp-content/uploads/2018/11/Foro-icon-group-chat.png"
+              class="menu-icon">
+            <p>Foros</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <!-- Main content area with an image -->
+    <main>
+      <img class="main-image" src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Laboratorio_de_Computo.jpg"
+        alt="Computer Lab">
+    </main>
+  </div>
+  <footer>
+    <!-- University logo in the footer -->
+    <img class="logo-utn" src="https://cloudforestmonteverde.com/wp-content/uploads/2021/02/Logo-UTN.png"
+      alt="University Logo">
+  </footer>
 </div>

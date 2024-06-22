@@ -11,7 +11,6 @@ import * as fromApp from './store/app.reducer';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit { 
-  pageTitle = 'Student Service';
   userName: string ='';
   isAuth: boolean = false;
 
