@@ -14,6 +14,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +39,16 @@ import { ModuleObjectsComponent } from './module-objects/module-objects.componen
     MatButtonModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatInputModule,
+    MatCardModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers: [
     provideAnimationsAsync()

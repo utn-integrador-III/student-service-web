@@ -22,7 +22,7 @@ import {
   ɵɵdefineNgModule,
   ɵɵgetInheritedFactory,
   ɵɵinject
-} from "./chunk-VSJT2ADV.js";
+} from "./chunk-OTZXXROU.js";
 import {
   BehaviorSubject,
   Observable,
@@ -35,7 +35,7 @@ import {
   pluck,
   scan,
   withLatestFrom
-} from "./chunk-V2MCY3ZS.js";
+} from "./chunk-O6DRYL7C.js";
 
 // node_modules/@angular/core/fesm2022/rxjs-interop.mjs
 function toSignal(source, options) {

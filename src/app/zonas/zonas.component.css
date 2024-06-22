@@ -1,54 +1,56 @@
 /* Navbar */
-.navbar {
-  background-color: #6fc0a8; 
+.mat-toolbar {
+  background-color: #6fc0a8;
 }
 
-.navbar-brand {
-  color: #fff; 
+.mat-toolbar button {
+  color: #fff;
   font-family: 'Times New Roman', Times, serif;
-  margin-left: auto; 
+  margin-left: auto;
 }
 
 .modal-lg {
-  max-width: 50%; 
+  max-width: 50%;
 }
 
 .editar-btn {
-  margin-right: 8px; 
+  margin-right: 8px;
 }
 
 .eliminar-btn {
-  margin-left: 8px; 
+  margin-left: 8px;
 }
 
 .btn-agregar {
   height: 40px;
   border: 2px solid #2B9980;
-  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1); 
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1);
+  left: 90%;
+  margin-top: -10%;
 }
 
 body {
-  background-color: #e8f2f4; 
-  margin: 0; 
-  display: flex; 
-  flex-direction: column; 
-  min-height: 100vh; 
+  background-color: #e8f2f4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .content-wrapper {
-  flex: 1; 
+  flex: 1;
 }
 
 .container-fluid {
-  background-color: #E8F2F4; 
-  padding: 20px; 
-  margin-top: 20px; 
-  border-radius: 10px; 
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); 
+  background-color: #E8F2F4;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .text-center {
-  font-size: 40px; 
+  font-size: 40px;
   animation: fadeInUp 1s ease; /* Animation fadeInUp */
 }
 
@@ -77,21 +79,19 @@ footer img {
   }
 }
 
-
 .table th,
 .table td {
-  padding: 8px; 
+  padding: 8px;
   width: 30%;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
 
 @media (max-width: 576px) {
   .table th,
   .table td {
-    width: auto; 
+    width: auto;
     max-width: 200px;
     overflow-x: auto; /* Enable horizontal scrolling for long tables */
     white-space: normal; /* Allow text to jump to next line */
@@ -103,9 +103,23 @@ footer img {
 
   .editar-btn,
   .eliminar-btn {
-    margin: 4px 0; 
-    width: 100%; 
-    display: block; 
+    margin: 4px 0;
+    width: 100%;
+    display: block;
   }
 }
 
+/* Custom styles for filter field */
+.custom-filter-field .mat-form-field-wrapper .mat-form-field-flex {
+  color: black;
+  border-color: #6fc0a8; /* Same color as nav */
+}
+
+.custom-filter-field .mat-form-field-underline .mat-form-field-ripple {
+  background-color: #6fc0a8; /* Same color as nav */
+}
+
+/* Custom styles for table */
+.custom-table {
+  background-color: rgb(255, 255, 255)
+}

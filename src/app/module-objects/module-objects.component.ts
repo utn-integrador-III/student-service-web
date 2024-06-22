@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-module-objects',
@@ -10,7 +9,7 @@ export class ModuleObjectsComponent implements OnInit {
 
   menuVisible: boolean = false;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor() { }
 
   ngOnInit(): void {
   }
@@ -19,6 +18,4 @@ export class ModuleObjectsComponent implements OnInit {
     this.menuVisible = !this.menuVisible;
     console.log('Menu visible:', this.menuVisible);
   }
-  
-
 }

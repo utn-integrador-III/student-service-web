@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
 import { ZoneService } from '../zone.service';
 
@@ -11,13 +13,10 @@ import { ZoneService } from '../zone.service';
 })
 export class ZonasComponent implements OnInit {
   zonas: any[] = [];
-  zonasFiltradas: any[] = [];
-  paginacion: any = {
-    paginaActual: 1,
-    zonasPorPagina: 5,
-    totalZonas: 0,
-    paginas: []
-  };
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['name', 'location', 'actions'];
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
@@ -26,18 +25,17 @@ export class ZonasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource();
     this.cargarZonas();
   }
 
   cargarZonas(): void {
     this.zoneService.getZonas().subscribe((data: any[]) => {
       this.zonas = data;
-      this.paginacion.totalZonas = this.zonas.length;
-      this.calcularPaginas();
-      this.cargarZonasPagina();
+      this.dataSource.data = this.zonas; // Asignar los datos al dataSource de MatTableDataSource
+      this.dataSource.paginator = this.paginator; // Configurar el paginador después de asignar los datos
     });
   }
-
   abrirModal(opcion: number, zona?: any): void {
     const dialogRef = this.dialog.open(ModalAgregarZonaComponent, {
       width: '500px',
@@ -99,42 +97,8 @@ export class ZonasComponent implements OnInit {
 
   filtrarZonas(event: Event): void {
     const busqueda = (event.target as HTMLInputElement).value.toLowerCase().trim();
-
-    if (!busqueda) {
-      this.zonasFiltradas = this.zonas.slice(0, this.paginacion.zonasPorPagina);
-      this.paginacion.totalZonas = this.zonas.length;
-      this.paginacion.paginaActual = 1;
-      this.calcularPaginas();
-      return;
-    }
-
-    this.zonasFiltradas = this.zonas.filter(zona =>
-      zona.name.toLowerCase().includes(busqueda) ||
-      zona.location.toLowerCase().includes(busqueda)
-    );
-    this.paginacion.totalZonas = this.zonasFiltradas.length;
-    this.paginacion.paginaActual = 1;
-    this.calcularPaginas();
+    this.dataSource.filter = busqueda;
   }
-
-  cambiarPagina(pagina: number): void {
-    this.paginacion.paginaActual = pagina;
-    this.cargarZonasPagina();
-  }
-
-  private calcularPaginas(): void {
-    this.paginacion.paginas = [];
-    const totalPaginas = Math.ceil(this.paginacion.totalZonas / this.paginacion.zonasPorPagina);
-    for (let i = 1; i <= totalPaginas; i++) {
-      this.paginacion.paginas.push(i);
-    }
-  }
-
-  private cargarZonasPagina(): void {
-    const inicio = (this.paginacion.paginaActual - 1) * this.paginacion.zonasPorPagina;
-    this.zonasFiltradas = this.zonas.slice(inicio, inicio + this.paginacion.zonasPorPagina);
-  }
-
   editarZona(zona: any): void {
     this.abrirModal(2, zona);
   }
