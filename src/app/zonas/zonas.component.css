@@ -52,6 +52,20 @@ body {
   animation: fadeInUp 1s ease; /* Animation fadeInUp */
 }
 
+footer {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+footer img {
+  height: 40px;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
