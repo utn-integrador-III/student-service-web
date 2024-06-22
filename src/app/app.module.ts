@@ -1,30 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app.routes'
+import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
-//import { HttpClientModule } from '@angular/common/http';
-//import { RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
-import { appReducer} from './store/app.reducer';
+import { appReducer } from './store/app.reducer';
 
 import { HomeComponent } from './home/home.component';
-// import { ObjectPropertyModule } from './Product/product.module';
-// import { LoginModule } from './login/login.module';
+import { LoginComponent } from './login/login.component'; 
+import { AuthService } from './auth/auth.service'; 
+import { AuthGuard } from './auth/auth.guard'; 
 
 @NgModule({  
   declarations: [
-    AppComponent
-    , HomeComponent
+    AppComponent,
+    HomeComponent,
+    LoginComponent 
   ],
   imports: [
     BrowserModule,    
-    //HttpClientModule,
-    //ObjectPropertyModule,
+    HttpClientModule, 
+    FormsModule, 
     AppRoutingModule,
-    //LoginModule,
     StoreModule.forRoot(appReducer)
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

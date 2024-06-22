@@ -1,32 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import * as fromApp from './store/app.reducer';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
-  //standalone: true,
-  //imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit { 
-  pageTitle = 'Student Service';
-  userName: string ='';
-  isAuth: boolean = false;
-
-  constructor(private store: Store<fromApp.AppState>, private router: Router){
-
+export class AppComponent implements OnInit {
+  title(title: any) {
+    throw new Error('Method not implemented.');
   }
+  pageTitle = 'Student Service';
+  userName = 'William';
+  isAuth = true; // Cambia esto según tu lógica de autenticación
+
+  showNavbar = true;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
-    
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.showNavbar = event.url !== '/login';
+      });
   }
 
-  logOut(): void  {
-    this.userName="";
-    this.isAuth=false;
-    //this.store.dispatch(new LoginActios.LogoutUser());
-    //this.router.navigate(['/login']);
+  logOut(): void {
+    // Tu lógica de cierre de sesión
   }
 }
