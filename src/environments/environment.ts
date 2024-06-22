@@ -6,7 +6,8 @@ export const environment = {
   production: true,
   apiUrl: 'http://localhost:3000', // Cambia esta URL a la de tu backend de producción
   URL_USERS: "",
-  URL_REPORT: ""
+  URL_REPORT: "",
+  URL_AUTH:"http://localhost:5002"
 };
 
 /*
