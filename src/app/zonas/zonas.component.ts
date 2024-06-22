@@ -51,15 +51,11 @@ export class ZonasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
-        console.log('Datos recibidos del modal:', result);
-
         if (opcion === 1) {
           const nuevaZona = { name: result.nombre, location: result.localidad };
 
           this.zoneService.agregarZona(nuevaZona).subscribe({
             next: (response) => {
-              console.log('Zona agregada:', response);
-
               this.snackBar.open('Zona creada correctamente', 'Cerrar', {
                 duration: 3000,
                 horizontalPosition: 'end',
@@ -69,7 +65,6 @@ export class ZonasComponent implements OnInit {
               this.cargarZonas();
             },
             error: (error) => {
-              console.error('Error al agregar zona:', error);
               if (error.error && error.error.message_code === 'ZONE_ALREADY_EXIST') {
                 this.snackBar.open('La zona ya existe', 'Cerrar', {
                   duration: 3000,
@@ -89,7 +84,6 @@ export class ZonasComponent implements OnInit {
           const zonaActualizada = { _id: zona._id, name: result.nombre, location: result.localidad };
 
           this.zoneService.actualizarZona(zonaActualizada).subscribe(response => {
-            console.log('Zona actualizada:', response);
 
             this.snackBar.open('Zona actualizada correctamente', 'Cerrar', {
               duration: 3000,
@@ -148,8 +142,6 @@ export class ZonasComponent implements OnInit {
 
   eliminarZona(zona: any): void {
     this.zoneService.eliminarZona(zona._id).subscribe(response => {
-      console.log('Zona eliminada:', response);
-
       this.snackBar.open('Zona eliminada correctamente', 'Cerrar', {
         duration: 3000,
         horizontalPosition: 'end',

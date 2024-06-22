@@ -92,7 +92,7 @@ footer img {
   .table th,
   .table td {
     width: auto; 
-    max-width: 200px; /* Ancho máximo para evitar que el contenido se extienda demasiado */
+    max-width: 200px;
     overflow-x: auto; /* Enable horizontal scrolling for long tables */
     white-space: normal; /* Allow text to jump to next line */
   }
