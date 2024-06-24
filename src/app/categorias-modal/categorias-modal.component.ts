@@ -25,29 +25,32 @@ export class CategoriasModalComponent implements OnInit{
     this.categoryForm.patchValue(this.data);
   }
 
-  onFormSummit() {
+  onFormSubmit() {
     if (this.categoryForm.valid) {
-      if(this.data){
-        this._categoryService.actualizarCategoria(this.data._id,this.categoryForm.value).subscribe({
+      if (this.data) {
+        this._categoryService.actualizarCategoria(this.data._id, this.categoryForm.value).subscribe({
           next: (val: any) => {
-            alert('Se modifico');
+            console.log(this.data._id)
+            console.log(this.categoryForm.value)
+            alert('Se modificó');
+          
           },
           error: (err: any) => {
             console.error(err);
+            this._dialogRef.close(true);
           }
-        })
-      }else{
+        });
+      } else {
         this._categoryService.addCategory(this.categoryForm.value).subscribe({
           next: (val: any) => {
-            alert('La categoria se agrego Correctamente');
+            alert('La categoría se agregó correctamente');
             this._dialogRef.close(true);
           },
           error: (err: any) => {
             console.error(err);
           }
-        })
+        });
       }
-  
     }
   }
 

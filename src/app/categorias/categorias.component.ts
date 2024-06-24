@@ -23,7 +23,8 @@ export class CategoriasComponent implements OnInit {
   constructor(private _dialog: MatDialog, private _categoryServices: CategoriaServices) { }
 
   ngOnInit(): void {
-    this.getCategoriaList()
+    this.dataSource = new MatTableDataSource();
+    this.getCategoriaList();
   }
 
   OpenDialogEditCategorias() {
@@ -41,10 +42,9 @@ export class CategoriasComponent implements OnInit {
     this._categoryServices.getAllCategories().subscribe(
       response => {
         if (response && response.data) {
-          this._categoryServices = response.data;
-          this.dataSource = new MatTableDataSource(response.data);
-          this.dataSource.sort = this.sort
-          this.dataSource.paginator = this.paginator
+          this.categorias = response.data;
+          this.dataSource.data = this.categorias;
+          this.dataSource.paginator = this.paginator;
         } else {
           console.error('The response is not in the expected format:', response);
         }
@@ -54,6 +54,7 @@ export class CategoriasComponent implements OnInit {
       }
     );
   }
+  
 
   eliminarCategoria(id: string): void {
     this._categoryServices.deleteCategoria(id).subscribe({
@@ -72,8 +73,7 @@ export class CategoriasComponent implements OnInit {
       data,
     })
   }
-  
-
+    
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -83,4 +83,5 @@ export class CategoriasComponent implements OnInit {
     }
   }
 }
+
 

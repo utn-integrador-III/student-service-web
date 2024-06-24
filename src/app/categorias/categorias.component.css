@@ -3,7 +3,8 @@
   }
 
   .container{
-    background-color: antiquewhite;
+    background-color: #68B3A6;
+    border-top: 4px solid #3A8676;
   }
 
   table {
@@ -33,3 +34,31 @@
     color: red;
   }
   
+
+footer img {
+  height: 40px; /* Ajustar la altura de la imagen */
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.main-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 81vh; 
+}
+
+.container {
+  flex: 1;
+}
+
+footer {
+  background-color: #68B3A6;
+  border-top: 4px solid #3A8676;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
