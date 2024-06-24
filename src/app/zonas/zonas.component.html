@@ -1,12 +1,12 @@
 <div class="content-wrapper">
   <div class="container-fluid">
-    <!-- Toolbar y título -->
+    <!-- Toolbar and title -->
     <mat-toolbar color="primary">
       <button mat-button routerLink="/home" style="margin: 0 auto; font-size: 100%;">Inicio</button>
     </mat-toolbar>
     <h1 class="mt-4 text-center">Zonas</h1>
 
-    <!-- Filtros y botón agregar -->
+    <!-- Filters and add button -->
     <div class="row mb-4">
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100 custom-filter-field">
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <!-- Tabla -->
+    <!-- Table -->
     <mat-table  [dataSource]="dataSource" class="mat-elevation-z8 w-100 custom-table">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef  style="color: black"> Nombre </mat-header-cell>
@@ -43,12 +43,11 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <!-- Paginador -->
+    <!-- Pager -->
     <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
   </div>
 
-  <!-- Pie de página -->
-  <footer class="w-100 bg-white shadow p-3 text-center position-relative">
+  <footer class="w-100 bg-white shadow p-3 position-relative">
     <img class="logo-utn" src="https://cloudforestmonteverde.com/wp-content/uploads/2021/02/Logo-UTN.png" alt="Logo de la universidad" height="40">
   </footer>
 </div>
