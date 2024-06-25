@@ -1,9 +1,18 @@
 
-  <p style="font-size: 20px; text-align: center; margin-top: 20px;margin-bottom: 20px;">Objetos perdidos</p>
+  
+  <div class="radiobutton">
+    <form style="display: flex; flex-direction: row; gap: 10px;">
+      <label for="estado">Estado: </label>
+      <input type="radio" id="sin-entregar" name="estado" value="sin-entregar">
+      <label for="sin-entregar">Sin Entregar</label>
+      <input type="radio" id="entregado" name="estado" value="entregado">
+      <label for="entregado">Entregado</label>
+    </form>
+  </div><p style="font-size: 20px; text-align: center; margin-top: 20px;margin-bottom: 20px;">Objetos perdidos</p>
   
 
   <div class="d-flex justify-content-center">
-    <button style="background-color: #94CD90; width: 10%;" type="button" class="btn" data-bs-toggle="modal" data-bs-target="#addModal" onclick="prepareModal()">Agregar</button>
+    <button type="button" class="btn-agregar" data-bs-toggle="modal" data-bs-target="#addModal" onclick="prepareModal()">Agregar</button>
   </div>
   
   <mat-form-field>
@@ -14,15 +23,7 @@
 
 
 <br>
-<div style="margin-left: 15%;" class="mt-2">
-  <form style="display: flex; flex-direction: row; gap: 10px;">
-    <label for="estado">Estado: </label>
-    <input type="radio" id="sin-entregar" name="estado" value="sin-entregar">
-    <label for="sin-entregar">Sin Entregar</label>
-    <input type="radio" id="entregado" name="estado" value="entregado">
-    <label for="entregado">Entregado</label>
-  </form>
-</div>
+
 
 <div style="width: 70%; margin: 0 auto;">
   <table style="background-color: #299980;text-align: center;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">

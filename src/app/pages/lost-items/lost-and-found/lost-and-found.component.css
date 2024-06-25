@@ -1,6 +1,6 @@
 table {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 70px;
   }
 
   th, td {
@@ -32,6 +32,17 @@ table {
   .mat-row:hover {
     background-color: #f1f1f1;
   }
+  .btn-agregar{
+    margin-bottom: 20px;
+    height: 35px;
+    background-color: #94CD90;
+    margin-top: 50px;
+    position: absolute;
+    width: 140px;
+    margin-left: 60%;
+    border-radius: 5px;
+    border: none;
+  }
 
   .img-preview {
     max-width: 100%;
@@ -44,7 +55,12 @@ table {
         font-size: 14px;
         width: 15%;
         margin-left: 15%;
+        position: absolute;
+        margin-top: 40px;
+
       }
-  p{
-    color: #299980;
-  }
+      .radiobutton{
+        margin-top: 10px;
+        position: absolute;
+      }
+  
