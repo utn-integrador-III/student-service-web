@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   pageTitle = 'Student Service';
-  userName = 'William';
+  userName = '';
   isAuth = true; // Cambia esto según tu lógica de autenticación
 
   showNavbar = true;
