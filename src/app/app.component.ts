@@ -8,23 +8,20 @@ import * as fromApp from './store/app.reducer';
   //standalone: true,
   //imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
-export class AppComponent implements OnInit { 
-  userName: string ='';
+export class AppComponent implements OnInit {
+  userName: string = '';
   isAuth: boolean = false;
+  pageTitle: any;
 
-  constructor(private store: Store<fromApp.AppState>, private router: Router){
+  constructor(private store: Store<fromApp.AppState>, private router: Router) {}
 
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-    
-  }
-
-  logOut(): void  {
-    this.userName="";
-    this.isAuth=false;
+  logOut(): void {
+    this.userName = '';
+    this.isAuth = false;
     //this.store.dispatch(new LoginActios.LogoutUser());
     //this.router.navigate(['/login']);
   }
