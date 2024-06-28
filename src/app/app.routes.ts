@@ -4,15 +4,17 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
+import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
 
 export const routes: Routes = [
     {path:'home', component: HomeComponent},
     {path:'zones', component: ZonasComponent },
-    {path:'objects', component: ModuleObjectsComponent}
+    {path:'objects', component: ModuleObjectsComponent},
+    {path:'lostAndFound', component: LostAndFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
-import { ZoneService } from '../zone.service';
+import { ZoneService } from '../services/service-zone/zone.service';
 
 @Component({
   selector: 'app-zonas',
@@ -32,8 +32,8 @@ export class ZonasComponent implements OnInit {
   cargarZonas(): void {
     this.zoneService.getZonas().subscribe((data: any[]) => {
       this.zonas = data;
-      this.dataSource.data = this.zonas; // Asignar los datos al dataSource de MatTableDataSource
-      this.dataSource.paginator = this.paginator; // Configurar el paginador después de asignar los datos
+      this.dataSource.data = this.zonas; // Assign the data to the MatTableDataSource dataSource
+      this.dataSource.paginator = this.paginator; // Configure the pager after allocating the data
     });
   }
   abrirModal(opcion: number, zona?: any): void {
