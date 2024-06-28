@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Category } from '../interfaces/categoriasInterface';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class CategoriaServices {
 
-  private baseUrl = 'http://localhost:5001/category'; 
+  private baseUrl = (environment.URL_USERS !== "") ? environment.URL_USERS : '/api/category';
 
   constructor(private http: HttpClient) { }
 

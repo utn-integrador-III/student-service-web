@@ -33,10 +33,12 @@ export class CategoriasModalComponent implements OnInit{
             console.log(this.data._id)
             console.log(this.categoryForm.value)
             alert('Se modificó');
+            this._dialogRef.close(true);
           
           },
           error: (err: any) => {
             console.error(err);
+            alert(`Hubo un error`)
             this._dialogRef.close(true);
           }
         });

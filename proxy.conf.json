@@ -16,5 +16,14 @@
         "pathRewrite": {
           "^/api": ""
         }
+      },
+      "/api/category": {
+        "target": "http://localhost:5001",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/api": ""
+        }
       }
 }
