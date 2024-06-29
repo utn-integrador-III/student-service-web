@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   URL_USERS:"",
   URL_REPORT:"",
-  URL_ZONE:""
+  URL_ZONE:"http://localhost:5001/zone"
 };
 
 /*

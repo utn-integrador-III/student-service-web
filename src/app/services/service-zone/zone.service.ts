@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ZoneService {
-  private ZoneUrl = (environment.URL_ZONE !== "") ? environment.URL_ZONE : 'api/zones/';
+  private ZoneUrl = (environment.URL_ZONE !== "") ? environment.URL_ZONE : 'api/zone/';
 
   constructor(private http: HttpClient) {}
 
