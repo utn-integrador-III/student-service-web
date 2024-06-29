@@ -1,0 +1,16 @@
+<div mat-dialog-title>
+    <h2>{{data ? 'Modificar' : 'Agregar'}} Categorias</h2>
+</div>
+<form [formGroup]="categoryForm">
+<div mat-dialog-content>
+    <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-label>Categoria</mat-label>
+        <input matInput formControlName="category_name">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions class="action">
+    <button mat-raised-button style="flex: 1;" (click)="CancelarDialog()">Cancelar</button>
+    <button mat-raised-button style="flex: 1;" (click)="onFormSubmit()">{{data ? 'Modificar' : 'Guardar'}}</button>
+</div>
+
+</form>

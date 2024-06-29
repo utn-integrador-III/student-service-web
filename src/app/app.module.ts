@@ -32,10 +32,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CategoriasComponent } from './categorias/categorias.component';
+import { CategoriasModalComponent } from './categorias-modal/categorias-modal.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     LostAndFoundComponent,
     ZonasComponent,
     ModalAgregarZonaComponent,
+    CategoriasComponent,
+    CategoriasModalComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +89,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     provideAnimations(),
     provideToastr(),
     ToastService,
+    provideHttpClient(),
+    provideAnimationsAsync()
   ],
 
   bootstrap: [AppComponent],
