@@ -3,13 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ExampleComponent } from './components/example/example.component';
-
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
-//import { ProductDetailGuard } from './Product/product-detail/product-detail.guard';
-//import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },  // Ruta para el login
+
   { path: 'home', component: HomeComponent },
   { path: 'example', component: ExampleComponent },
   { path: 'objects', component: ModuleObjectsComponent },
@@ -18,6 +18,6 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

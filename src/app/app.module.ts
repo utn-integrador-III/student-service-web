@@ -8,9 +8,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { ToastService } from './services/toaster.service';
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
-// import { ObjectPropertyModule } from './Product/product.module';
-// import { LoginModule } from './login/login.module';
-
+import { FormsModule } from '@angular/forms';
 import { appReducer } from './store/app.reducer';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,6 +26,8 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +39,11 @@ import { MatIconModule } from '@angular/material/icon';
     FooterComponent,
     MenuComponent,
     LostAndFoundComponent,
+    LoginComponent
   ],
   imports: [
+    FormsModule,
+    HttpClientModule, 
     BrowserModule,
     MatIconModule,
     ReactiveFormsModule,
@@ -51,7 +54,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     CommonModule,
     AppRoutingModule,
-    //LoginModule,
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
