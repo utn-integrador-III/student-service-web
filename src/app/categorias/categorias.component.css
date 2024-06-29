@@ -2,10 +2,42 @@
     flex: 1 1 auto;
   }
 
-  .container{
-    background-color: #68B3A6;
-    border-top: 4px solid #3A8676;
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 74%;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   }
+  
+  .custom-span {
+    flex: 1;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+  }
+  
+  .custom-button {
+    flex: 0;
+    background-color: #299980;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .custom-button:hover {
+    background-color: #267e6a;
+  }
+  
+  
+  
 
   table {
     width: 100%;
@@ -48,12 +80,9 @@ html, body {
 .main-body {
   display: flex;
   flex-direction: column;
-  min-height: 81vh; 
+  min-height: 75vh; 
 }
 
-.container {
-  flex: 1;
-}
 
 footer {
   background-color: #68B3A6;

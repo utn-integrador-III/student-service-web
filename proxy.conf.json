@@ -25,5 +25,14 @@
         "pathRewrite": {
           "^/api": ""
         }
+      },
+      "/api/zone/*": {
+        "target": "http://localhost:5001",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/api": ""
+        }
       }
 }
