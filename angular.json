@@ -33,9 +33,11 @@
               "src/api"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+          ]
           },
           "configurations": {
             "production": {
@@ -102,6 +104,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.css"
             ],
             "scripts": []
