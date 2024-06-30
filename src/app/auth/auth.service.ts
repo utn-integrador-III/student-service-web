@@ -15,7 +15,7 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<boolean> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+    return this.http.post<any>(this.apiUrl, { email, password }).pipe(
       map(response => {
         if (response && response.data && response.message_code === 'USER_AUTHENTICATED') {
           localStorage.setItem('user', JSON.stringify(response.data));
