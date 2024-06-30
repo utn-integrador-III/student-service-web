@@ -1,7 +1,7 @@
 import {
   ScrollingModule,
   ViewportRuler
-} from "./chunk-KZOPKBHM.js";
+} from "./chunk-3XITZQC2.js";
 import {
   DataSource,
   _DisposeViewRepeaterStrategy,
@@ -9,16 +9,16 @@ import {
   _VIEW_REPEATER_STRATEGY,
   _ViewRepeaterOperation,
   isDataSource
-} from "./chunk-TZ2TQTRX.js";
+} from "./chunk-3CL3OIUZ.js";
 import {
   Directionality,
   MatCommonModule,
   Platform,
   _isNumberValue
-} from "./chunk-7W6HBB4T.js";
+} from "./chunk-J5J5GOVZ.js";
 import {
   DOCUMENT
-} from "./chunk-FEQRWYLX.js";
+} from "./chunk-4TXBC3YF.js";
 import {
   Attribute,
   ChangeDetectionStrategy,
@@ -47,8 +47,6 @@ import {
   afterNextRender,
   booleanAttribute,
   inject,
-  isObservable,
-  merge,
   setClassMetadata,
   ɵɵInheritDefinitionFeature,
   ɵɵInputTransformsFeature,
@@ -83,7 +81,12 @@ import {
   ɵɵtext,
   ɵɵtextInterpolate1,
   ɵɵviewQuery
-} from "./chunk-OTZXXROU.js";
+} from "./chunk-6TNX45HQ.js";
+import {
+  isObservable,
+  merge
+} from "./chunk-V2DXGMIT.js";
+import "./chunk-UKEHM6V6.js";
 import {
   BehaviorSubject,
   Subject,
@@ -91,7 +94,7 @@ import {
   map,
   of,
   takeUntil
-} from "./chunk-O6DRYL7C.js";
+} from "./chunk-ZDOIMVJD.js";
 
 // node_modules/@angular/cdk/fesm2022/table.mjs
 var _c0 = [[["caption"]], [["colgroup"], ["col"]], "*"];
