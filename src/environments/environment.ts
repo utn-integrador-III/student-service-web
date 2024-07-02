@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  URL_USERS:"",
-  URL_REPORT:""
+  URL_LOSTOBJECTS: '',
 };
 
 /*

@@ -12,7 +12,8 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col col-2"></div>
-      <div  class="col col-3">
+      
+      <div class="col col-3">
         <mat-form-field class="custom-form-field" appearance="outline">
           <mat-label>Filter</mat-label>
           <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input />
@@ -20,81 +21,96 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
-
       </div>
-      <div class="col col-3">
-        <div class="filtroEstado">
-          <form style="display: flex; flex-direction: row; gap: 10px;">
-            <label for="estado">Estado: </label>
-            <input type="radio" id="sin-entregar" name="estado" value="sin-entregar">
-            <label for="sin-entregar">Sin Entregar</label>
-            <input type="radio" id="entregado" name="estado" value="entregado">
-            <label for="entregado">Entregado</label>
-          </form>
+      
+      <div class="col col-3" style="margin-top: 60px;">
+        <div class="container-fluid">
+          <div class="row d-flex">
+            <div class="col-12 col-md-4"><label for="estado">Estado objeto:</label></div>
+            <div class="col-12 col-md-4"><input type="radio" id="sin-entregar" name="estado" value="sin-entregar"><label for="sin-entregar"> &nbsp;Sin Entregar</label></div>
+            <div class="col-12 col-md-4"><input type="radio" id="entregado" name="estado" value="entregado"><label for="entregado"> &nbsp;Entregado</label></div>
+            
+          </div>
         </div>
       </div>
-      <div  class="col col-2">
-        <button type="button" class="btn-agregar" data-bs-toggle="modal" data-bs-target="#addModal" onclick="prepareModal()">Agregar</button>
+  
+      <div class="col col-2 d-flex justify-content-end">
+        <button type="button" class="btn btn-agregar w-100" data-bs-toggle="modal" data-bs-target="#addModal" onclick="prepareModal()">Agregar</button>
       </div>
+  
       <div class="col col-2"></div>
     </div>
   </div>
-<br>
+  
+<div class="container-fluid">
+  <div class="row">
+    <div  class="col col-2"></div>
+    <div style="background-color: blue;" class="col col-8">
+      <div style="width: 100%;">
+        <table style="background-color: #299980; text-align: center; width: 100%;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="image">
+            <th mat-header-cell *matHeaderCellDef>
+              <p style="color: aliceblue; text-align: center;">Imagen</p>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
 
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>
+              <p style="color: aliceblue; text-align: center;">Articulo</p>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
 
+          <ng-container matColumnDef="place">
+            <th mat-header-cell *matHeaderCellDef>
+              <p style="color: aliceblue; text-align: center;">Categoría</p>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
 
-<div style="width: 65%; margin: 0 auto; margin-top: -30px;">
-  <table style="background-color: #299980;text-align: center;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- id Column -->
-    <ng-container matColumnDef="image">
-      <th mat-header-cell *matHeaderCellDef><p style="color:aliceblue;text-align: center; ">Imagen</p></th>
-      <th mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let element"></td>
-    </ng-container>
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>
+              <p style="color: aliceblue; text-align: center;">Where</p>
+            </th>
+            <td mat-cell *matCellDef="let element"></td>
+          </ng-container>
 
-    <!-- nombre Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef><p style="color:aliceblue;text-align: center;">Articulo</p></th>
-      <td mat-cell *matCellDef="let element"></td>
-    </ng-container>
+          <ng-container matColumnDef="accions">
+            <th mat-header-cell *matHeaderCellDef>
+              <p style="color: aliceblue; text-align: center;">Acciones</p>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <!-- 
+              <button mat-button color="accent" (click)="abrirDialog(element)">
+                Modificar
+              </button>
+              <button mat-button color="warn" (click)="eliminar(element.id)">
+                Eliminar
+              </button> 
+              -->
+            </td>
+          </ng-container>
 
-    <!-- nombre categoria -->
-    <ng-container matColumnDef="place">
-      <th mat-header-cell *matHeaderCellDef><p style="color:aliceblue;text-align: center;">Categoría</p></th>
-      <td mat-cell *matCellDef="let element"></td>
-    </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
 
-    <!-- lugar Column -->
-    <ng-container matColumnDef="category">
-      <th mat-header-cell *matHeaderCellDef><p style="color:aliceblue;text-align: center;">Where</p></th>
-      <td mat-cell *matCellDef="let element"></td>
-    </ng-container>
-
-    <!-- acciones Column -->
-    <ng-container matColumnDef="accions">
-      <th mat-header-cell *matHeaderCellDef><p style="color:aliceblue;text-align: center;">Acciones</p></th>
-      <td mat-cell *matCellDef="let element">
-        <!-- <button mat-button color="accent" (click)="abrirDialog(element)">
-          Modificar
-        </button>
-        <button mat-button color="warn" (click)="eliminar(element.id)">
-          Eliminar
-        </button> -->
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-
-
-  </table>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="5">
+            <p style="margin-left: 15%;">No data matching the filter.</p>
+          </td>
+        </tr>
+      </div>
+    </div>
+    <div class="col col-2"></div>
+  </div>
 </div>
 
-  <tr class="mat-row" *matNoDataRow>
-    <td class="mat-cell" colspan="5"><p style="margin-left: 15%;">  No data matching the filter.</p>
-    
-    </td>
-  </tr>
+
+
+
+
 
   
  <!-- Modal -->
