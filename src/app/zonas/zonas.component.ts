@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
 import { ZoneService } from '../services/service-zone/zone.service';
+import { ToastService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-zonas',
@@ -21,7 +22,8 @@ export class ZonasComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private zoneService: ZoneService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private toasterService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -32,8 +34,8 @@ export class ZonasComponent implements OnInit {
   cargarZonas(): void {
     this.zoneService.getZonas().subscribe((data: any[]) => {
       this.zonas = data;
-      this.dataSource.data = this.zonas; // Assign the data to the MatTableDataSource dataSource
-      this.dataSource.paginator = this.paginator; // Configure the pager after allocating the data
+      this.dataSource.data = this.zonas; 
+      this.dataSource.paginator = this.paginator; 
     });
   }
   abrirModal(opcion: number, zona?: any): void {
@@ -53,27 +55,14 @@ export class ZonasComponent implements OnInit {
 
           this.zoneService.agregarZona(nuevaZona).subscribe({
             next: (response) => {
-              this.snackBar.open('Zona creada correctamente', 'Cerrar', {
-                duration: 3000,
-                horizontalPosition: 'end',
-                verticalPosition: 'top',
-              });
-
+              this.toasterService.showSuccess('Zona creada correctamente', 'Éxito');
               this.cargarZonas();
             },
             error: (error) => {
-              if (error.error && error.error.message_code === 'ZONE_ALREADY_EXIST') {
-                this.snackBar.open('La zona ya existe', 'Cerrar', {
-                  duration: 3000,
-                  horizontalPosition: 'end',
-                  verticalPosition: 'top',
-                });
+              if (error.status === 400 && error.error && error.error.message_code === 'ZONE_ALREADY_EXIST') {
+                this.toasterService.showWarning('La zona ya existe', 'Advertencia');
               } else {
-                this.snackBar.open('Error al agregar zona', 'Cerrar', {
-                  duration: 3000,
-                  horizontalPosition: 'end',
-                  verticalPosition: 'top',
-                });
+                this.toasterService.showError('Error al agregar zona', '400 Bad Request');
               }
             }
           });
@@ -81,13 +70,7 @@ export class ZonasComponent implements OnInit {
           const zonaActualizada = { _id: zona._id, name: result.nombre, location: result.localidad };
 
           this.zoneService.actualizarZona(zonaActualizada).subscribe(response => {
-
-            this.snackBar.open('Zona actualizada correctamente', 'Cerrar', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
-            });
-
+            this.toasterService.showSuccess('Zona actualizada correctamente', 'Éxito');
             this.cargarZonas();
           });
         }
@@ -105,12 +88,7 @@ export class ZonasComponent implements OnInit {
 
   eliminarZona(zona: any): void {
     this.zoneService.eliminarZona(zona._id).subscribe(response => {
-      this.snackBar.open('Zona eliminada correctamente', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-      });
-
+      this.toasterService.showSuccess('Zona eliminada correctamente', 'Éxito');
       this.cargarZonas();
     });
   }

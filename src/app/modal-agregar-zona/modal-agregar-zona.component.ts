@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgForm } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-modal-agregar-zona',
@@ -17,7 +17,7 @@ export class ModalAgregarZonaComponent {
   constructor(
     public dialogRef: MatDialogRef<ModalAgregarZonaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private snackBar: MatSnackBar
+    private toasterService: ToastService
   ) {
     if (data.zona) {
       this.nombre = data.zona.name || '';
@@ -30,20 +30,12 @@ export class ModalAgregarZonaComponent {
   guardar(form: NgForm): void {
     if (form.valid) {
       if (this.nombre === this.originalNombre && this.localidad === this.originalLocalidad) {
-        this.snackBar.open('Debe actualizar algún dato antes de guardar', 'Cerrar', {
-          duration: 3000,
-          horizontalPosition: 'end',
-          verticalPosition: 'top',
-        });
+        this.toasterService.showWarning('Debe actualizar algún dato antes de guardar', 'Advertencia');
       } else {
         this.dialogRef.close({ nombre: this.nombre, localidad: this.localidad });
       }
     } else {
-      this.snackBar.open('Formulario inválido. Por favor, completa todos los campos.', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-      });
+      this.toasterService.showError('Formulario inválido. Por favor, completa todos los campos.', 'Error');
     }
   }
 

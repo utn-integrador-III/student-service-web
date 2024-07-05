@@ -62,7 +62,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 5000,
+      timeOut: 100,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       closeButton: true,
