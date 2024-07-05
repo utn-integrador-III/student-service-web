@@ -17,7 +17,16 @@
           "^/api/auth/": "/api/auth/login"
         }
       },
-    "/api/zone/*": {
+      "/api/category": {
+        "target": "http://localhost:5001",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/api": ""
+        }
+      },
+      "/api/zone/*": {
         "target": "http://localhost:5001",
         "secure": false,
         "logLevel": "debug",

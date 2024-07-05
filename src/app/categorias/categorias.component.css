@@ -1,0 +1,93 @@
+.example-spacer {
+    flex: 1 1 auto;
+  }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 74%;
+    padding: 10px;
+    background-color: #f4f4f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-span {
+    flex: 1;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
+  }
+  
+  .custom-button {
+    flex: 0;
+    background-color: #299980;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .custom-button:hover {
+    background-color: #267e6a;
+  }
+  
+  
+  
+
+  table {
+    width: 100%;
+  }
+  
+  .mat-mdc-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 25%;
+  }
+
+  .main-body{
+    margin: 0 auto;
+    padding-top: 20px;
+    max-width: 1248px;
+    mat-form-field{
+      width: 100;
+    }
+  }
+
+
+  .delete{
+    color: red;
+  }
+  
+
+footer img {
+  height: 40px; /* Ajustar la altura de la imagen */
+}
+
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.main-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 75vh; 
+}
+
+
+footer {
+  background-color: #68B3A6;
+  border-top: 4px solid #3A8676;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+}

@@ -7,7 +7,8 @@ export const environment = {
   URL_USERS: "",
   URL_REPORT: "",
   URL_AUTH:"",
-  URL_ZONE:"http://localhost:5001/zone"
+  URL_ZONE:"",
+  URL_API_CATEGORY:""
 }
 
 /*
