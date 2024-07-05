@@ -4,10 +4,11 @@
 
 export const environment = {
   production: false,
-  URL_USERS:"",
-  URL_REPORT:"",
+  URL_USERS: "",
+  URL_REPORT: "",
+  URL_AUTH:"",
   URL_ZONE:"http://localhost:5001/zone"
-};
+}
 
 /*
  * For easier debugging in development mode, you can import the following file
