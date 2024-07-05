@@ -1,6 +1,6 @@
 {
-    "/api/products": {
-      "target": "http://localhost:3001",
+    "/api/lostobject": {
+      "target": "http://localhost:5001",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true,
@@ -8,13 +8,13 @@
         "^/api": ""
       }
     },
-    "/api/users/*": {
-        "target": "http://localhost:3002",
+    "/api/auth/*": {
+        "target": "http://localhost:5002",
         "secure": true,
         "logLevel": "debug",
         "changeOrigin": true,
         "pathRewrite": {
-          "^/api": ""
+          "^/api/auth/": "/api/auth/login"
         }
       },
       "/api/category": {

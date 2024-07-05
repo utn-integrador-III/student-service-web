@@ -4,11 +4,12 @@
 
 export const environment = {
   production: false,
-  URL_USERS:"",
-  URL_REPORT:"",
+  URL_USERS: "",
+  URL_REPORT: "",
+  URL_AUTH:"",
   URL_ZONE:"",
   URL_API_CATEGORY:""
-};
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

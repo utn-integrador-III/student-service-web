@@ -14,7 +14,6 @@ import {
   inject,
   isDevMode,
   makeEnvironmentProviders,
-  queueScheduler,
   setClassMetadata,
   signal,
   ɵɵdefineInjectable,
@@ -22,7 +21,11 @@ import {
   ɵɵdefineNgModule,
   ɵɵgetInheritedFactory,
   ɵɵinject
-} from "./chunk-OTZXXROU.js";
+} from "./chunk-6TNX45HQ.js";
+import {
+  queueScheduler
+} from "./chunk-V2DXGMIT.js";
+import "./chunk-UKEHM6V6.js";
 import {
   BehaviorSubject,
   Observable,
@@ -35,7 +38,7 @@ import {
   pluck,
   scan,
   withLatestFrom
-} from "./chunk-O6DRYL7C.js";
+} from "./chunk-ZDOIMVJD.js";
 
 // node_modules/@angular/core/fesm2022/rxjs-interop.mjs
 function toSignal(source, options) {

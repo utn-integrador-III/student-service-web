@@ -1,0 +1,147 @@
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f7f7f7;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  width: 900px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+
+.login-left {
+  background-color: #99cfbf;
+  color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.login-left img.LogoUTN {
+  max-width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.login-left h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+  z-index: 1;
+  text-align: center;
+}
+
+.login-left img.logoPrincipal {
+  max-width: 80%;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+.login-right {
+  padding: 40px;
+  flex: 2;
+  background-color: #e8f2f4;
+  border-radius: 0 20px 20px 0;
+}
+
+.login-right h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #2b9980;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #2b9980;
+  outline: none;
+  background: transparent;
+  color: #2b9980;
+}
+
+.form-group label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 16px;
+  color: #aaa;
+  transition: all 0.3s;
+  pointer-events: none; 
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -20px;
+  font-size: 12px;
+  color: #2b9980;
+}
+
+.forgot-password {
+  display: block;
+  margin-bottom: 20px;
+  color: #2b9980;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-button {
+  padding: 10px 20px;
+  background-color: #efb740;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.login-button:hover:not(:disabled) {
+  background-color: #d8a737;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
