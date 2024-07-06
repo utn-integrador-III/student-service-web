@@ -11,8 +11,13 @@ import { ModuleObjectsComponent } from './module-objects/module-objects.componen
 import { appReducer } from './store/app.reducer';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -44,8 +49,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MenuComponent,
     LostAndFoundComponent,
     LoginComponent,
-    ZonasComponent,
     ModalAgregarZonaComponent,
+    ZonasComponent,
   ],
   imports: [
     FormsModule,
@@ -58,6 +63,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     BrowserAnimationsModule,
     MatButtonModule,
     CommonModule,
+    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,

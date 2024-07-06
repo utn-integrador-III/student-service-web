@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
 import { ZoneService } from '../services/service-zone/zone.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-zonas',
   templateUrl: './zonas.component.html',
-  styleUrls: ['./zonas.component.css']
+  styleUrls: ['./zonas.component.css'],
 })
 export class ZonasComponent implements OnInit {
   zonas: any[] = [];
@@ -42,8 +42,8 @@ export class ZonasComponent implements OnInit {
       autoFocus: true,
       data: {
         zona: opcion === 2 ? zona : null,
-        isEdit: opcion === 2
-      }
+        isEdit: opcion === 2,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -62,7 +62,10 @@ export class ZonasComponent implements OnInit {
               this.cargarZonas();
             },
             error: (error) => {
-              if (error.error && error.error.message_code === 'ZONE_ALREADY_EXIST') {
+              if (
+                error.error &&
+                error.error.message_code === 'ZONE_ALREADY_EXIST'
+              ) {
                 this.snackBar.open('La zona ya existe', 'Cerrar', {
                   duration: 3000,
                   horizontalPosition: 'end',
@@ -75,28 +78,35 @@ export class ZonasComponent implements OnInit {
                   verticalPosition: 'top',
                 });
               }
-            }
+            },
           });
         } else if (opcion === 2 && zona) {
-          const zonaActualizada = { _id: zona._id, name: result.nombre, location: result.localidad };
+          const zonaActualizada = {
+            _id: zona._id,
+            name: result.nombre,
+            location: result.localidad,
+          };
 
-          this.zoneService.actualizarZona(zonaActualizada).subscribe(response => {
+          this.zoneService
+            .actualizarZona(zonaActualizada)
+            .subscribe((response) => {
+              this.snackBar.open('Zona actualizada correctamente', 'Cerrar', {
+                duration: 3000,
+                horizontalPosition: 'end',
+                verticalPosition: 'top',
+              });
 
-            this.snackBar.open('Zona actualizada correctamente', 'Cerrar', {
-              duration: 3000,
-              horizontalPosition: 'end',
-              verticalPosition: 'top',
+              this.cargarZonas();
             });
-
-            this.cargarZonas();
-          });
         }
       }
     });
   }
 
   filtrarZonas(event: Event): void {
-    const busqueda = (event.target as HTMLInputElement).value.toLowerCase().trim();
+    const busqueda = (event.target as HTMLInputElement).value
+      .toLowerCase()
+      .trim();
     this.dataSource.filter = busqueda;
   }
   editarZona(zona: any): void {
@@ -104,7 +114,7 @@ export class ZonasComponent implements OnInit {
   }
 
   eliminarZona(zona: any): void {
-    this.zoneService.eliminarZona(zona._id).subscribe(response => {
+    this.zoneService.eliminarZona(zona._id).subscribe((response) => {
       this.snackBar.open('Zona eliminada correctamente', 'Cerrar', {
         duration: 3000,
         horizontalPosition: 'end',

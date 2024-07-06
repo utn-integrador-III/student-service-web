@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-modal-agregar-zona',
   templateUrl: './modal-agregar-zona.component.html',
-  styleUrls: ['./modal-agregar-zona.component.css']
+  styleUrls: ['./modal-agregar-zona.component.css'],
 })
 export class ModalAgregarZonaComponent {
   nombre: string = '';
@@ -29,21 +29,35 @@ export class ModalAgregarZonaComponent {
 
   guardar(form: NgForm): void {
     if (form.valid) {
-      if (this.nombre === this.originalNombre && this.localidad === this.originalLocalidad) {
-        this.snackBar.open('Debe actualizar algún dato antes de guardar', 'Cerrar', {
+      if (
+        this.nombre === this.originalNombre &&
+        this.localidad === this.originalLocalidad
+      ) {
+        this.snackBar.open(
+          'Debe actualizar algún dato antes de guardar',
+          'Cerrar',
+          {
+            duration: 3000,
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+          }
+        );
+      } else {
+        this.dialogRef.close({
+          nombre: this.nombre,
+          localidad: this.localidad,
+        });
+      }
+    } else {
+      this.snackBar.open(
+        'Formulario inválido. Por favor, completa todos los campos.',
+        'Cerrar',
+        {
           duration: 3000,
           horizontalPosition: 'end',
           verticalPosition: 'top',
-        });
-      } else {
-        this.dialogRef.close({ nombre: this.nombre, localidad: this.localidad });
-      }
-    } else {
-      this.snackBar.open('Formulario inválido. Por favor, completa todos los campos.', 'Cerrar', {
-        duration: 3000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-      });
+        }
+      );
     }
   }
 

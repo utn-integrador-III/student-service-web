@@ -1,25 +1,85 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { LostAndFoundService } from '../../../services/service-LostAndFound/LostAndFound.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-lost-and-found',
   templateUrl: './lost-and-found.component.html',
   styleUrls: ['./lost-and-found.component.css'],
 })
-export class LostAndFoundComponent {
+export class LostAndFoundComponent implements OnInit {
+  dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'image',
     'name',
-    'place',
+    'description',
     'category',
     'accions',
   ];
-  dataSource = new MatTableDataSource();
+  newObject: any = {}; // Object to hold data for new lost object
+
+  constructor(
+    private srvlostObjects: LostAndFoundService,
+    private toastr: ToastrService
+  ) {
+    this.dataSource = new MatTableDataSource([]);
+  }
+
+  ngOnInit(): void {
+    this.loadObjects();
+  }
+
+  loadObjects() {
+    this.srvlostObjects.getObjects().subscribe(
+      (response: any) => {
+        console.log(response);
+        this.dataSource.data = response.data;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los objectos.');
+        console.error('Error al cargar los objectos:', error);
+      }
+    );
+  }
+
+  addLostObject() {
+    // Validación del formato del correo electrónico
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr)$/i;
+
+    // Verificar si los campos obligatorios están llenos
+    if (
+      !this.newObject.name ||
+      !this.newObject.description ||
+      !this.newObject.user_email ||
+      !emailRegex.test(this.newObject.user_email) // Validar formato del correo electrónico y dominio
+    ) {
+      this.toastr.error('Por favor, verifique su email');
+      return;
+    }
+
+    const fixedSafekeeper = { user_email: 'semataoe@utn.ac.cr' };
+
+    this.newObject.safekeeper = [fixedSafekeeper];
+
+    this.srvlostObjects.addObjects(this.newObject).subscribe(
+      (response) => {
+        this.toastr.success('Objeto añadido exitosamente');
+        this.loadObjects();
+        this.closeModal();
+      },
+      (error) => {
+        this.toastr.error('Error al añadir el objeto', error);
+      }
+    );
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  deleteObject(id: string) {}
 
   previewImage(event: any) {
     const file = event.target.files[0];
@@ -46,6 +106,7 @@ export class LostAndFoundComponent {
     imagePreview.style.display = 'none';
     fileInput.value = '';
   }
+
   clearForm() {
     this.dataSource.filter = '';
     this.resetImagePreview();
@@ -63,6 +124,7 @@ export class LostAndFoundComponent {
       fileInput.value = '';
     }
   }
+
   resetModalFields() {
     const fileInput = document.getElementById('item-image') as HTMLInputElement;
     const imagePreview = document.getElementById(
@@ -72,10 +134,10 @@ export class LostAndFoundComponent {
       'item-name'
     ) as HTMLInputElement;
     const itemCategoryInput = document.getElementById(
-      'item-category'
+      'item-descripcion'
     ) as HTMLInputElement;
     const itemLocationInput = document.getElementById(
-      'item-location'
+      'item-email'
     ) as HTMLInputElement;
 
     if (fileInput) {
