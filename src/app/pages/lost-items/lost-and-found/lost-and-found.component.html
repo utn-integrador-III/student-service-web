@@ -10,25 +10,40 @@
     <div class="col col-3">
       <mat-form-field class="custom-form-field" appearance="outline">
         <mat-label>Filtrar</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ej. ium" #input />
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ej. ium"
+          #input
+        />
         <button mat-icon-button matSuffix>
           <mat-icon>search</mat-icon>
         </button>
       </mat-form-field>
     </div>
 
-    <div class="col col-3" style="margin-top: 60px;">
+    <div class="col col-3" style="margin-top: 60px">
       <div class="container-fluid">
         <div class="row d-flex">
-          <div style="font-size: 14px; margin: 0;" class="col-12 col-md-4 p-0">
+          <div style="font-size: 14px; margin: 0" class="col-12 col-md-4 p-0">
             <label for="estado">Estado objeto:</label>
           </div>
-          <div style="font-size: 14px; margin: 0;" class="col-12 col-md-4 p-0">
-            <input type="radio" id="sin-entregar" name="estado" value="sin-entregar">
+          <div style="font-size: 14px; margin: 0" class="col-12 col-md-4 p-0">
+            <input
+              type="radio"
+              id="sin-entregar"
+              name="estado"
+              value="sin-entregar"
+            />
             <label for="sin-entregar"> &nbsp;Sin Entregar</label>
           </div>
-          <div style="font-size: 14px; margin: 0;" class="col-12 col-md-4 p-0">
-            <input type="radio" id="entregado" name="estado" value="entregado">
+          <div style="font-size: 14px; margin: 0" class="col-12 col-md-4 p-0">
+            <input
+              type="radio"
+              id="entregado"
+              name="estado"
+              value="entregado"
+            />
             <label for="entregado"> &nbsp;Entregado</label>
           </div>
         </div>
@@ -36,7 +51,14 @@
     </div>
 
     <div class="col col-2 d-flex justify-content-end">
-      <button type="button" class="btn btn-agregar w-100" data-bs-toggle="modal" data-bs-target="#addModal">Agregar</button>
+      <button
+        type="button"
+        class="btn btn-agregar w-100"
+        data-bs-toggle="modal"
+        data-bs-target="#addModal"
+      >
+        Agregar
+      </button>
     </div>
 
     <div class="col col-2"></div>
@@ -44,51 +66,73 @@
 </div>
 
 <div class="container-fluid">
-  <div class="row">
-    <div class="col col-2"></div>
-    <div class="col col-8">
-      <div style="width: 100%;">
-        <table style="text-align: center; width: 100%;" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-sm-12">
+      <div class="table-responsive">
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          class="mat-elevation-z8"
+          style="text-align: center; width: 100%"
+        >
           <ng-container matColumnDef="image">
-            <th style="background-color: #299980;" *matHeaderCellDef>
-              <p style="color: aliceblue; text-align: center;">Imagen</p>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #299980"
+            >
+              <p style="color: aliceblue; text-align: center">Imagen</p>
             </th>
             <td mat-cell *matCellDef="let element">
-              <img *ngIf="element.image" [src]="element.image" alt="Imagen">
+              <img
+                *ngIf="element.image"
+                [src]="element.image"
+                alt="Imagen"
+                style="max-width: 100px; height: auto"
+              />
               <span *ngIf="!element.image">Sin imagen</span>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="name">
-            <th style="background-color: #299980;" mat-header-cell *matHeaderCellDef>
-              <p style="color: aliceblue; text-align: center;">Artículo</p>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #299980"
+            >
+              <p style="color: aliceblue; text-align: center">Artículo</p>
             </th>
             <td mat-cell *matCellDef="let element">{{ element.name }}</td>
           </ng-container>
 
           <ng-container matColumnDef="description">
-            <th style="background-color: #299980;" mat-header-cell *matHeaderCellDef>
-              <p style="color: aliceblue; text-align: center;">Descripción</p>
-            </th>
-            <td mat-cell *matCellDef="let element">{{ element.description }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="category">
-            <th style="background-color: #299980;" mat-header-cell *matHeaderCellDef>
-              <p style="color: aliceblue; text-align: center;">Descripción</p>
-            </th>
-            <td mat-cell *matCellDef="let element">{{  element.description  }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="accions">
-            <th style="background-color: #299980;" mat-header-cell *matHeaderCellDef>
-              <p style="color: aliceblue; text-align: center;">Acciones</p>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #299980"
+            >
+              <p style="color: aliceblue; text-align: center">Descripción</p>
             </th>
             <td mat-cell *matCellDef="let element">
-              <button mat-button color="accent">
-                Modificar
-              </button>
-              <button mat-button color="warn" (click)="deleteObject(element.id)">
+              {{ element.description }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #299980"
+            >
+              <p style="color: aliceblue; text-align: center">Acciones</p>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-button color="accent">Modificar</button>
+              <button
+                mat-button
+                color="warn"
+                (click)="deleteObject(element.id)"
+              >
                 Eliminar
               </button>
             </td>
@@ -96,53 +140,113 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="5">
+              <p style="text-align: center; color: gray">
+                No hay datos que coincidan con el filtro.
+              </p>
+            </td>
+          </tr>
         </table>
-
-        <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="5">
-            <p style="margin-left: 15%;">No hay datos que coincidan con el filtro.</p>
-          </td>
-        </tr>
       </div>
     </div>
-    <div class="col col-2"></div>
   </div>
 </div>
 
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+<div
+  class="modal fade"
+  id="addModal"
+  tabindex="-1"
+  aria-labelledby="addModalLabel"
+  aria-hidden="true"
+  #addModal
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title w-100 text-center" id="addModalLabel">Agregar Objeto Perdido</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h5 class="modal-title w-100 text-center" id="addModalLabel">
+          Agregar Objeto Perdido
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="mb-3">
           <label for="item-image" class="form-label">Imagen</label>
-          <input type="file" class="form-control" id="item-image" accept="image/*" (change)="previewImage($event)">
-          <img id="image-preview" class="img-preview" src="#" alt="Vista previa de la imagen" style="display: none; max-width: 100%; max-height: 200px;">
-          <button type="button" class="btn btn-danger mt-2" (click)="removeImage()">Eliminar imagen</button>
+          <input
+            type="file"
+            class="form-control"
+            id="item-image"
+            accept="image/*"
+            (change)="previewImage($event)"
+          />
+          <img
+            id="image-preview"
+            class="img-preview"
+            src="#"
+            alt="Vista previa de la imagen"
+            style="display: none; max-width: 100%; max-height: 200px"
+          />
+          <button
+            type="button"
+            class="btn btn-danger mt-2"
+            (click)="removeImage()"
+          >
+            Eliminar imagen
+          </button>
         </div>
         <div class="mb-3">
           <label for="item-name" class="form-label">Nombre del Artículo</label>
-          <input type="text" class="form-control" id="item-name" [(ngModel)]="newObject.name">
+          <input
+            type="text"
+            class="form-control"
+            id="item-name"
+            [(ngModel)]="newObject.name"
+          />
         </div>
         <div class="mb-3">
           <label for="item-descripcion" class="form-label">Descripción</label>
-          <input type="text" class="form-control" id="item-descripcion" [(ngModel)]="newObject.description">
+          <input
+            type="text"
+            class="form-control"
+            id="item-descripcion"
+            [(ngModel)]="newObject.description"
+          />
         </div>
         <div class="mb-3">
           <label for="item-email" class="form-label">Email</label>
-          <input type="text" class="form-control" id="item-email" [(ngModel)]="newObject.user_email">
+          <input
+            type="text"
+            class="form-control"
+            id="item-email"
+            [(ngModel)]="newObject.user_email"
+          />
         </div>
       </div>
       <div class="modal-footer">
         <div class="d-flex flex-wrap justify-content-between">
-          <button type="button" style="background-color: #299980; color: aliceblue;" class="btn btn-lg flex-grow-1 m-1" (click)="addLostObject()" data-bs-toggle="modal" data-bs-target="#addModal">Agregar</button>
-          <button type="button" class="btn btn-secondary btn-lg flex-grow-1 m-1" data-bs-dismiss="modal" (click)="closeModal()">Cerrar</button>
+          <button
+            type="button"
+            style="background-color: #299980; color: aliceblue"
+            class="btn btn-lg flex-grow-1 m-1"
+            (click)="addLostObject()"
+          >
+            Agregar
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg flex-grow-1 m-1"
+            data-bs-dismiss="modal"
+            (click)="closeModal()"
+          >
+            Cerrar
+          </button>
+        </div>
       </div>
-
-      
     </div>
   </div>
 </div>

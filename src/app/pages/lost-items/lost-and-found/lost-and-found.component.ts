@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LostAndFoundService } from '../../../services/service-LostAndFound/LostAndFound.service';
 import { ToastrService } from 'ngx-toastr';
@@ -10,13 +10,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = [
-    'image',
-    'name',
-    'description',
-    'category',
-    'accions',
-  ];
+  displayedColumns: string[] = ['image', 'name', 'description', 'actions'];
+  @ViewChild('addModal') addModal!: ElementRef;
+
   newObject: any = {}; // Object to hold data for new lost object
 
   constructor(
@@ -44,17 +40,18 @@ export class LostAndFoundComponent implements OnInit {
   }
 
   addLostObject() {
-    // Validación del formato del correo electrónico
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr)$/i;
 
-    // Verificar si los campos obligatorios están llenos
     if (
       !this.newObject.name ||
       !this.newObject.description ||
-      !this.newObject.user_email ||
-      !emailRegex.test(this.newObject.user_email) // Validar formato del correo electrónico y dominio
+      !this.newObject.user_email
     ) {
-      this.toastr.error('Por favor, verifique su email');
+      this.toastr.error('Por favor llene los espacios');
+      return;
+    }
+    if (!emailRegex.test(this.newObject.user_email)) {
+      this.toastr.error('El formato del correo es incorrecto');
       return;
     }
 
@@ -72,6 +69,22 @@ export class LostAndFoundComponent implements OnInit {
         this.toastr.error('Error al añadir el objeto', error);
       }
     );
+  }
+
+  closeModal() {
+    this.clearForm();
+    this.resetModalFields();
+    const modalElement = this.addModal.nativeElement;
+    const backdropElement = document.querySelector('.modal-backdrop');
+
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
+
+    if (backdropElement) {
+      backdropElement.parentNode!.removeChild(backdropElement);
+    }
+
+    document.body.classList.remove('modal-open');
   }
 
   applyFilter(event: Event) {
@@ -156,10 +169,5 @@ export class LostAndFoundComponent implements OnInit {
     if (itemLocationInput) {
       itemLocationInput.value = '';
     }
-  }
-
-  closeModal() {
-    this.clearForm();
-    this.resetModalFields();
   }
 }
