@@ -9,6 +9,7 @@ export const environment = {
   URL_AUTH: '',
   URL_ZONE: '',
   URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
+  URL_LOSTOBJECTSBYID: 'http://localhost:5001/lostObject',
 };
 /*
  * For easier debugging in development mode, you can import the following file

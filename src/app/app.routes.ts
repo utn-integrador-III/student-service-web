@@ -7,6 +7,8 @@ import { ModuleObjectsComponent } from './module-objects/module-objects.componen
 import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
 import { LoginComponent } from './login/login.component';
 import { ZonasComponent } from './zonas/zonas.component';
+import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
+import { StudentLogComponent } from './pages/student-log/student-log.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +16,8 @@ export const routes: Routes = [
   { path: 'example', component: ExampleComponent },
   { path: 'objects', component: ModuleObjectsComponent },
   { path: 'lostAndFound', component: LostAndFoundComponent },
+  { path: 'teacherlog', component: TeacherLogComponent },
+  { path: 'studentlog', component: StudentLogComponent },
 ];
 
 @NgModule({

@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LostAndFoundService } from '../../../services/service-LostAndFound/LostAndFound.service';
 import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -92,8 +93,6 @@ export class LostAndFoundComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  deleteObject(id: string) {}
-
   previewImage(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -169,5 +168,19 @@ export class LostAndFoundComponent implements OnInit {
     if (itemLocationInput) {
       itemLocationInput.value = '';
     }
+  }
+  deleteObject(id: string): void {
+    this.srvlostObjects.deleteObjects(id).subscribe(
+      () => {
+        this.toastr.success('Objeto eliminado con éxito');
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item._id !== id
+        );
+      },
+      (error) => {
+        this.toastr.error('Error al eliminar el objeto');
+        console.error('Error al eliminar el objeto:', error);
+      }
+    );
   }
 }

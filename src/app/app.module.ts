@@ -37,6 +37,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
+import { StudentLogComponent } from './pages/student-log/student-log.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +51,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
     MenuComponent,
     LostAndFoundComponent,
     LoginComponent,
+    TeacherLogComponent,
     ModalAgregarZonaComponent,
     ZonasComponent,
+    StudentLogComponent,
   ],
   imports: [
     FormsModule,

@@ -22,6 +22,9 @@
       </mat-form-field>
     </div>
 
+
+    
+
     <div class="col col-3" style="margin-top: 60px">
       <div class="container-fluid">
         <div class="row d-flex">
@@ -83,7 +86,7 @@
             >
               <p style="color: aliceblue; text-align: center">Imagen</p>
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="fixed-width">
               <img
                 *ngIf="element.image"
                 [src]="element.image"
@@ -102,7 +105,9 @@
             >
               <p style="color: aliceblue; text-align: center">Artículo</p>
             </th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            <td mat-cell *matCellDef="let element" class="fixed-width">
+              {{ element.name }}
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="description">
@@ -113,30 +118,23 @@
             >
               <p style="color: aliceblue; text-align: center">Descripción</p>
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.description }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              style="background-color: #299980"
-            >
+            <th mat-header-cell *matHeaderCellDef style="background-color: #299980">
               <p style="color: aliceblue; text-align: center">Acciones</p>
             </th>
-            <td mat-cell *matCellDef="let element">
+            <td mat-cell *matCellDef="let element" class="fixed-width">
               <button mat-button color="accent">Modificar</button>
-              <button
-                mat-button
-                color="warn"
-                (click)="deleteObject(element.id)"
-              >
+              <button mat-button color="warn" (click)="deleteObject(element._id)">
                 Eliminar
               </button>
             </td>
           </ng-container>
+          
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
