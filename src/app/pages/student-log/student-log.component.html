@@ -29,47 +29,60 @@
               placeholder="Seleccione computadora"
               type="text"
               class="form-control inputs"
+              [(ngModel)]="selectedComputerNumber"
             />
           </div>
+          
 
           <div class="container-fluid">
             <div class="row">
               <div class="col-6">
-                <div class="image-grid">
-                  <div *ngFor="let image of imageUrlsLeft" class="image-container" (click)="onImageClick(image)">
+                <div   class="image-grid">
+                  <div  
+                    *ngFor="let image of imageUrlsLeft"
+                    class="image-container"
+                    (click)="onImageClick(image)"
+                  >
+                  <div  class="d-flex flex-column align-items-center">
                     <img [src]="image.imageUrl" alt="Imagen {{ image.number }}" class="computer-image clickable-image">
-                    <span class="image-number">{{ image.number }}</span>
+                    <span class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-1">{{ image.number }}</span>
+                </div>
+                
                   </div>
                 </div>
               </div>
               <div class="col-6">
                 <div class="image-grid">
-                  <div *ngFor="let image of imageUrlsRight" class="image-container" (click)="onImageClick(image)">
-                    <img [src]="image.imageUrl" alt="Imagen {{ image.number }}" class="computer-image clickable-image">
-                    <span class="image-number">{{ image.number }}</span>
+                  <div
+                    *ngFor="let image of imageUrlsRight"
+                    class="image-container"
+                    (click)="onImageClick(image)"
+                  >
+                    <div class="d-flex flex-column align-items-center">
+                      <img
+                        [src]="image.imageUrl"
+                        alt="Imagen {{ image.number }}"
+                        class="computer-image clickable-image"
+                      />
+                      <span class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-9">{{ image.number }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
-          
 
-
-
-
-         
-          
-
-
-
-          <button type="button" style="margin-top: 20px;" class="btn buttonApertura w-30">
-            Apertura de laboratorio
+          <button
+            type="button"
+            style="margin-top: 20px"
+            class="btn buttonApertura w-50"
+          >
+            Guardar
           </button>
         </div>
         <div
           class="col-1"
-          style="border-right: 2px solid rgb(41, 152, 128); height: 100vh"
+          style="border-right: 2px solid  rgb(27, 48, 105); height: 130vh"
         ></div>
       </div>
     </div>
@@ -116,22 +129,21 @@
               <ng-container matColumnDef="accions">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let element">
-                  {{ element.computer_number }}
+
+                  <button mat-button style="color: #FF0000;"(click)="deleteOption()">
+                    Eliminar
+                  </button>
+
+
+
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr  style="background-color: #89C1E0; text-align: center; color: white ;" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+              <tr class="tablaAbajo" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <tr class="mat-row" *matNoDataRow>
-                <td
-                  style="background-color: white"
-                  class="mat-cell"
-                  colspan="4"
-                >
-                  <p style="color: black; margin-top: 10px">
-                    No se encontraron datos
-                  </p>
-                </td>
+             
               </tr>
             </table>
           </div>

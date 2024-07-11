@@ -11,12 +11,6 @@ export class StudentLogComponent implements OnInit {
 
   dataSource = new MatTableDataSource<any>([
     {
-      name: 'Leslie Piedra',
-      computer_number: '001',
-      date: '2024-07-08',
-      actionNumber: 1,
-    },
-    {
       name: 'Kenneth Piedra',
       computer_number: '002',
       date: '2024-07-08',
@@ -46,11 +40,16 @@ export class StudentLogComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  selectedComputerNumber: string;
+
   onImageClick(image: any): void {
+    this.selectedComputerNumber = image.number;
+
     if (this.selectedImage) {
       this.selectedImage.imageUrl = '/assets/images/computer.png';
     }
     image.imageUrl = '/assets/images/redComputer.png';
     this.selectedImage = image;
   }
+  deleteOption() {}
 }

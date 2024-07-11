@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  background-color: #f1f1f1;
+  background-color: #F7F7F7;
 }
 
 th,
@@ -25,7 +25,7 @@ td {
 
 .mat-header-cell {
   text-align: center;
-  background-color: #299980;
+  background-color: #1B3069;
   padding: 10px;
 }
 
@@ -39,10 +39,11 @@ td {
 .btn-agregar {
   margin-bottom: 20px;
   height: 35px;
-  background-color: #94cd90;
+  background-color: #7788B5;
   margin-top: 50px;
   border-radius: 5px;
   border: none;
+  color: white;
 }
 
 .img-preview {
@@ -88,14 +89,10 @@ table {
 .line {
   flex: 1;
   height: 5px;
-  background-color: #299980;
+  background-color: #1B3069;
 }
 .title {
   margin: 0 10px;
   font-size: 20px;
-}
-.fixed-width {
-  max-width: 150px; /* Ajusta este valor según tus necesidades */
-  word-wrap: break-word;
-  white-space: normal;
+  color: #1B3069 ;
 }

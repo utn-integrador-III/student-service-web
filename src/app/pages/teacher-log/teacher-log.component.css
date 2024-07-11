@@ -1,16 +1,16 @@
 .titulo{
     text-align: center;
-    color: #299980;
+    color: #1B3069;
     font-size: 20px;
     margin-top: 30px;
     font-style: normal;
 }
 .linea-horizontal {
-    border-top: 2px solid #278266; /* Ajustado a un color más oscuro */
+    border-top: 2px solid #1B3069; /* Ajustado a un color más oscuro */
     margin: 0 auto;
 }
 .linea-vertical {
-    border-left: 2px solid rgb(41, 152, 128);
+    border-left: 2px solid rgb(27, 48, 105) ;
     height: 200%;
 }
 .llenadoDatos{
@@ -25,7 +25,7 @@
     background-color:#EEEEEE ;
 }
 .buttonApertura{
-    background-color:#299980 ;
+    background-color:#1B3069 ;
     color: #EEEEEE;
     margin: 0 auto; 
     display: block; 
@@ -37,7 +37,7 @@
     /* Otros estilos según sea necesario */
 }
 table{
-    background-color: #299980;
+    background-color: #89C1E0;
     text-align: center;
 }
 th, td{
