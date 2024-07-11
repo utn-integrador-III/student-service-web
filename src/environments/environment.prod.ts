@@ -3,6 +3,7 @@ export const environment = {
   URL_REPORT: process.env['URL_REPORT'],
   URL_AUTH: process.env['URL_AUTH'],
   URL_ZONE: process.env['URL_ZONE'],
+  URL_API_CATEGORY: process.env['URL_CATEGORY'],
   URL_LOSTANDFOUND: process.env['URL_LOSTANDFOUND'],
   URL_LOSTOBJECTSBYID: process.env['URL_LOSTOBJECTSBYID'],
 };

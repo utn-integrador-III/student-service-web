@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ExampleComponent } from './components/example/example.component';
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
+import { CategoriasComponent } from './categorias/categorias.component';
 import { LoginComponent } from './login/login.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
@@ -18,6 +19,8 @@ export const routes: Routes = [
   { path: 'lostAndFound', component: LostAndFoundComponent },
   { path: 'teacherlog', component: TeacherLogComponent },
   { path: 'studentlog', component: StudentLogComponent },
+  { path: 'zones', component: ZonasComponent },
+  { path: 'categorias', component: CategoriasComponent },
 ];
 
 @NgModule({

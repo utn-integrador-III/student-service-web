@@ -34,9 +34,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CategoriasComponent } from './categorias/categorias.component';
+import { CategoriasModalComponent } from './categorias-modal/categorias-modal.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
 import { StudentLogComponent } from './pages/student-log/student-log.component';
 
@@ -55,6 +58,8 @@ import { StudentLogComponent } from './pages/student-log/student-log.component';
     ModalAgregarZonaComponent,
     ZonasComponent,
     StudentLogComponent,
+    CategoriasComponent,
+    CategoriasModalComponent,
   ],
   imports: [
     FormsModule,
@@ -72,7 +77,7 @@ import { StudentLogComponent } from './pages/student-log/student-log.component';
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,
     ToastrModule.forRoot({
-      timeOut: 5000,
+      timeOut: 100,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
       closeButton: true,
@@ -92,6 +97,8 @@ import { StudentLogComponent } from './pages/student-log/student-log.component';
     provideAnimations(),
     provideToastr(),
     ToastService,
+    provideHttpClient(),
+    provideAnimationsAsync(),
   ],
 
   bootstrap: [AppComponent],

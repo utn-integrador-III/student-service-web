@@ -9,12 +9,12 @@
     <nav class="nav-menu">
       <ul>
         <li><a class='nav-link' [routerLink] = "['/home']">Inicio</a></li>
-        <li><a class='nav-link' [routerLink] = "['/example']">Ejemplos</a></li>
-        <li><a class='nav-link' [routerLink] = "['/lostAndFound']">Objectos perdido</a></li>
-        <li><a class='nav-link' [routerLink] = "['/teacherlog']">Bitacora Profesor</a></li>
-        <li><a class='nav-link' [routerLink] = "['/studentlog']">Bitacora estudiante</a></li>
+        <li><a class='nav-link' [routerLink] = "['/example']" routerLinkActive="active">Ejemplos</a></li>
+        <li><a routerLink="/lostAndFound" routerLinkActive="active">Objectos perdidos</a></li>
+        <li><a routerLink="/teacherlog" routerLinkActive="active">Bitacora profesor</a></li>
+        <li><a routerLink="/studentlog" routerLinkActive="active">Bitacora estudiante</a></li>
 
-
+        <li><a routerLink="/contacto" routerLinkActive="active">Contacto</a></li>
         <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
 
       </ul>
