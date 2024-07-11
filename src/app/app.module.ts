@@ -35,6 +35,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { CategoriasModalComponent } from './categorias-modal/categorias-modal.component';
+import { LoginModule } from './login/login.module';
+import { AgregarZonaModule } from './modal-agregar-zona/modal-agregar-zona.module';
+import { categoriasModalModule } from './categorias-modal/categorias-modal.module';
+import { ZoneModule } from './zonas/zonas.module';
+import { CategoriesModule } from './categorias/categorias.module';
+import { lostandfoundModule } from './pages/lost-items/lost-and-found/lost-and-found.module';
 
 @NgModule({
   declarations: [
@@ -45,12 +51,6 @@ import { CategoriasModalComponent } from './categorias-modal/categorias-modal.co
     HeaderComponent,
     FooterComponent,
     MenuComponent,
-    LostAndFoundComponent,
-    LoginComponent,
-    ZonasComponent,
-    ModalAgregarZonaComponent,
-    CategoriasComponent,
-    CategoriasModalComponent
   ],
   imports: [
     FormsModule,
@@ -80,6 +80,12 @@ import { CategoriasModalComponent } from './categorias-modal/categorias-modal.co
     FormsModule,
     MatDialogModule,
     MatToolbarModule,
+    LoginModule,
+    AgregarZonaModule,
+    categoriasModalModule,
+    ZoneModule,
+    CategoriesModule,
+    lostandfoundModule
   ],
 
   providers: [
