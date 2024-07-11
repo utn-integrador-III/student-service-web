@@ -7,15 +7,15 @@ import {
   MatHint,
   MatLabel,
   MatPrefix,
-  MatSuffix
-} from "./chunk-RWOGB7MJ.js";
+  MatSuffix,
+} from "./chunk-FIDIKFG3.js";
 import {
   FormGroupDirective,
   NgControl,
   NgForm,
-  Validators
+  Validators,
 } from "./chunk-6SIFVZUB.js";
-import "./chunk-JDGJ3NXP.js";
+import "./chunk-EYPFN56T.js";
 import {
   ErrorStateMatcher,
   MatCommonModule,
@@ -25,11 +25,9 @@ import {
   coerceElement,
   coerceNumberProperty,
   getSupportedInputTypes,
-  normalizePassiveListenerOptions
-} from "./chunk-J5J5GOVZ.js";
-import {
-  DOCUMENT
-} from "./chunk-4TXBC3YF.js";
+  normalizePassiveListenerOptions,
+} from "./chunk-4Z6FPAYW.js";
+import { DOCUMENT } from "./chunk-4TXBC3YF.js";
 import {
   Directive,
   ElementRef,
@@ -57,22 +55,15 @@ import {
   ɵɵdirectiveInject,
   ɵɵhostProperty,
   ɵɵinject,
-  ɵɵlistener
+  ɵɵlistener,
 } from "./chunk-6TNX45HQ.js";
-import {
-  fromEvent
-} from "./chunk-V2DXGMIT.js";
+import { fromEvent } from "./chunk-V2DXGMIT.js";
 import "./chunk-UKEHM6V6.js";
-import {
-  EMPTY,
-  Subject,
-  auditTime,
-  takeUntil
-} from "./chunk-ZDOIMVJD.js";
+import { EMPTY, Subject, auditTime, takeUntil } from "./chunk-ZDOIMVJD.js";
 
 // node_modules/@angular/cdk/fesm2022/text-field.mjs
 var listenerOptions = normalizePassiveListenerOptions({
-  passive: true
+  passive: true,
 });
 var _AutofillMonitor = class _AutofillMonitor {
   constructor(_platform, _ngZone) {
@@ -92,18 +83,28 @@ var _AutofillMonitor = class _AutofillMonitor {
     const result = new Subject();
     const cssClass = "cdk-text-field-autofilled";
     const listener = (event) => {
-      if (event.animationName === "cdk-text-field-autofill-start" && !element.classList.contains(cssClass)) {
+      if (
+        event.animationName === "cdk-text-field-autofill-start" &&
+        !element.classList.contains(cssClass)
+      ) {
         element.classList.add(cssClass);
-        this._ngZone.run(() => result.next({
-          target: event.target,
-          isAutofilled: true
-        }));
-      } else if (event.animationName === "cdk-text-field-autofill-end" && element.classList.contains(cssClass)) {
+        this._ngZone.run(() =>
+          result.next({
+            target: event.target,
+            isAutofilled: true,
+          })
+        );
+      } else if (
+        event.animationName === "cdk-text-field-autofill-end" &&
+        element.classList.contains(cssClass)
+      ) {
         element.classList.remove(cssClass);
-        this._ngZone.run(() => result.next({
-          target: event.target,
-          isAutofilled: false
-        }));
+        this._ngZone.run(() =>
+          result.next({
+            target: event.target,
+            isAutofilled: false,
+          })
+        );
       }
     };
     this._ngZone.runOutsideAngular(() => {
@@ -113,8 +114,12 @@ var _AutofillMonitor = class _AutofillMonitor {
     this._monitoredElements.set(element, {
       subject: result,
       unlisten: () => {
-        element.removeEventListener("animationstart", listener, listenerOptions);
-      }
+        element.removeEventListener(
+          "animationstart",
+          listener,
+          listenerOptions
+        );
+      },
     });
     return result;
   }
@@ -130,7 +135,9 @@ var _AutofillMonitor = class _AutofillMonitor {
     }
   }
   ngOnDestroy() {
-    this._monitoredElements.forEach((_info, element) => this.stopMonitoring(element));
+    this._monitoredElements.forEach((_info, element) =>
+      this.stopMonitoring(element)
+    );
   }
 };
 _AutofillMonitor.ɵfac = function AutofillMonitor_Factory(t) {
@@ -139,20 +146,33 @@ _AutofillMonitor.ɵfac = function AutofillMonitor_Factory(t) {
 _AutofillMonitor.ɵprov = ɵɵdefineInjectable({
   token: _AutofillMonitor,
   factory: _AutofillMonitor.ɵfac,
-  providedIn: "root"
+  providedIn: "root",
 });
 var AutofillMonitor = _AutofillMonitor;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(AutofillMonitor, [{
-    type: Injectable,
-    args: [{
-      providedIn: "root"
-    }]
-  }], () => [{
-    type: Platform
-  }, {
-    type: NgZone
-  }], null);
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      AutofillMonitor,
+      [
+        {
+          type: Injectable,
+          args: [
+            {
+              providedIn: "root",
+            },
+          ],
+        },
+      ],
+      () => [
+        {
+          type: Platform,
+        },
+        {
+          type: NgZone,
+        },
+      ],
+      null
+    );
 })();
 var _CdkAutofill = class _CdkAutofill {
   constructor(_elementRef, _autofillMonitor) {
@@ -161,40 +181,60 @@ var _CdkAutofill = class _CdkAutofill {
     this.cdkAutofill = new EventEmitter();
   }
   ngOnInit() {
-    this._autofillMonitor.monitor(this._elementRef).subscribe((event) => this.cdkAutofill.emit(event));
+    this._autofillMonitor
+      .monitor(this._elementRef)
+      .subscribe((event) => this.cdkAutofill.emit(event));
   }
   ngOnDestroy() {
     this._autofillMonitor.stopMonitoring(this._elementRef);
   }
 };
 _CdkAutofill.ɵfac = function CdkAutofill_Factory(t) {
-  return new (t || _CdkAutofill)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(AutofillMonitor));
+  return new (t || _CdkAutofill)(
+    ɵɵdirectiveInject(ElementRef),
+    ɵɵdirectiveInject(AutofillMonitor)
+  );
 };
 _CdkAutofill.ɵdir = ɵɵdefineDirective({
   type: _CdkAutofill,
   selectors: [["", "cdkAutofill", ""]],
   outputs: {
-    cdkAutofill: "cdkAutofill"
+    cdkAutofill: "cdkAutofill",
   },
-  standalone: true
+  standalone: true,
 });
 var CdkAutofill = _CdkAutofill;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CdkAutofill, [{
-    type: Directive,
-    args: [{
-      selector: "[cdkAutofill]",
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }, {
-    type: AutofillMonitor
-  }], {
-    cdkAutofill: [{
-      type: Output
-    }]
-  });
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      CdkAutofill,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: "[cdkAutofill]",
+              standalone: true,
+            },
+          ],
+        },
+      ],
+      () => [
+        {
+          type: ElementRef,
+        },
+        {
+          type: AutofillMonitor,
+        },
+      ],
+      {
+        cdkAutofill: [
+          {
+            type: Output,
+          },
+        ],
+      }
+    );
 })();
 var _CdkTextareaAutosize = class _CdkTextareaAutosize {
   /** Minimum amount of rows in the textarea. */
@@ -250,14 +290,20 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
   }
   /** Sets the minimum height of the textarea as determined by minRows. */
   _setMinHeight() {
-    const minHeight = this.minRows && this._cachedLineHeight ? `${this.minRows * this._cachedLineHeight}px` : null;
+    const minHeight =
+      this.minRows && this._cachedLineHeight
+        ? `${this.minRows * this._cachedLineHeight}px`
+        : null;
     if (minHeight) {
       this._textareaElement.style.minHeight = minHeight;
     }
   }
   /** Sets the maximum height of the textarea as determined by maxRows. */
   _setMaxHeight() {
-    const maxHeight = this.maxRows && this._cachedLineHeight ? `${this.maxRows * this._cachedLineHeight}px` : null;
+    const maxHeight =
+      this.maxRows && this._cachedLineHeight
+        ? `${this.maxRows * this._cachedLineHeight}px`
+        : null;
     if (maxHeight) {
       this._textareaElement.style.maxHeight = maxHeight;
     }
@@ -268,7 +314,9 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
       this.resizeToFitContent();
       this._ngZone.runOutsideAngular(() => {
         const window2 = this._getWindow();
-        fromEvent(window2, "resize").pipe(auditTime(16), takeUntil(this._destroyed)).subscribe(() => this.resizeToFitContent(true));
+        fromEvent(window2, "resize")
+          .pipe(auditTime(16), takeUntil(this._destroyed))
+          .subscribe(() => this.resizeToFitContent(true));
         this._textareaElement.addEventListener("focus", this._handleFocusEvent);
         this._textareaElement.addEventListener("blur", this._handleFocusEvent);
       });
@@ -314,7 +362,9 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
     const previousMargin = element.style.marginBottom || "";
     const isFirefox = this._platform.FIREFOX;
     const needsMarginFiller = isFirefox && this._hasFocus;
-    const measuringClass = isFirefox ? "cdk-textarea-autosize-measuring-firefox" : "cdk-textarea-autosize-measuring";
+    const measuringClass = isFirefox
+      ? "cdk-textarea-autosize-measuring-firefox"
+      : "cdk-textarea-autosize-measuring";
     if (needsMarginFiller) {
       element.style.marginBottom = `${element.clientHeight}px`;
     }
@@ -360,7 +410,11 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
     }
     const textarea = this._elementRef.nativeElement;
     const value = textarea.value;
-    if (!force && this._minRows === this._previousMinRows && value === this._previousValue) {
+    if (
+      !force &&
+      this._minRows === this._previousMinRows &&
+      value === this._previousValue
+    ) {
       return;
     }
     const scrollHeight = this._measureScrollHeight();
@@ -384,8 +438,7 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
       this._textareaElement.style.height = this._initialHeight;
     }
   }
-  _noopInputHandler() {
-  }
+  _noopInputHandler() {}
   /** Access injected document if available or fallback to global document reference */
   _getDocument() {
     return this._document || document;
@@ -401,17 +454,19 @@ var _CdkTextareaAutosize = class _CdkTextareaAutosize {
    * in order for it to scroll to the proper position.
    */
   _scrollToCaretPosition(textarea) {
-    const {
-      selectionStart,
-      selectionEnd
-    } = textarea;
+    const { selectionStart, selectionEnd } = textarea;
     if (!this._destroyed.isStopped && this._hasFocus) {
       textarea.setSelectionRange(selectionStart, selectionEnd);
     }
   }
 };
 _CdkTextareaAutosize.ɵfac = function CdkTextareaAutosize_Factory(t) {
-  return new (t || _CdkTextareaAutosize)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Platform), ɵɵdirectiveInject(NgZone), ɵɵdirectiveInject(DOCUMENT, 8));
+  return new (t || _CdkTextareaAutosize)(
+    ɵɵdirectiveInject(ElementRef),
+    ɵɵdirectiveInject(Platform),
+    ɵɵdirectiveInject(NgZone),
+    ɵɵdirectiveInject(DOCUMENT, 8)
+  );
 };
 _CdkTextareaAutosize.ɵdir = ɵɵdefineDirective({
   type: _CdkTextareaAutosize,
@@ -419,92 +474,132 @@ _CdkTextareaAutosize.ɵdir = ɵɵdefineDirective({
   hostAttrs: ["rows", "1", 1, "cdk-textarea-autosize"],
   hostBindings: function CdkTextareaAutosize_HostBindings(rf, ctx) {
     if (rf & 1) {
-      ɵɵlistener("input", function CdkTextareaAutosize_input_HostBindingHandler() {
-        return ctx._noopInputHandler();
-      });
+      ɵɵlistener(
+        "input",
+        function CdkTextareaAutosize_input_HostBindingHandler() {
+          return ctx._noopInputHandler();
+        }
+      );
     }
   },
   inputs: {
     minRows: [0, "cdkAutosizeMinRows", "minRows"],
     maxRows: [0, "cdkAutosizeMaxRows", "maxRows"],
     enabled: [2, "cdkTextareaAutosize", "enabled", booleanAttribute],
-    placeholder: "placeholder"
+    placeholder: "placeholder",
   },
   exportAs: ["cdkTextareaAutosize"],
   standalone: true,
-  features: [ɵɵInputTransformsFeature]
+  features: [ɵɵInputTransformsFeature],
 });
 var CdkTextareaAutosize = _CdkTextareaAutosize;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(CdkTextareaAutosize, [{
-    type: Directive,
-    args: [{
-      selector: "textarea[cdkTextareaAutosize]",
-      exportAs: "cdkTextareaAutosize",
-      host: {
-        "class": "cdk-textarea-autosize",
-        // Textarea elements that have the directive applied should have a single row by default.
-        // Browsers normally show two rows by default and therefore this limits the minRows binding.
-        "rows": "1",
-        "(input)": "_noopInputHandler()"
-      },
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }, {
-    type: Platform
-  }, {
-    type: NgZone
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [DOCUMENT]
-    }]
-  }], {
-    minRows: [{
-      type: Input,
-      args: ["cdkAutosizeMinRows"]
-    }],
-    maxRows: [{
-      type: Input,
-      args: ["cdkAutosizeMaxRows"]
-    }],
-    enabled: [{
-      type: Input,
-      args: [{
-        alias: "cdkTextareaAutosize",
-        transform: booleanAttribute
-      }]
-    }],
-    placeholder: [{
-      type: Input
-    }]
-  });
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      CdkTextareaAutosize,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: "textarea[cdkTextareaAutosize]",
+              exportAs: "cdkTextareaAutosize",
+              host: {
+                class: "cdk-textarea-autosize",
+                // Textarea elements that have the directive applied should have a single row by default.
+                // Browsers normally show two rows by default and therefore this limits the minRows binding.
+                rows: "1",
+                "(input)": "_noopInputHandler()",
+              },
+              standalone: true,
+            },
+          ],
+        },
+      ],
+      () => [
+        {
+          type: ElementRef,
+        },
+        {
+          type: Platform,
+        },
+        {
+          type: NgZone,
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional,
+            },
+            {
+              type: Inject,
+              args: [DOCUMENT],
+            },
+          ],
+        },
+      ],
+      {
+        minRows: [
+          {
+            type: Input,
+            args: ["cdkAutosizeMinRows"],
+          },
+        ],
+        maxRows: [
+          {
+            type: Input,
+            args: ["cdkAutosizeMaxRows"],
+          },
+        ],
+        enabled: [
+          {
+            type: Input,
+            args: [
+              {
+                alias: "cdkTextareaAutosize",
+                transform: booleanAttribute,
+              },
+            ],
+          },
+        ],
+        placeholder: [
+          {
+            type: Input,
+          },
+        ],
+      }
+    );
 })();
-var _TextFieldModule = class _TextFieldModule {
-};
+var _TextFieldModule = class _TextFieldModule {};
 _TextFieldModule.ɵfac = function TextFieldModule_Factory(t) {
   return new (t || _TextFieldModule)();
 };
 _TextFieldModule.ɵmod = ɵɵdefineNgModule({
   type: _TextFieldModule,
   imports: [CdkAutofill, CdkTextareaAutosize],
-  exports: [CdkAutofill, CdkTextareaAutosize]
+  exports: [CdkAutofill, CdkTextareaAutosize],
 });
 _TextFieldModule.ɵinj = ɵɵdefineInjector({});
 var TextFieldModule = _TextFieldModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(TextFieldModule, [{
-    type: NgModule,
-    args: [{
-      imports: [CdkAutofill, CdkTextareaAutosize],
-      exports: [CdkAutofill, CdkTextareaAutosize]
-    }]
-  }], null, null);
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      TextFieldModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              imports: [CdkAutofill, CdkTextareaAutosize],
+              exports: [CdkAutofill, CdkTextareaAutosize],
+            },
+          ],
+        },
+      ],
+      null,
+      null
+    );
 })();
 
 // node_modules/@angular/material/fesm2022/input.mjs
@@ -512,7 +607,17 @@ function getMatInputUnsupportedTypeError(type) {
   return Error(`Input type "${type}" isn't supported by matInput.`);
 }
 var MAT_INPUT_VALUE_ACCESSOR = new InjectionToken("MAT_INPUT_VALUE_ACCESSOR");
-var MAT_INPUT_INVALID_TYPES = ["button", "checkbox", "file", "hidden", "image", "radio", "range", "reset", "submit"];
+var MAT_INPUT_INVALID_TYPES = [
+  "button",
+  "checkbox",
+  "file",
+  "hidden",
+  "image",
+  "radio",
+  "range",
+  "reset",
+  "submit",
+];
 var nextUniqueId = 0;
 var _MatInput = class _MatInput {
   /**
@@ -544,7 +649,11 @@ var _MatInput = class _MatInput {
    * @docs-private
    */
   get required() {
-    return this._required ?? this.ngControl?.control?.hasValidator(Validators.required) ?? false;
+    return (
+      this._required ??
+      this.ngControl?.control?.hasValidator(Validators.required) ??
+      false
+    );
   }
   set required(value) {
     this._required = coerceBooleanProperty(value);
@@ -594,7 +703,18 @@ var _MatInput = class _MatInput {
   set errorState(value) {
     this._errorStateTracker.errorState = value;
   }
-  constructor(_elementRef, _platform, ngControl, parentForm, parentFormGroup, defaultErrorStateMatcher, inputValueAccessor, _autofillMonitor, ngZone, _formField) {
+  constructor(
+    _elementRef,
+    _platform,
+    ngControl,
+    parentForm,
+    parentFormGroup,
+    defaultErrorStateMatcher,
+    inputValueAccessor,
+    _autofillMonitor,
+    ngZone,
+    _formField
+  ) {
     this._elementRef = _elementRef;
     this._platform = _platform;
     this.ngControl = ngControl;
@@ -608,7 +728,14 @@ var _MatInput = class _MatInput {
     this._disabled = false;
     this._type = "text";
     this._readonly = false;
-    this._neverEmptyInputTypes = ["date", "datetime", "datetime-local", "month", "time", "week"].filter((t) => getSupportedInputTypes().has(t));
+    this._neverEmptyInputTypes = [
+      "date",
+      "datetime",
+      "datetime-local",
+      "month",
+      "time",
+      "week",
+    ].filter((t) => getSupportedInputTypes().has(t));
     this._iOSKeyupListener = (event) => {
       const el = event.target;
       if (!el.value && el.selectionStart === 0 && el.selectionEnd === 0) {
@@ -623,24 +750,37 @@ var _MatInput = class _MatInput {
     this.id = this.id;
     if (_platform.IOS) {
       ngZone.runOutsideAngular(() => {
-        _elementRef.nativeElement.addEventListener("keyup", this._iOSKeyupListener);
+        _elementRef.nativeElement.addEventListener(
+          "keyup",
+          this._iOSKeyupListener
+        );
       });
     }
-    this._errorStateTracker = new _ErrorStateTracker(defaultErrorStateMatcher, ngControl, parentFormGroup, parentForm, this.stateChanges);
+    this._errorStateTracker = new _ErrorStateTracker(
+      defaultErrorStateMatcher,
+      ngControl,
+      parentFormGroup,
+      parentForm,
+      this.stateChanges
+    );
     this._isServer = !this._platform.isBrowser;
     this._isNativeSelect = nodeName === "select";
     this._isTextarea = nodeName === "textarea";
     this._isInFormField = !!_formField;
     if (this._isNativeSelect) {
-      this.controlType = element.multiple ? "mat-native-select-multiple" : "mat-native-select";
+      this.controlType = element.multiple
+        ? "mat-native-select-multiple"
+        : "mat-native-select";
     }
   }
   ngAfterViewInit() {
     if (this._platform.isBrowser) {
-      this._autofillMonitor.monitor(this._elementRef.nativeElement).subscribe((event) => {
-        this.autofilled = event.isAutofilled;
-        this.stateChanges.next();
-      });
+      this._autofillMonitor
+        .monitor(this._elementRef.nativeElement)
+        .subscribe((event) => {
+          this.autofilled = event.isAutofilled;
+          this.stateChanges.next();
+        });
     }
   }
   ngOnChanges() {
@@ -652,13 +792,19 @@ var _MatInput = class _MatInput {
       this._autofillMonitor.stopMonitoring(this._elementRef.nativeElement);
     }
     if (this._platform.IOS) {
-      this._elementRef.nativeElement.removeEventListener("keyup", this._iOSKeyupListener);
+      this._elementRef.nativeElement.removeEventListener(
+        "keyup",
+        this._iOSKeyupListener
+      );
     }
   }
   ngDoCheck() {
     if (this.ngControl) {
       this.updateErrorState();
-      if (this.ngControl.disabled !== null && this.ngControl.disabled !== this.disabled) {
+      if (
+        this.ngControl.disabled !== null &&
+        this.ngControl.disabled !== this.disabled
+      ) {
         this.disabled = this.ngControl.disabled;
         this.stateChanges.next();
       }
@@ -681,8 +827,7 @@ var _MatInput = class _MatInput {
       this.stateChanges.next();
     }
   }
-  _onInput() {
-  }
+  _onInput() {}
   /** Does some manual dirty checking on the native input `value` property. */
   _dirtyCheckNativeValue() {
     const newValue = this._elementRef.nativeElement.value;
@@ -697,7 +842,9 @@ var _MatInput = class _MatInput {
     if (placeholder !== this._previousPlaceholder) {
       const element = this._elementRef.nativeElement;
       this._previousPlaceholder = placeholder;
-      placeholder ? element.setAttribute("placeholder", placeholder) : element.removeAttribute("placeholder");
+      placeholder
+        ? element.setAttribute("placeholder", placeholder)
+        : element.removeAttribute("placeholder");
     }
   }
   /** Gets the current placeholder of the form field. */
@@ -706,7 +853,10 @@ var _MatInput = class _MatInput {
   }
   /** Make sure the input is a supported type. */
   _validateType() {
-    if (MAT_INPUT_INVALID_TYPES.indexOf(this._type) > -1 && (typeof ngDevMode === "undefined" || ngDevMode)) {
+    if (
+      MAT_INPUT_INVALID_TYPES.indexOf(this._type) > -1 &&
+      (typeof ngDevMode === "undefined" || ngDevMode)
+    ) {
       throw getMatInputUnsupportedTypeError(this._type);
     }
   }
@@ -724,7 +874,12 @@ var _MatInput = class _MatInput {
    * @docs-private
    */
   get empty() {
-    return !this._isNeverEmpty() && !this._elementRef.nativeElement.value && !this._isBadInput() && !this.autofilled;
+    return (
+      !this._isNeverEmpty() &&
+      !this._elementRef.nativeElement.value &&
+      !this._isBadInput() &&
+      !this.autofilled
+    );
   }
   /**
    * Implemented as part of MatFormFieldControl.
@@ -734,7 +889,12 @@ var _MatInput = class _MatInput {
     if (this._isNativeSelect) {
       const selectElement = this._elementRef.nativeElement;
       const firstOption = selectElement.options[0];
-      return this.focused || selectElement.multiple || !this.empty || !!(selectElement.selectedIndex > -1 && firstOption && firstOption.label);
+      return (
+        this.focused ||
+        selectElement.multiple ||
+        !this.empty ||
+        !!(selectElement.selectedIndex > -1 && firstOption && firstOption.label)
+      );
     } else {
       return this.focused || !this.empty;
     }
@@ -745,7 +905,10 @@ var _MatInput = class _MatInput {
    */
   setDescribedByIds(ids) {
     if (ids.length) {
-      this._elementRef.nativeElement.setAttribute("aria-describedby", ids.join(" "));
+      this._elementRef.nativeElement.setAttribute(
+        "aria-describedby",
+        ids.join(" ")
+      );
     } else {
       this._elementRef.nativeElement.removeAttribute("aria-describedby");
     }
@@ -766,11 +929,28 @@ var _MatInput = class _MatInput {
   }
 };
 _MatInput.ɵfac = function MatInput_Factory(t) {
-  return new (t || _MatInput)(ɵɵdirectiveInject(ElementRef), ɵɵdirectiveInject(Platform), ɵɵdirectiveInject(NgControl, 10), ɵɵdirectiveInject(NgForm, 8), ɵɵdirectiveInject(FormGroupDirective, 8), ɵɵdirectiveInject(ErrorStateMatcher), ɵɵdirectiveInject(MAT_INPUT_VALUE_ACCESSOR, 10), ɵɵdirectiveInject(AutofillMonitor), ɵɵdirectiveInject(NgZone), ɵɵdirectiveInject(MAT_FORM_FIELD, 8));
+  return new (t || _MatInput)(
+    ɵɵdirectiveInject(ElementRef),
+    ɵɵdirectiveInject(Platform),
+    ɵɵdirectiveInject(NgControl, 10),
+    ɵɵdirectiveInject(NgForm, 8),
+    ɵɵdirectiveInject(FormGroupDirective, 8),
+    ɵɵdirectiveInject(ErrorStateMatcher),
+    ɵɵdirectiveInject(MAT_INPUT_VALUE_ACCESSOR, 10),
+    ɵɵdirectiveInject(AutofillMonitor),
+    ɵɵdirectiveInject(NgZone),
+    ɵɵdirectiveInject(MAT_FORM_FIELD, 8)
+  );
 };
 _MatInput.ɵdir = ɵɵdefineDirective({
   type: _MatInput,
-  selectors: [["input", "matInput", ""], ["textarea", "matInput", ""], ["select", "matNativeControl", ""], ["input", "matNativeControl", ""], ["textarea", "matNativeControl", ""]],
+  selectors: [
+    ["input", "matInput", ""],
+    ["textarea", "matInput", ""],
+    ["select", "matNativeControl", ""],
+    ["input", "matNativeControl", ""],
+    ["textarea", "matNativeControl", ""],
+  ],
   hostAttrs: [1, "mat-mdc-input-element"],
   hostVars: 18,
   hostBindings: function MatInput_HostBindings(rf, ctx) {
@@ -784,9 +964,24 @@ _MatInput.ɵdir = ɵɵdefineDirective({
       });
     }
     if (rf & 2) {
-      ɵɵhostProperty("id", ctx.id)("disabled", ctx.disabled)("required", ctx.required);
-      ɵɵattribute("name", ctx.name || null)("readonly", ctx.readonly && !ctx._isNativeSelect || null)("aria-invalid", ctx.empty && ctx.required ? null : ctx.errorState)("aria-required", ctx.required)("id", ctx.id);
-      ɵɵclassProp("mat-input-server", ctx._isServer)("mat-mdc-form-field-textarea-control", ctx._isInFormField && ctx._isTextarea)("mat-mdc-form-field-input-control", ctx._isInFormField)("mdc-text-field__input", ctx._isInFormField)("mat-mdc-native-select-inline", ctx._isInlineSelect());
+      ɵɵhostProperty("id", ctx.id)("disabled", ctx.disabled)(
+        "required",
+        ctx.required
+      );
+      ɵɵattribute("name", ctx.name || null)(
+        "readonly",
+        (ctx.readonly && !ctx._isNativeSelect) || null
+      )("aria-invalid", ctx.empty && ctx.required ? null : ctx.errorState)(
+        "aria-required",
+        ctx.required
+      )("id", ctx.id);
+      ɵɵclassProp("mat-input-server", ctx._isServer)(
+        "mat-mdc-form-field-textarea-control",
+        ctx._isInFormField && ctx._isTextarea
+      )("mat-mdc-form-field-input-control", ctx._isInFormField)(
+        "mdc-text-field__input",
+        ctx._isInFormField
+      )("mat-mdc-native-select-inline", ctx._isInlineSelect());
     }
   },
   inputs: {
@@ -799,158 +994,242 @@ _MatInput.ɵdir = ɵɵdefineDirective({
     errorStateMatcher: "errorStateMatcher",
     userAriaDescribedBy: [0, "aria-describedby", "userAriaDescribedBy"],
     value: "value",
-    readonly: "readonly"
+    readonly: "readonly",
   },
   exportAs: ["matInput"],
   standalone: true,
-  features: [ɵɵProvidersFeature([{
-    provide: MatFormFieldControl,
-    useExisting: _MatInput
-  }]), ɵɵNgOnChangesFeature]
+  features: [
+    ɵɵProvidersFeature([
+      {
+        provide: MatFormFieldControl,
+        useExisting: _MatInput,
+      },
+    ]),
+    ɵɵNgOnChangesFeature,
+  ],
 });
 var MatInput = _MatInput;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatInput, [{
-    type: Directive,
-    args: [{
-      selector: `input[matInput], textarea[matInput], select[matNativeControl],
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      MatInput,
+      [
+        {
+          type: Directive,
+          args: [
+            {
+              selector: `input[matInput], textarea[matInput], select[matNativeControl],
       input[matNativeControl], textarea[matNativeControl]`,
-      exportAs: "matInput",
-      host: {
-        "class": "mat-mdc-input-element",
-        // The BaseMatInput parent class adds `mat-input-element`, `mat-form-field-control` and
-        // `mat-form-field-autofill-control` to the CSS class list, but this should not be added for
-        // this MDC equivalent input.
-        "[class.mat-input-server]": "_isServer",
-        "[class.mat-mdc-form-field-textarea-control]": "_isInFormField && _isTextarea",
-        "[class.mat-mdc-form-field-input-control]": "_isInFormField",
-        "[class.mdc-text-field__input]": "_isInFormField",
-        "[class.mat-mdc-native-select-inline]": "_isInlineSelect()",
-        // Native input properties that are overwritten by Angular inputs need to be synced with
-        // the native input element. Otherwise property bindings for those don't work.
-        "[id]": "id",
-        "[disabled]": "disabled",
-        "[required]": "required",
-        "[attr.name]": "name || null",
-        "[attr.readonly]": "readonly && !_isNativeSelect || null",
-        // Only mark the input as invalid for assistive technology if it has a value since the
-        // state usually overlaps with `aria-required` when the input is empty and can be redundant.
-        "[attr.aria-invalid]": "(empty && required) ? null : errorState",
-        "[attr.aria-required]": "required",
-        // Native input properties that are overwritten by Angular inputs need to be synced with
-        // the native input element. Otherwise property bindings for those don't work.
-        "[attr.id]": "id",
-        "(focus)": "_focusChanged(true)",
-        "(blur)": "_focusChanged(false)",
-        "(input)": "_onInput()"
-      },
-      providers: [{
-        provide: MatFormFieldControl,
-        useExisting: MatInput
-      }],
-      standalone: true
-    }]
-  }], () => [{
-    type: ElementRef
-  }, {
-    type: Platform
-  }, {
-    type: NgControl,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Self
-    }]
-  }, {
-    type: NgForm,
-    decorators: [{
-      type: Optional
-    }]
-  }, {
-    type: FormGroupDirective,
-    decorators: [{
-      type: Optional
-    }]
-  }, {
-    type: ErrorStateMatcher
-  }, {
-    type: void 0,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Self
-    }, {
-      type: Inject,
-      args: [MAT_INPUT_VALUE_ACCESSOR]
-    }]
-  }, {
-    type: AutofillMonitor
-  }, {
-    type: NgZone
-  }, {
-    type: MatFormField,
-    decorators: [{
-      type: Optional
-    }, {
-      type: Inject,
-      args: [MAT_FORM_FIELD]
-    }]
-  }], {
-    disabled: [{
-      type: Input
-    }],
-    id: [{
-      type: Input
-    }],
-    placeholder: [{
-      type: Input
-    }],
-    name: [{
-      type: Input
-    }],
-    required: [{
-      type: Input
-    }],
-    type: [{
-      type: Input
-    }],
-    errorStateMatcher: [{
-      type: Input
-    }],
-    userAriaDescribedBy: [{
-      type: Input,
-      args: ["aria-describedby"]
-    }],
-    value: [{
-      type: Input
-    }],
-    readonly: [{
-      type: Input
-    }]
-  });
+              exportAs: "matInput",
+              host: {
+                class: "mat-mdc-input-element",
+                // The BaseMatInput parent class adds `mat-input-element`, `mat-form-field-control` and
+                // `mat-form-field-autofill-control` to the CSS class list, but this should not be added for
+                // this MDC equivalent input.
+                "[class.mat-input-server]": "_isServer",
+                "[class.mat-mdc-form-field-textarea-control]":
+                  "_isInFormField && _isTextarea",
+                "[class.mat-mdc-form-field-input-control]": "_isInFormField",
+                "[class.mdc-text-field__input]": "_isInFormField",
+                "[class.mat-mdc-native-select-inline]": "_isInlineSelect()",
+                // Native input properties that are overwritten by Angular inputs need to be synced with
+                // the native input element. Otherwise property bindings for those don't work.
+                "[id]": "id",
+                "[disabled]": "disabled",
+                "[required]": "required",
+                "[attr.name]": "name || null",
+                "[attr.readonly]": "readonly && !_isNativeSelect || null",
+                // Only mark the input as invalid for assistive technology if it has a value since the
+                // state usually overlaps with `aria-required` when the input is empty and can be redundant.
+                "[attr.aria-invalid]":
+                  "(empty && required) ? null : errorState",
+                "[attr.aria-required]": "required",
+                // Native input properties that are overwritten by Angular inputs need to be synced with
+                // the native input element. Otherwise property bindings for those don't work.
+                "[attr.id]": "id",
+                "(focus)": "_focusChanged(true)",
+                "(blur)": "_focusChanged(false)",
+                "(input)": "_onInput()",
+              },
+              providers: [
+                {
+                  provide: MatFormFieldControl,
+                  useExisting: MatInput,
+                },
+              ],
+              standalone: true,
+            },
+          ],
+        },
+      ],
+      () => [
+        {
+          type: ElementRef,
+        },
+        {
+          type: Platform,
+        },
+        {
+          type: NgControl,
+          decorators: [
+            {
+              type: Optional,
+            },
+            {
+              type: Self,
+            },
+          ],
+        },
+        {
+          type: NgForm,
+          decorators: [
+            {
+              type: Optional,
+            },
+          ],
+        },
+        {
+          type: FormGroupDirective,
+          decorators: [
+            {
+              type: Optional,
+            },
+          ],
+        },
+        {
+          type: ErrorStateMatcher,
+        },
+        {
+          type: void 0,
+          decorators: [
+            {
+              type: Optional,
+            },
+            {
+              type: Self,
+            },
+            {
+              type: Inject,
+              args: [MAT_INPUT_VALUE_ACCESSOR],
+            },
+          ],
+        },
+        {
+          type: AutofillMonitor,
+        },
+        {
+          type: NgZone,
+        },
+        {
+          type: MatFormField,
+          decorators: [
+            {
+              type: Optional,
+            },
+            {
+              type: Inject,
+              args: [MAT_FORM_FIELD],
+            },
+          ],
+        },
+      ],
+      {
+        disabled: [
+          {
+            type: Input,
+          },
+        ],
+        id: [
+          {
+            type: Input,
+          },
+        ],
+        placeholder: [
+          {
+            type: Input,
+          },
+        ],
+        name: [
+          {
+            type: Input,
+          },
+        ],
+        required: [
+          {
+            type: Input,
+          },
+        ],
+        type: [
+          {
+            type: Input,
+          },
+        ],
+        errorStateMatcher: [
+          {
+            type: Input,
+          },
+        ],
+        userAriaDescribedBy: [
+          {
+            type: Input,
+            args: ["aria-describedby"],
+          },
+        ],
+        value: [
+          {
+            type: Input,
+          },
+        ],
+        readonly: [
+          {
+            type: Input,
+          },
+        ],
+      }
+    );
 })();
-var _MatInputModule = class _MatInputModule {
-};
+var _MatInputModule = class _MatInputModule {};
 _MatInputModule.ɵfac = function MatInputModule_Factory(t) {
   return new (t || _MatInputModule)();
 };
 _MatInputModule.ɵmod = ɵɵdefineNgModule({
   type: _MatInputModule,
   imports: [MatCommonModule, MatFormFieldModule, MatInput],
-  exports: [MatInput, MatFormFieldModule, TextFieldModule, MatCommonModule]
+  exports: [MatInput, MatFormFieldModule, TextFieldModule, MatCommonModule],
 });
 _MatInputModule.ɵinj = ɵɵdefineInjector({
-  imports: [MatCommonModule, MatFormFieldModule, MatFormFieldModule, TextFieldModule, MatCommonModule]
+  imports: [
+    MatCommonModule,
+    MatFormFieldModule,
+    MatFormFieldModule,
+    TextFieldModule,
+    MatCommonModule,
+  ],
 });
 var MatInputModule = _MatInputModule;
 (() => {
-  (typeof ngDevMode === "undefined" || ngDevMode) && setClassMetadata(MatInputModule, [{
-    type: NgModule,
-    args: [{
-      imports: [MatCommonModule, MatFormFieldModule, MatInput],
-      exports: [MatInput, MatFormFieldModule, TextFieldModule, MatCommonModule]
-    }]
-  }], null, null);
+  (typeof ngDevMode === "undefined" || ngDevMode) &&
+    setClassMetadata(
+      MatInputModule,
+      [
+        {
+          type: NgModule,
+          args: [
+            {
+              imports: [MatCommonModule, MatFormFieldModule, MatInput],
+              exports: [
+                MatInput,
+                MatFormFieldModule,
+                TextFieldModule,
+                MatCommonModule,
+              ],
+            },
+          ],
+        },
+      ],
+      null,
+      null
+    );
 })();
 export {
   MAT_INPUT_VALUE_ACCESSOR,
@@ -962,6 +1241,6 @@ export {
   MatLabel,
   MatPrefix,
   MatSuffix,
-  getMatInputUnsupportedTypeError
+  getMatInputUnsupportedTypeError,
 };
 //# sourceMappingURL=@angular_material_input.js.map

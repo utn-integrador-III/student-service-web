@@ -5,4 +5,5 @@ export const environment = {
   URL_ZONE: process.env['URL_ZONE'],
   URL_LOSTANDFOUND: process.env['URL_LOSTANDFOUND'],
   URL_LOSTOBJECTSBYID: process.env['URL_LOSTOBJECTSBYID'],
+  URL_API_CATEGORY: process.env['URL_CATEGORY'],
 };
