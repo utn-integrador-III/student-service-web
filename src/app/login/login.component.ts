@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
+import { IAuthResponse } from './models/login.interface';
 
 @Component({
   selector: 'app-login',
@@ -17,11 +18,11 @@ export class LoginComponent {
     if (form.valid) {
       const { username, password } = form.value;
       this.authService.login(username, password).subscribe(
-        success => {
-          if (success) {
-            this.router.navigate(['/home']);
+        (response: IAuthResponse) => {
+          if (response.isError) {
+            this.errorMessage = response.errorMessage || 'Credenciales incorrectas';
           } else {
-            this.errorMessage = 'Credenciales incorrectas';
+            this.router.navigate(['/home']);
           }
         },
         error => {

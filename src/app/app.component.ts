@@ -5,8 +5,6 @@ import * as fromApp from './store/app.reducer';
 
 @Component({
   selector: 'app-root',
-  //standalone: true,
-  //imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -22,7 +20,5 @@ export class AppComponent implements OnInit {
   logOut(): void {
     this.userName = '';
     this.isAuth = false;
-    //this.store.dispatch(new LoginActios.LogoutUser());
-    //this.router.navigate(['/login']);
   }
 }
