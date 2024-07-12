@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { CategoriaServices } from '../Services/categoriasServices';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ToastService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-categorias-modal',
@@ -16,6 +17,8 @@ export class CategoriasModalComponent implements OnInit{
     private _fb: FormBuilder, 
     private _categoryService: CategoriaServices, 
     private _dialogRef: MatDialogRef<CategoriasModalComponent>,
+    private toasterService: ToastService,
+    
   @Inject(MAT_DIALOG_DATA) public data: any) {
     this.categoryForm = this._fb.group({
       category_name: ''
@@ -30,34 +33,29 @@ export class CategoriasModalComponent implements OnInit{
       if (this.data) {
         this._categoryService.actualizarCategoria(this.data._id, this.categoryForm.value).subscribe({
           next: (val: any) => {
-            console.log(this.data._id)
-            console.log(this.categoryForm.value)
-            alert('Se modificó');
+            console.log(this.data._id);
+            console.log(this.categoryForm.value);
+            this.toasterService.showSuccess('Se modificó correctamente', 'Éxito');
             this._dialogRef.close(true);
-          
           },
           error: (err: any) => {
             console.error(err);
-            alert(`Hubo un error`)
+            this.toasterService.showError('Hubo un error al modificar la categoría', 'Error');
             this._dialogRef.close(true);
           }
         });
       } else {
         this._categoryService.addCategory(this.categoryForm.value).subscribe({
           next: (val: any) => {
-            alert('La categoría se agregó correctamente');
+            this.toasterService.showSuccess('La categoría se agregó correctamente', 'Éxito');
             this._dialogRef.close(true);
           },
           error: (err: any) => {
             console.error(err);
+            this.toasterService.showError('Error al agregar zona', '400 Bad Request');
           }
         });
       }
     }
-  }
-
-
-  CancelarDialog() {
-    this._dialogRef.close();
   }
 }
