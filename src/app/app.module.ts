@@ -11,8 +11,13 @@ import { ModuleObjectsComponent } from './module-objects/module-objects.componen
 import { appReducer } from './store/app.reducer';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http';
+
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -35,6 +40,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { CategoriasModalComponent } from './categorias-modal/categorias-modal.component';
+import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
+import { StudentLogComponent } from './pages/student-log/student-log.component';
 
 @NgModule({
   declarations: [
@@ -47,10 +54,12 @@ import { CategoriasModalComponent } from './categorias-modal/categorias-modal.co
     MenuComponent,
     LostAndFoundComponent,
     LoginComponent,
-    ZonasComponent,
+    TeacherLogComponent,
     ModalAgregarZonaComponent,
+    ZonasComponent,
+    StudentLogComponent,
     CategoriasComponent,
-    CategoriasModalComponent
+    CategoriasModalComponent,
   ],
   imports: [
     FormsModule,
@@ -63,6 +72,7 @@ import { CategoriasModalComponent } from './categorias-modal/categorias-modal.co
     BrowserAnimationsModule,
     MatButtonModule,
     CommonModule,
+    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
     BrowserAnimationsModule,
@@ -88,7 +98,7 @@ import { CategoriasModalComponent } from './categorias-modal/categorias-modal.co
     provideToastr(),
     ToastService,
     provideHttpClient(),
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
 
   bootstrap: [AppComponent],
