@@ -9,8 +9,8 @@ export const environment = {
   URL_AUTH: '',
   URL_ZONE: '',
   URL_API_CATEGORY: '',
-  URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
-  URL_LOSTOBJECTSBYID: 'http://localhost:5001/lostObject',
+  URL_LOSTANDFOUND: '',
+  URL_LOSTOBJECTSBYID: '',
 };
 
 /*

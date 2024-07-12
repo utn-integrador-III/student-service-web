@@ -9,15 +9,12 @@ import {
   OverlayRef,
   PortalModule,
   TemplatePortal
-} from "./chunk-LO46PKMP.js";
+} from "./chunk-GZ3MZ5GU.js";
 import {
-<<<<<<< HEAD
-=======
   CdkScrollable
-} from "./chunk-YNFP5AIY.js";
+} from "./chunk-UKBQM3ZS.js";
 import "./chunk-3CL3OIUZ.js";
 import {
->>>>>>> 3a4c80c17ccfa73b05edbb431c7e6d70a6a98f78
   animate,
   animateChild,
   group,
@@ -27,10 +24,6 @@ import {
   transition,
   trigger
 } from "./chunk-EYPFN56T.js";
-import {
-  CdkScrollable
-} from "./chunk-UKBQM3ZS.js";
-import "./chunk-3CL3OIUZ.js";
 import {
   A11yModule,
   Directionality,
@@ -43,7 +36,7 @@ import {
   _getFocusedElementPierceShadowDom,
   coerceNumberProperty,
   hasModifierKey
-} from "./chunk-K25SD44Z.js";
+} from "./chunk-4Z6FPAYW.js";
 import {
   DOCUMENT,
   Location
@@ -68,6 +61,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation$1,
+  afterNextRender,
   inject,
   setClassMetadata,
   ɵɵHostDirectivesFeature,
@@ -93,11 +87,11 @@ import {
   ɵɵtemplate,
   ɵɵviewQuery
 } from "./chunk-6TNX45HQ.js";
+import "./chunk-UKEHM6V6.js";
 import {
   defer,
   merge
 } from "./chunk-V2DXGMIT.js";
-import "./chunk-UKEHM6V6.js";
 import {
   Subject,
   __spreadProps,
@@ -151,6 +145,8 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
     this._closeInteractionType = null;
     this._ariaLabelledByQueue = [];
     this._changeDetectorRef = inject(ChangeDetectorRef);
+    this._injector = inject(Injector);
+    this._isDestroyed = false;
     this.attachDomPortal = (portal) => {
       if (this._portalOutlet.hasAttached() && (typeof ngDevMode === "undefined" || ngDevMode)) {
         throwDialogContentAlreadyAttachedError();
@@ -188,6 +184,7 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
     this._trapFocus();
   }
   ngOnDestroy() {
+    this._isDestroyed = true;
     this._restoreFocus();
   }
   /**
@@ -256,29 +253,35 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
    * cannot be moved then focus will go to the dialog container.
    */
   _trapFocus() {
-    const element = this._elementRef.nativeElement;
-    switch (this._config.autoFocus) {
-      case false:
-      case "dialog":
-        if (!this._containsFocus()) {
-          element.focus();
-        }
-        break;
-      case true:
-      case "first-tabbable":
-        this._focusTrap?.focusInitialElementWhenReady().then((focusedSuccessfully) => {
+    if (this._isDestroyed) {
+      return;
+    }
+    afterNextRender(() => {
+      const element = this._elementRef.nativeElement;
+      switch (this._config.autoFocus) {
+        case false:
+        case "dialog":
+          if (!this._containsFocus()) {
+            element.focus();
+          }
+          break;
+        case true:
+        case "first-tabbable":
+          const focusedSuccessfully = this._focusTrap?.focusInitialElement();
           if (!focusedSuccessfully) {
             this._focusDialogContainer();
           }
-        });
-        break;
-      case "first-heading":
-        this._focusByCssSelector('h1, h2, h3, h4, h5, h6, [role="heading"]');
-        break;
-      default:
-        this._focusByCssSelector(this._config.autoFocus);
-        break;
-    }
+          break;
+        case "first-heading":
+          this._focusByCssSelector('h1, h2, h3, h4, h5, h6, [role="heading"]');
+          break;
+        default:
+          this._focusByCssSelector(this._config.autoFocus);
+          break;
+      }
+    }, {
+      injector: this._injector
+    });
   }
   /** Restores focus to the element that was focused before the dialog opened. */
   _restoreFocus() {
@@ -887,7 +890,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
     this._enterAnimationDuration = this._animationsEnabled ? parseCssTime(this._config.enterAnimationDuration) ?? OPEN_ANIMATION_DURATION : 0;
     this._exitAnimationDuration = this._animationsEnabled ? parseCssTime(this._config.exitAnimationDuration) ?? CLOSE_ANIMATION_DURATION : 0;
     this._animationTimer = null;
-    this._isDestroyed = false;
     this._finishDialogOpen = () => {
       this._clearAnimationClasses();
       this._openAnimationDone(this._enterAnimationDuration);
@@ -975,9 +977,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
    * be called by sub-classes that use different animation implementations.
    */
   _openAnimationDone(totalTime) {
-    if (this._isDestroyed) {
-      return;
-    }
     if (this._config.delayFocusTrap) {
       this._trapFocus();
     }
@@ -991,7 +990,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
     if (this._animationTimer !== null) {
       clearTimeout(this._animationTimer);
     }
-    this._isDestroyed = true;
   }
   attachComponentPortal(portal) {
     const ref = super.attachComponentPortal(portal);

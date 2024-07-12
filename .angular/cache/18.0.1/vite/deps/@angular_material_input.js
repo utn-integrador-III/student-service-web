@@ -1,4 +1,10 @@
 import {
+  FormGroupDirective,
+  NgControl,
+  NgForm,
+  Validators
+} from "./chunk-6SIFVZUB.js";
+import {
   MAT_FORM_FIELD,
   MatError,
   MatFormField,
@@ -8,18 +14,8 @@ import {
   MatLabel,
   MatPrefix,
   MatSuffix
-<<<<<<< HEAD
 } from "./chunk-FIDIKFG3.js";
 import "./chunk-EYPFN56T.js";
-=======
-} from "./chunk-IKIS4K2T.js";
->>>>>>> 3a4c80c17ccfa73b05edbb431c7e6d70a6a98f78
-import {
-  FormGroupDirective,
-  NgControl,
-  NgForm,
-  Validators
-} from "./chunk-6SIFVZUB.js";
 import {
   ErrorStateMatcher,
   MatCommonModule,
@@ -30,7 +26,7 @@ import {
   coerceNumberProperty,
   getSupportedInputTypes,
   normalizePassiveListenerOptions
-} from "./chunk-K25SD44Z.js";
+} from "./chunk-4Z6FPAYW.js";
 import {
   DOCUMENT
 } from "./chunk-4TXBC3YF.js";
@@ -63,10 +59,10 @@ import {
   ɵɵinject,
   ɵɵlistener
 } from "./chunk-6TNX45HQ.js";
+import "./chunk-UKEHM6V6.js";
 import {
   fromEvent
 } from "./chunk-V2DXGMIT.js";
-import "./chunk-UKEHM6V6.js";
 import {
   EMPTY,
   Subject,
