@@ -12,7 +12,6 @@ import { appReducer } from './store/app.reducer';
 import {
   provideAnimations,
 } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
