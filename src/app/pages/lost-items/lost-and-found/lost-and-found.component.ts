@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { LostAndFoundService } from '../../../services/service-LostAndFound/LostAndFound.service';
 import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
 
 @Component({
   selector: 'app-lost-and-found',
