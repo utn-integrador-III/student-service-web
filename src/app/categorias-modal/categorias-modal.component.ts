@@ -1,28 +1,28 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CategoriaServices } from '../Services/categoriasServices';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToastService } from '../services/toaster.service';
+import { CategoriaServices } from '../Services/categoriasServices';
 
 @Component({
   selector: 'app-categorias-modal',
   templateUrl: './categorias-modal.component.html',
-  styleUrl: './categorias-modal.component.css'
+  styleUrl: './categorias-modal.component.css',
 })
-export class CategoriasModalComponent implements OnInit{
+export class CategoriasModalComponent implements OnInit {
   categoryForm: FormGroup;
 
   constructor(
-    private _fb: FormBuilder, 
-    private _categoryService: CategoriaServices, 
+    private _fb: FormBuilder,
+    private _categoryService: CategoriaServices,
     private _dialogRef: MatDialogRef<CategoriasModalComponent>,
     private toasterService: ToastService,
     
   @Inject(MAT_DIALOG_DATA) public data: any) {
     this.categoryForm = this._fb.group({
-      category_name: ''
-    })
+      category_name: '',
+    });
   }
   ngOnInit(): void {
     this.categoryForm.patchValue(this.data);
@@ -57,5 +57,9 @@ export class CategoriasModalComponent implements OnInit{
         });
       }
     }
+  }
+
+  CancelarDialog() {
+    this._dialogRef.close();
   }
 }
