@@ -1,9 +1,7 @@
-
 export class IAuth {
-    userName: string= '';
-    email: string='';
-    password: string='';
-    role: string='';
-    isAuthenticated: boolean = false;
-    isActive: true;
+    email: string = '';
+    name: string = '';
+    status: string = '';
+    role_id: string[] = [];
+    token: string = '';
 }

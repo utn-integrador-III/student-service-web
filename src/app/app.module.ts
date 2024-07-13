@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
@@ -42,7 +42,8 @@ import { CategoriasComponent } from './categorias/categorias.component';
 import { CategoriasModalComponent } from './categorias-modal/categorias-modal.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
 import { StudentLogComponent } from './pages/student-log/student-log.component';
-
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,6 +91,8 @@ import { StudentLogComponent } from './pages/student-log/student-log.component';
     FormsModule,
     MatDialogModule,
     MatToolbarModule,
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 
   providers: [
