@@ -1,10 +1,10 @@
 import {
   DomRendererFactory2
-} from "./chunk-UBPJPIXQ.js";
-import "./chunk-Z23FLDJT.js";
+} from "./chunk-2BVQEHYR.js";
+import "./chunk-D3HZQ4MB.js";
 import {
   DOCUMENT
-} from "./chunk-XQBPRKIN.js";
+} from "./chunk-4TXBC3YF.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionScheduler,
@@ -18,11 +18,10 @@ import {
   setClassMetadata,
   ɵɵdefineInjectable,
   ɵɵinvalidFactory
-} from "./chunk-SXBXGRCY.js";
-import "./chunk-S6KPQDJK.js";
-import "./chunk-5W7TR2ZS.js";
-import "./chunk-UA44W22Y.js";
-import "./chunk-QOHD3WUR.js";
+} from "./chunk-6TNX45HQ.js";
+import "./chunk-V2DXGMIT.js";
+import "./chunk-UKEHM6V6.js";
+import "./chunk-ZDOIMVJD.js";
 
 // node_modules/@angular/platform-browser/fesm2022/animations/async.mjs
 var ANIMATION_PREFIX = "@";
@@ -50,7 +49,7 @@ var _AsyncAnimationRendererFactory = class _AsyncAnimationRendererFactory {
    * @internal
    */
   loadImpl() {
-    const moduleImpl = this.moduleImpl ?? import("./browser-GMVJ76RB.js").then((m) => m);
+    const moduleImpl = this.moduleImpl ?? import("./browser-6Y3XNWI4.js").then((m) => m);
     return moduleImpl.catch((e) => {
       throw new RuntimeError(5300, (typeof ngDevMode === "undefined" || ngDevMode) && "Async loading for animations package was enabled, but loading failed. Angular falls back to using regular rendering. No animations will be displayed and their styles won't be applied.");
     }).then(({

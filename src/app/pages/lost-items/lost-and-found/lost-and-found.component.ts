@@ -1,20 +1,92 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
 
 @Component({
   selector: 'app-lost-and-found',
   templateUrl: './lost-and-found.component.html',
   styleUrls: ['./lost-and-found.component.css'],
 })
-export class LostAndFoundComponent {
-  displayedColumns: string[] = [
-    'image',
-    'name',
-    'place',
-    'category',
-    'accions',
-  ];
-  dataSource = new MatTableDataSource();
+export class LostAndFoundComponent implements OnInit {
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['image', 'name', 'description', 'actions'];
+  @ViewChild('addModal') addModal!: ElementRef;
+
+  newObject: any = {}; // Object to hold data for new lost object
+
+  constructor(
+    private srvlostObjects: LostAndFoundService,
+    private toastr: ToastrService
+  ) {
+    this.dataSource = new MatTableDataSource([]);
+  }
+
+  ngOnInit(): void {
+    this.loadObjects();
+  }
+
+  loadObjects() {
+    this.srvlostObjects.getObjects().subscribe(
+      (response: any) => {
+        console.log(response);
+        this.dataSource.data = response.data;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los objectos.');
+        console.error('Error al cargar los objectos:', error);
+      }
+    );
+  }
+
+  addLostObject() {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr)$/i;
+
+    if (
+      !this.newObject.name ||
+      !this.newObject.description ||
+      !this.newObject.user_email
+    ) {
+      this.toastr.error('Por favor llene los espacios');
+      return;
+    }
+    if (!emailRegex.test(this.newObject.user_email)) {
+      this.toastr.error('El formato del correo es incorrecto');
+      return;
+    }
+
+    const fixedSafekeeper = { user_email: 'semataoe@utn.ac.cr' };
+
+    this.newObject.safekeeper = [fixedSafekeeper];
+
+    this.srvlostObjects.addObjects(this.newObject).subscribe(
+      (response) => {
+        this.toastr.success('Objeto añadido exitosamente');
+        this.loadObjects();
+        this.closeModal();
+      },
+      (error) => {
+        this.toastr.error('Error al añadir el objeto', error);
+      }
+    );
+  }
+
+  closeModal() {
+    this.clearForm();
+    this.resetModalFields();
+    const modalElement = this.addModal.nativeElement;
+    const backdropElement = document.querySelector('.modal-backdrop');
+
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
+
+    if (backdropElement) {
+      backdropElement.parentNode!.removeChild(backdropElement);
+    }
+
+    document.body.classList.remove('modal-open');
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -46,6 +118,7 @@ export class LostAndFoundComponent {
     imagePreview.style.display = 'none';
     fileInput.value = '';
   }
+
   clearForm() {
     this.dataSource.filter = '';
     this.resetImagePreview();
@@ -63,6 +136,7 @@ export class LostAndFoundComponent {
       fileInput.value = '';
     }
   }
+
   resetModalFields() {
     const fileInput = document.getElementById('item-image') as HTMLInputElement;
     const imagePreview = document.getElementById(
@@ -72,10 +146,10 @@ export class LostAndFoundComponent {
       'item-name'
     ) as HTMLInputElement;
     const itemCategoryInput = document.getElementById(
-      'item-category'
+      'item-descripcion'
     ) as HTMLInputElement;
     const itemLocationInput = document.getElementById(
-      'item-location'
+      'item-email'
     ) as HTMLInputElement;
 
     if (fileInput) {
@@ -95,9 +169,18 @@ export class LostAndFoundComponent {
       itemLocationInput.value = '';
     }
   }
-
-  closeModal() {
-    this.clearForm();
-    this.resetModalFields();
+  deleteObject(id: string): void {
+    this.srvlostObjects.deleteObjects(id).subscribe(
+      () => {
+        this.toastr.success('Objeto eliminado con éxito');
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item._id !== id
+        );
+      },
+      (error) => {
+        this.toastr.error('Error al eliminar el objeto');
+        console.error('Error al eliminar el objeto:', error);
+      }
+    );
   }
 }

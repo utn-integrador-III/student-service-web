@@ -9,11 +9,11 @@ import {
   OverlayRef,
   PortalModule,
   TemplatePortal
-} from "./chunk-TD42C575.js";
+} from "./chunk-GZ3MZ5GU.js";
 import {
   CdkScrollable
-} from "./chunk-JY2EFIRU.js";
-import "./chunk-NWTCNXLS.js";
+} from "./chunk-UKBQM3ZS.js";
+import "./chunk-3CL3OIUZ.js";
 import {
   animate,
   animateChild,
@@ -23,7 +23,7 @@ import {
   style,
   transition,
   trigger
-} from "./chunk-W5VBPQGV.js";
+} from "./chunk-EYPFN56T.js";
 import {
   A11yModule,
   Directionality,
@@ -36,11 +36,11 @@ import {
   _getFocusedElementPierceShadowDom,
   coerceNumberProperty,
   hasModifierKey
-} from "./chunk-KGP5PHB2.js";
+} from "./chunk-4Z6FPAYW.js";
 import {
   DOCUMENT,
   Location
-} from "./chunk-XQBPRKIN.js";
+} from "./chunk-4TXBC3YF.js";
 import {
   ANIMATION_MODULE_TYPE,
   ChangeDetectionStrategy,
@@ -61,6 +61,7 @@ import {
   TemplateRef,
   ViewChild,
   ViewEncapsulation$1,
+  afterNextRender,
   inject,
   setClassMetadata,
   ɵɵHostDirectivesFeature,
@@ -85,23 +86,21 @@ import {
   ɵɵqueryRefresh,
   ɵɵtemplate,
   ɵɵviewQuery
-} from "./chunk-SXBXGRCY.js";
+} from "./chunk-6TNX45HQ.js";
 import {
   defer,
   merge
-} from "./chunk-S6KPQDJK.js";
-import "./chunk-5W7TR2ZS.js";
+} from "./chunk-V2DXGMIT.js";
+import "./chunk-UKEHM6V6.js";
 import {
   Subject,
+  __spreadProps,
+  __spreadValues,
   filter,
   of,
   startWith,
   take
-} from "./chunk-UA44W22Y.js";
-import {
-  __spreadProps,
-  __spreadValues
-} from "./chunk-QOHD3WUR.js";
+} from "./chunk-ZDOIMVJD.js";
 
 // node_modules/@angular/cdk/fesm2022/dialog.mjs
 function CdkDialogContainer_ng_template_0_Template(rf, ctx) {
@@ -146,6 +145,8 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
     this._closeInteractionType = null;
     this._ariaLabelledByQueue = [];
     this._changeDetectorRef = inject(ChangeDetectorRef);
+    this._injector = inject(Injector);
+    this._isDestroyed = false;
     this.attachDomPortal = (portal) => {
       if (this._portalOutlet.hasAttached() && (typeof ngDevMode === "undefined" || ngDevMode)) {
         throwDialogContentAlreadyAttachedError();
@@ -183,6 +184,7 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
     this._trapFocus();
   }
   ngOnDestroy() {
+    this._isDestroyed = true;
     this._restoreFocus();
   }
   /**
@@ -251,29 +253,35 @@ var _CdkDialogContainer = class _CdkDialogContainer extends BasePortalOutlet {
    * cannot be moved then focus will go to the dialog container.
    */
   _trapFocus() {
-    const element = this._elementRef.nativeElement;
-    switch (this._config.autoFocus) {
-      case false:
-      case "dialog":
-        if (!this._containsFocus()) {
-          element.focus();
-        }
-        break;
-      case true:
-      case "first-tabbable":
-        this._focusTrap?.focusInitialElementWhenReady().then((focusedSuccessfully) => {
+    if (this._isDestroyed) {
+      return;
+    }
+    afterNextRender(() => {
+      const element = this._elementRef.nativeElement;
+      switch (this._config.autoFocus) {
+        case false:
+        case "dialog":
+          if (!this._containsFocus()) {
+            element.focus();
+          }
+          break;
+        case true:
+        case "first-tabbable":
+          const focusedSuccessfully = this._focusTrap?.focusInitialElement();
           if (!focusedSuccessfully) {
             this._focusDialogContainer();
           }
-        });
-        break;
-      case "first-heading":
-        this._focusByCssSelector('h1, h2, h3, h4, h5, h6, [role="heading"]');
-        break;
-      default:
-        this._focusByCssSelector(this._config.autoFocus);
-        break;
-    }
+          break;
+        case "first-heading":
+          this._focusByCssSelector('h1, h2, h3, h4, h5, h6, [role="heading"]');
+          break;
+        default:
+          this._focusByCssSelector(this._config.autoFocus);
+          break;
+      }
+    }, {
+      injector: this._injector
+    });
   }
   /** Restores focus to the element that was focused before the dialog opened. */
   _restoreFocus() {
@@ -882,7 +890,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
     this._enterAnimationDuration = this._animationsEnabled ? parseCssTime(this._config.enterAnimationDuration) ?? OPEN_ANIMATION_DURATION : 0;
     this._exitAnimationDuration = this._animationsEnabled ? parseCssTime(this._config.exitAnimationDuration) ?? CLOSE_ANIMATION_DURATION : 0;
     this._animationTimer = null;
-    this._isDestroyed = false;
     this._finishDialogOpen = () => {
       this._clearAnimationClasses();
       this._openAnimationDone(this._enterAnimationDuration);
@@ -970,9 +977,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
    * be called by sub-classes that use different animation implementations.
    */
   _openAnimationDone(totalTime) {
-    if (this._isDestroyed) {
-      return;
-    }
     if (this._config.delayFocusTrap) {
       this._trapFocus();
     }
@@ -986,7 +990,6 @@ var _MatDialogContainer = class _MatDialogContainer extends CdkDialogContainer {
     if (this._animationTimer !== null) {
       clearTimeout(this._animationTimer);
     }
-    this._isDestroyed = true;
   }
   attachComponentPortal(portal) {
     const ref = super.attachComponentPortal(portal);

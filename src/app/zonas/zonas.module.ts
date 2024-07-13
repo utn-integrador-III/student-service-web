@@ -27,30 +27,10 @@ import { ZonasComponent } from './zonas.component';
   ],
 
   imports: [
-    FormsModule,
-    BrowserModule,
-    MatIconModule,
-    ReactiveFormsModule,
     MatTableModule,
-    MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule,
     MatButtonModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 100,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      closeButton: true,
-      progressBar: true,
-    }),
-    MatSidenavModule,
-    MatCardModule,
-    MatListModule,
     MatPaginatorModule,
-    FormsModule,
-    MatDialogModule,
     MatToolbarModule,
   ]
 })

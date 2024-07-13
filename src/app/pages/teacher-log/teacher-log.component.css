@@ -1,0 +1,48 @@
+.titulo{
+    text-align: center;
+    color: #1B3069;
+    font-size: 20px;
+    margin-top: 30px;
+    font-style: normal;
+}
+.linea-horizontal {
+    border-top: 2px solid #1B3069; /* Ajustado a un color más oscuro */
+    margin: 0 auto;
+}
+.linea-vertical {
+    border-left: 2px solid rgb(27, 48, 105) ;
+    height: 200%;
+}
+.llenadoDatos{
+    width: 620px;
+}
+.inputs{
+    /*width: 462px;*/
+    margin: 0 auto; 
+    display: block; 
+    border-radius: 3px;
+    height: 50px;
+    background-color:#EEEEEE ;
+}
+.buttonApertura{
+    background-color:#1B3069 ;
+    color: #EEEEEE;
+    margin: 0 auto; 
+    display: block; 
+}
+.divDerecha { 
+    width: 900px;
+    margin-left: 620px; /* Alineación con la línea vertical */
+    margin-top: -250px; /* Ajuste vertical */
+    /* Otros estilos según sea necesario */
+}
+table{
+    background-color: #89C1E0;
+    text-align: center;
+}
+th, td{
+    text-align: center;
+    color: #EEEEEE;
+    /*font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;*/
+}
+

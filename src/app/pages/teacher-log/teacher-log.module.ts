@@ -19,39 +19,18 @@ import { provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ModuleObjectsComponent } from './module-objects.component';
+import { TeacherLogComponent } from './teacher-log.component';
 
 @NgModule({
   declarations: [
-    ModuleObjectsComponent,
+    TeacherLogComponent,
   ],
 
   imports: [
-    FormsModule,
-    BrowserModule,
-    MatIconModule,
-    ReactiveFormsModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
-    BrowserAnimationsModule,
     MatButtonModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    ToastrModule.forRoot({
-      timeOut: 100,
-      positionClass: 'toast-bottom-right',
-      preventDuplicates: true,
-      closeButton: true,
-      progressBar: true,
-    }),
-    MatSidenavModule,
-    MatCardModule,
-    MatListModule,
-    MatPaginatorModule,
-    FormsModule,
-    MatDialogModule,
-    MatToolbarModule,
+    MatInputModule,
+    MatIconModule
   ]
 })
-export class ModuleObjectsModule { }
+export class teacherLogModule { }

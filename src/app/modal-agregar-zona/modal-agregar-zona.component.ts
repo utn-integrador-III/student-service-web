@@ -6,7 +6,7 @@ import { ToastService } from '../services/toaster.service';
 @Component({
   selector: 'app-modal-agregar-zona',
   templateUrl: './modal-agregar-zona.component.html',
-  styleUrls: ['./modal-agregar-zona.component.css']
+  styleUrls: ['./modal-agregar-zona.component.css'],
 })
 export class ModalAgregarZonaComponent {
   nombre: string = '';
@@ -29,13 +29,25 @@ export class ModalAgregarZonaComponent {
 
   guardar(form: NgForm): void {
     if (form.valid) {
-      if (this.nombre === this.originalNombre && this.localidad === this.originalLocalidad) {
-        this.toasterService.showWarning('Debe actualizar algún dato antes de guardar', 'Advertencia');
+      if (
+        this.nombre === this.originalNombre &&
+        this.localidad === this.originalLocalidad
+      ) {
+        this.toasterService.showWarning(
+          'Debe actualizar algún dato antes de guardar',
+          'Advertencia'
+        );
       } else {
-        this.dialogRef.close({ nombre: this.nombre, localidad: this.localidad });
+        this.dialogRef.close({
+          nombre: this.nombre,
+          localidad: this.localidad,
+        });
       }
     } else {
-      this.toasterService.showError('Formulario inválido. Por favor, completa todos los campos.', 'Error');
+      this.toasterService.showError(
+        'Formulario inválido. Por favor, completa todos los campos.',
+        'Error'
+      );
     }
   }
 
