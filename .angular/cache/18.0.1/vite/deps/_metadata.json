@@ -156,8 +156,8 @@
     }
   },
   "chunks": {
-    "browser-6Y3XNWI4": {
-      "file": "browser-6Y3XNWI4.js"
+    "browser-Q3BIT6LX": {
+      "file": "browser-Q3BIT6LX.js"
     },
     "chunk-D7KWRYQF": {
       "file": "chunk-D7KWRYQF.js"
@@ -198,11 +198,11 @@
     "chunk-6TNX45HQ": {
       "file": "chunk-6TNX45HQ.js"
     },
-    "chunk-V2DXGMIT": {
-      "file": "chunk-V2DXGMIT.js"
-    },
     "chunk-UKEHM6V6": {
       "file": "chunk-UKEHM6V6.js"
+    },
+    "chunk-V2DXGMIT": {
+      "file": "chunk-V2DXGMIT.js"
     },
     "chunk-ZDOIMVJD": {
       "file": "chunk-ZDOIMVJD.js"
