@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, isDevMode } from '@angular/core';
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
@@ -25,7 +26,8 @@ import { lostandfoundModule } from './pages/lost-items/lost-and-found/lost-and-f
 import { studentLogModule } from './pages/student-log/student-log.module';
 import { teacherLogModule } from './pages/teacher-log/teacher-log.module';
 import { homeModule } from './home/home.module';
-
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,6 @@ import { homeModule } from './home/home.module';
   imports: [
     AppRoutingModule,
     StoreModule.forRoot(appReducer),
-
     LoginModule,
     AgregarZonaModule,
     categoriasModalModule,
@@ -48,6 +49,8 @@ import { homeModule } from './home/home.module';
     studentLogModule,
     teacherLogModule,
     homeModule,
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 
   providers: [

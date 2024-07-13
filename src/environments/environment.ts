@@ -6,18 +6,10 @@ export const environment = {
   production: false,
   URL_USERS: '',
   URL_REPORT: '',
-  URL_AUTH: 'http://localhost:5002/login',
+  URL_AUTH: '',
   URL_ZONE: '',
   URL_API_CATEGORY: '',
-  URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
-  URL_LOSTOBJECTSBYID: 'http://localhost:5001/lostObject',
+  URL_LOSTANDFOUND: '',
+  URL_LOSTOBJECTSBYID: '',
 };
 
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
