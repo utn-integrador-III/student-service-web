@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { IAuthResponse } from './models/login.interface';
-
+import { ToastService } from '../services/toaster.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,7 +12,7 @@ import { IAuthResponse } from './models/login.interface';
 export class LoginComponent {
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,  private toastService: ToastService ) {}
 
   onLogin(form: NgForm) {
     if (form.valid) {
@@ -22,6 +22,7 @@ export class LoginComponent {
           if (response.isError) {
             this.errorMessage = response.errorMessage || 'Credenciales incorrectas';
           } else {
+            this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito'); 
             this.router.navigate(['/home']);
           }
         },

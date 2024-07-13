@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import * as AuthActions from '../../../login/store/login.action';
 import { IAuth } from '../../../login/models/login.model';
-
+import { ToastService } from '../../../services/toaster.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -14,7 +14,7 @@ export class HeaderComponent implements OnInit {
   menuOpen: boolean = false;
   welcomeMessage: string;
 
-  constructor(private store: Store<fromApp.AppState>) {}
+  constructor(private store: Store<fromApp.AppState>, private toastService: ToastService ) {}
 
   ngOnInit() {
     this.store.select('auth').subscribe(authState => {
@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.store.dispatch(new AuthActions.LogoutUser());
+    this.toastService.showSuccess('Se cerró sesión exitosamente', 'Éxito');
   }
 
   closeMenu() {
