@@ -39,6 +39,8 @@ table{
 .tablaAbajo{
   text-align: center;
   color: black;
+  margin-bottom: 200px;
+
 }
 
 tr,td, th{

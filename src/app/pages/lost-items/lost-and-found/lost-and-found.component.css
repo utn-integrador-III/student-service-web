@@ -78,6 +78,7 @@ td {
 table {
   width: 100%;
   margin: 0;
+  margin-bottom: 200px;
 }
 .title-container {
   display: flex;
@@ -95,4 +96,12 @@ table {
   margin: 0 10px;
   font-size: 20px;
   color: #1B3069 ;
+}
+.clickable-row {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.clickable-row:hover {
+  background-color: #e0f7fa; 
 }

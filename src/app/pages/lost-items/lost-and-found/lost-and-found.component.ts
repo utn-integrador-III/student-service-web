@@ -14,7 +14,7 @@ export class LostAndFoundComponent implements OnInit {
   displayedColumns: string[] = ['image', 'name', 'description', 'actions'];
   @ViewChild('addModal') addModal!: ElementRef;
 
-  newObject: any = {}; // Object to hold data for new lost object
+  newObject: any = {};
 
   constructor(
     private srvlostObjects: LostAndFoundService,
@@ -182,5 +182,9 @@ export class LostAndFoundComponent implements OnInit {
         console.error('Error al eliminar el objeto:', error);
       }
     );
+  }
+  onRowClick(row: any) {
+    console.log('Fila clicada:', row);
+    // Aquí puedes agregar la lógica que desees, como navegar a otra página o abrir un modal.
   }
 }

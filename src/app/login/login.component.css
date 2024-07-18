@@ -1,41 +1,49 @@
-
-:host {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: #f7f7f7;
-  margin: 0;
-  padding: 0;
-}
-
 .container {
   display: flex;
-  width: 900px;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
   background-color: #ffffff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   overflow: hidden;
+  margin: 50px auto;
+  flex-direction: column;
 }
 
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    height: 400px;
+  }
+}
 
 .login-left {
-  background-color: #99cfbf;
-  color: white;
-  padding: 40px;
+  background-color: #1B3069;
+  color: #ffffff;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  flex: 1;
-  position: relative;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .login-left {
+    width: 300px;
+    border-radius: 20px 0 0 20px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    margin-left: -10px;
+    padding: 30px;
+  }
 }
 
 .login-left img.LogoUTN {
-  max-width: 150px;
+  max-width: 100%;
   height: auto;
-  margin-bottom: 20px;
 }
 
 .login-left h3 {
@@ -46,32 +54,35 @@
   text-align: center;
 }
 
-.login-left img.logoPrincipal {
-  max-width: 80%;
-  height: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.login-right {
+  padding: 20px;
+  flex: 2;
+  background-color: white;
+  border-radius: 0 0 20px 20px;
 }
 
-
-.login-right {
-  padding: 40px;
-  flex: 2;
-  background-color: #e8f2f4;
-  border-radius: 0 20px 20px 0;
+@media (min-width: 768px) {
+  .login-right {
+    padding: 40px;
+    border-radius: 0 20px 20px 0;
+  }
 }
 
 .login-right h2 {
   margin-bottom: 20px;
-  font-size: 28px;
-  color: #2b9980;
+  font-size: 24px;
+  color: #1B3069;
   text-align: center;
 }
 
+@media (min-width: 768px) {
+  .login-right h2 {
+    font-size: 25px;
+  }
+}
+
 .form-group {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   position: relative;
 }
 
@@ -80,10 +91,10 @@
   padding: 10px 0;
   font-size: 16px;
   border: none;
-  border-bottom: 2px solid #2b9980;
+  border-bottom: 2px solid #1B3069;
   outline: none;
   background: transparent;
-  color: #2b9980;
+  color: #1B3069;
 }
 
 .form-group label {
@@ -91,22 +102,22 @@
   top: 10px;
   left: 0;
   font-size: 16px;
-  color: #aaa;
+  color: #1B3069;
   transition: all 0.3s;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label {
   top: -20px;
   font-size: 12px;
-  color: #2b9980;
+  color: #1B3069;
 }
 
 .forgot-password {
   display: block;
   margin-bottom: 20px;
-  color: #2b9980;
+  color: #1B3069;
   text-decoration: none;
   font-size: 14px;
 }
@@ -122,17 +133,16 @@
 
 .login-button {
   padding: 10px 20px;
-  background-color: #efb740;
   border: none;
   border-radius: 25px;
   color: white;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  background-color: #1B3069;
 }
 
 .login-button:disabled {
-  background-color: #ccc;
+  background-color: #1B3069;
   cursor: not-allowed;
 }
 
