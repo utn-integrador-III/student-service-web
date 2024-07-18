@@ -10,6 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
 import { StudentLogComponent } from './pages/student-log/student-log.component';
+import { EnrollmentComponent } from './enrollment/enrollment/enrollment.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -21,6 +22,8 @@ export const routes: Routes = [
   { path: 'studentlog', component: StudentLogComponent },
   { path: 'zones', component: ZonasComponent },
   { path: 'categorias', component: CategoriasComponent },
+  { path: 'enroll', component: EnrollmentComponent },
+
 ];
 
 @NgModule({

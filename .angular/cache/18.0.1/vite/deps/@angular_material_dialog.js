@@ -13,7 +13,6 @@ import {
 import {
   CdkScrollable
 } from "./chunk-UKBQM3ZS.js";
-import "./chunk-3CL3OIUZ.js";
 import {
   animate,
   animateChild,
@@ -24,6 +23,7 @@ import {
   transition,
   trigger
 } from "./chunk-EYPFN56T.js";
+import "./chunk-3CL3OIUZ.js";
 import {
   A11yModule,
   Directionality,
