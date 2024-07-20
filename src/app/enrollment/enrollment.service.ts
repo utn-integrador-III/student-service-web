@@ -7,7 +7,7 @@ import { map, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class EnrollmentService {
-  private apiUrl = 'http://localhost:5002';  // Ensure this URL is correct
+  private apiUrl = 'http://localhost:5002';
 
   constructor(private http: HttpClient) {}
 
