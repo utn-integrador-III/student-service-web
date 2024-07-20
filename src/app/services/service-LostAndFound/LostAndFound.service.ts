@@ -9,7 +9,6 @@ import { environment } from '../../../environments/environment';
 })
 export class LostAndFoundService {
   private URL_LOSTANDFOUND = environment.URL_LOSTANDFOUND;
-  private URL_LOSTOBJECTSBYID = environment.URL_LOSTOBJECTSBYID;
 
   constructor(private http: HttpClient) {}
 
@@ -22,7 +21,7 @@ export class LostAndFoundService {
   }
 
   deleteObjects(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.URL_LOSTOBJECTSBYID}/${id}`);
+    return this.http.delete<any>(`${this.URL_LOSTANDFOUND}/${id}`);
   }
 
   updateObjects(object: any): Observable<any> {

@@ -1,1 +1,79 @@
-<p>lost-items works!</p>
+<div class="fondo">
+  <h1 mat-dialog-title style="text-align: center; color: black; margin-top: 20px; margin-bottom: -10px;">
+    Modificar Artículo
+  </h1>
+  <hr />
+  <div mat-dialog-content>
+    <form>
+      <div class="form-group">
+        <mat-label>Nombre</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.name"
+          name="name"
+          class="input-field"
+        />
+      </div>
+
+      <div class="form-group">
+        <mat-label>Descripción</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="data.description"
+          name="description"
+          class="input-field"
+        ></textarea>
+      </div>
+      
+      <div class="form-group">
+        <mat-label>Categoria</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.category"
+          name="category"
+          class="input-field"
+        />
+      </div>
+      <div class="file-upload-wrapper" style="margin-bottom: 3px;">
+        <button class="file-upload-button" (click)="fileInput.click()">Select File</button>
+        <input #fileInput type="file" (change)="onFileSelected($event)" style="display: none;" />
+        <span class="file-name">No file selected</span>
+      </div>
+      
+      <div
+        class="form-group1"
+        (drop)="onDrop($event)"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        [class.dragover]="isDragOver"
+      >
+        <mat-label>Imagen</mat-label>
+        <div *ngIf="filePreview" class="image-preview">
+          <img [src]="filePreview" alt="Image Preview" />
+          <button class="delete-button" (click)="onDelete()">Delete</button>
+        </div>
+        <p *ngIf="!filePreview">Drag and drop an image here or click to select</p>
+      </div>
+      
+
+
+
+  <div mat-dialog-actions>
+    <button
+      type="button"
+      [mat-dialog-close]="data"
+      style="background-color: #1b3069; color: aliceblue"
+      class="btn btn-secondary btn-lg flex-grow-1 m-1"
+      data-bs-dismiss="modal"
+    >
+      Guardar
+    </button>
+    <button
+      type="button"
+      style="background-color: #696969; color: aliceblue"
+      class="btn btn-lg flex-grow-1 m-1"
+      (click)="onNoClick()"
+    >
+      Cancelar
+    </button>
+  </div>

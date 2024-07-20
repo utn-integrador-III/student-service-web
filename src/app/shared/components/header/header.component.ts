@@ -14,10 +14,13 @@ export class HeaderComponent implements OnInit {
   menuOpen: boolean = false;
   welcomeMessage: string;
 
-  constructor(private store: Store<fromApp.AppState>, private toastService: ToastService ) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
-    this.store.select('auth').subscribe(authState => {
+    this.store.select('auth').subscribe((authState) => {
       this.userAuthenticated = authState.auth;
       this.welcomeMessage = `Bienvenid@ ${this.userAuthenticated.name}`;
     });

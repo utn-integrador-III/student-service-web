@@ -3,6 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
+import { LostItemsComponent } from '../lost-items.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -11,14 +13,21 @@ import { LostAndFoundService } from '../../../Services/service-LostAndFound/Lost
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['image', 'name', 'description', 'actions'];
+  displayedColumns: string[] = [
+    'image',
+    'name',
+    'description',
+    'category',
+    'actions',
+  ];
   @ViewChild('addModal') addModal!: ElementRef;
 
-  newObject: any = {}; // Object to hold data for new lost object
+  newObject: any = {};
 
   constructor(
     private srvlostObjects: LostAndFoundService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    public dialog: MatDialog
   ) {
     this.dataSource = new MatTableDataSource([]);
   }
@@ -38,6 +47,36 @@ export class LostAndFoundComponent implements OnInit {
         console.error('Error al cargar los objectos:', error);
       }
     );
+  }
+
+  openEditDialog(item: any): void {
+    const dialogRef = this.dialog.open(LostItemsComponent, {
+      width: '500px',
+      data: { ...item },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const index = this.dataSource.data.findIndex(
+          (item) => item._id === result._id
+        );
+
+        if (index !== -1) {
+          this.dataSource.data[index] = result;
+          this.dataSource._updateChangeSubscription();
+
+          this.srvlostObjects.updateObjects(result).subscribe(
+            (response) => {
+              this.toastr.success('Objeto actualizado exitosamente');
+              this.loadObjects();
+            },
+            (error) => {
+              this.toastr.error('Error al actualizar el objeto', error);
+            }
+          );
+        }
+      }
+    });
   }
 
   addLostObject() {
@@ -182,5 +221,8 @@ export class LostAndFoundComponent implements OnInit {
         console.error('Error al eliminar el objeto:', error);
       }
     );
+  }
+  onRowClick(row: any) {
+    console.log('Fila clicada:', row);
   }
 }
