@@ -137,10 +137,8 @@
               <p style="color: aliceblue; text-align: center">Acciones</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
-              <button mat-button style="color: purple">Modificar</button>
-              <button mat-button style="color: red;" (click)="deleteObject(element._id)">
-                Eliminar
-              </button>
+              <button mat-button style="color: purple" (click)="openEditDialog(element)">Modificar</button>
+              <button mat-button style="color: red;" (click)="deleteObject(element._id)">Eliminar</button>
             </td>
           </ng-container>
 
@@ -166,19 +164,6 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div
   class="modal fade"
   id="addModal"

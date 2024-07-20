@@ -1,1 +1,68 @@
-<p>lost-items works!</p>
+<div class="fondo">
+  <h1 mat-dialog-title style="text-align: center; color: black; margin-top: 20px; margin-bottom: -10px;">
+    Modificar Artículo
+  </h1>
+  <hr />
+  <div mat-dialog-content>
+    <form>
+      <div class="form-group">
+        <mat-label>Nombre</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.name"
+          name="name"
+          class="input-field"
+        />
+      </div>
+
+      <div class="form-group">
+        <mat-label>Descripción</mat-label>
+        <textarea
+          matInput
+          [(ngModel)]="data.description"
+          name="description"
+          class="input-field"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <mat-label>Imagen URL</mat-label>
+        <input
+          matInput
+          [(ngModel)]="data.image"
+          name="image"
+          class="input-field"
+        />
+      </div>
+
+      <img
+        *ngIf="data.image"
+        [src]="data.image"
+        alt="Imagen"
+        style="max-width: 300px; height: auto; margin-top: 10px"
+      />
+    </form>
+  </div>
+  <hr />
+
+  <div mat-dialog-actions>
+    <button
+      type="button"
+      [mat-dialog-close]="data"
+      style="background-color: #1b3069; color: aliceblue"
+
+      class="btn btn-secondary btn-lg flex-grow-1 m-1"
+      data-bs-dismiss="modal"
+    >
+      Guardar
+    </button>
+    <button
+      type="button"
+      style="background-color: #696969; color: aliceblue"
+      class="btn btn-lg flex-grow-1 m-1"
+      (click)="onNoClick()"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>
