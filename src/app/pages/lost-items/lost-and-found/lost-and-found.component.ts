@@ -13,7 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['image', 'name', 'description', 'actions'];
+  displayedColumns: string[] = [
+    'image',
+    'name',
+    'description',
+    'category',
+    'actions',
+  ];
   @ViewChild('addModal') addModal!: ElementRef;
 
   newObject: any = {};

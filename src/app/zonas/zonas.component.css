@@ -26,8 +26,6 @@
   height: 40px;
   border: 2px solid #2B9980;
   box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1);
-  right: 10%;
-  margin-top: -10%;
 }
 
 body {
@@ -174,3 +172,22 @@ footer {
 .custom-table {
   background-color: rgb(255, 255, 255)
 }
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.line {
+  flex: 1;
+  height: 5px;
+  background-color: #1B3069;
+}
+.title {
+  margin: 0 10px;
+  font-size: 20px;
+  color: #1B3069 ;
+}
+
