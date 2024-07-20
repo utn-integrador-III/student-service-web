@@ -16,28 +16,33 @@ export class EnrollmentComponent {
   password: string = '';
   verificationCode: string = '';
   message: string = '';
+  showVerification: boolean = false;
 
   constructor(private enrollmentService: EnrollmentService) {}
 
   onSubmit() {
     if (!this.name || this.name.length < 2) {
-      this.message = 'Name must be at least 2 characters long';
+      this.message = 'El nombre debe tener al menos 2 caracteres';
       return;
     }
-    
+
     if (!this.email || !this.email.includes('utn.ac.cr')) {
-      this.message = 'Email must be a valid UTN email address';
+      this.message = 'El correo electrónico debe ser una dirección de correo válida de UTN';
       return;
     }
-    
+
     if (!this.password || this.password.length < 8) {
-      this.message = 'Password must be at least 8 characters long';
+      this.message = 'La contraseña debe tener al menos 8 caracteres';
       return;
     }
 
     this.enrollmentService.enroll(this.name, this.email, this.password).subscribe(
       (response: any) => {
         this.message = response.message;
+        if (response.status === 'success' || response.statusCode === 200) {
+          this.showVerification = true;
+          console.log('Usuario creado, mostrando campo de verificación.'); // Log para depuración
+        }
       },
       (error) => {
         this.message = `${error.status} ${error.statusText}: ${error.error.message}`;
@@ -49,6 +54,11 @@ export class EnrollmentComponent {
     this.enrollmentService.verify(this.email, this.verificationCode).subscribe(
       (response: any) => {
         this.message = response.message;
+        if (response.status === 'success') {
+          this.message = 'Usuario verificado y registrado con éxito.';
+          this.showVerification = false;
+          console.log('Código verificado, usuario registrado.'); // Log para depuración
+        }
       },
       (error) => {
         this.message = error.message;
