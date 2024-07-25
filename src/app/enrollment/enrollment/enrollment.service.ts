@@ -1,4 +1,3 @@
-// enrollment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -16,7 +15,7 @@ export class EnrollmentService {
     return this.http.post<any>(this.apiUrl, userData);
   }
 
-  verifyCode(code: string): Observable<any> {
-    return this.http.post<any>(this.verifyUrl, { code });
+  verifyCode(email: string, code: string): Observable<any> {
+    return this.http.post<any>(this.verifyUrl, { email, code });
   }
 }
