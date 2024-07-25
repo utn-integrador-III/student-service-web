@@ -7,8 +7,8 @@ export const environment = {
   URL_USERS: '',
   URL_REPORT: '',
   URL_AUTH: 'http://localhost:5002/auth/login',
-  URL_ZONE: '',
-  URL_API_CATEGORY: '',
+  URL_ZONE: 'http://localhost:5001/zone',
+  URL_API_CATEGORY: 'http://localhost:5001/category',
   URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
   URL_LOSTOBJECTSBYID: '',
 };
