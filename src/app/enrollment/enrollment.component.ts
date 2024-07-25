@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { EnrollmentService } from './enrollment.service';
+import { ToastService } from '../services/toaster.service';
 
 @Component({
   selector: 'app-enrollment',
@@ -15,7 +16,7 @@ export class EnrollmentComponent {
   showVerifyModal: boolean = false;
   message: string = '';
 
-  constructor(private enrollmentService: EnrollmentService) {}
+  constructor(private enrollmentService: EnrollmentService, private toastService: ToastService) {}  // Inyecta el ToastService
 
   openRegisterModal() {
     this.showRegisterModal = true;
@@ -37,12 +38,12 @@ export class EnrollmentComponent {
     const userData = { name: this.name, email: this.email, password: this.password };
     this.enrollmentService.enrollUser(userData).subscribe(
       response => {
-        this.message = 'Registro exitoso. Verifica tu correo electrónico.';
+        this.toastService.showSuccess('Registro exitoso. Verifica tu correo electrónico.');  // Mensaje de éxito
         this.closeRegisterModal();
         this.openVerifyModal();
       },
       error => {
-        this.message = 'Error en el registro. Intenta de nuevo.';
+        this.toastService.showError('Error en el registro. Intenta de nuevo.');  // Mensaje de error
       }
     );
   }
@@ -51,15 +52,15 @@ export class EnrollmentComponent {
     if (this.verificationCode && this.email) {
       this.enrollmentService.verifyCode(this.email, this.verificationCode).subscribe(
         response => {
-          this.message = 'Código verificado exitosamente.';
+          this.toastService.showSuccess('Código verificado exitosamente.');  // Mensaje de éxito
           this.closeVerifyModal();
         },
         error => {
-          this.message = 'Error verificando el código.';
+          this.toastService.showError('Error verificando el código.');  // Mensaje de error
         }
       );
     } else {
-      this.message = 'Correo y código no pueden estar vacíos.';
+      this.toastService.showWarning('Correo y código no pueden estar vacíos.');  // Mensaje de advertencia
     }
   }
 }

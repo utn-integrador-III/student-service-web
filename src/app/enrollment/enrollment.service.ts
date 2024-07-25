@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';  // Ajusta la ruta según tu estructura de archivos
+import { environment } from '../../environments/environment';  // Ajusta la ruta según tu estructura de archivos
 
 @Injectable({
   providedIn: 'root'
