@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { EnrollmentService } from '../enrollment.service';
+import { EnrollmentService } from './enrollment.service';
 
 @Component({
   selector: 'app-enrollment',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
   templateUrl: './enrollment.component.html',
   styleUrls: ['./enrollment.component.css']
 })
@@ -15,44 +11,36 @@ export class EnrollmentComponent {
   email: string = '';
   password: string = '';
   verificationCode: string = '';
+  showVerification: boolean = false;
   message: string = '';
 
   constructor(private enrollmentService: EnrollmentService) {}
 
   onSubmit() {
-    if (!this.name || this.name.length < 2) {
-      this.message = 'Name must be at least 2 characters long';
-      return;
-    }
-    
-    if (!this.email || !this.email.includes('utn.ac.cr')) {
-      this.message = 'Email must be a valid UTN email address';
-      return;
-    }
-    
-    if (!this.password || this.password.length < 8) {
-      this.message = 'Password must be at least 8 characters long';
-      return;
-    }
-
-    this.enrollmentService.enroll(this.name, this.email, this.password).subscribe(
-      (response: any) => {
-        this.message = response.message;
+    const userData = { name: this.name, email: this.email, password: this.password };
+    this.enrollmentService.enrollUser(userData).subscribe(
+      response => {
+        this.showVerification = true;
+        this.message = 'Registro exitoso. Verifica tu correo electrónico.';
       },
-      (error) => {
-        this.message = `${error.status} ${error.statusText}: ${error.error.message}`;
+      error => {
+        this.message = 'Error en el registro. Intenta de nuevo.';
       }
     );
   }
 
   verifyCode() {
-    this.enrollmentService.verify(this.email, this.verificationCode).subscribe(
-      (response: any) => {
-        this.message = response.message;
-      },
-      (error) => {
-        this.message = error.message;
-      }
-    );
+    if (this.verificationCode) {
+      this.enrollmentService.verifyCode(this.verificationCode).subscribe(
+        response => {
+          this.message = 'Código verificado exitosamente.';
+        },
+        error => {
+          this.message = 'Error verificando el código.';
+        }
+      );
+    } else {
+      this.message = 'Código no puede estar vacío.';
+    }
   }
 }

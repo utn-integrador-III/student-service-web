@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { EnrollmentComponent } from './enrollment.component'; // Asegúrate de que esta ruta es correcta
 import { EnrollmentService } from './enrollment.service';
+import { EnrollmentRoutingModule } from './enrollment-routing.module';
 
 @NgModule({
+  declarations: [EnrollmentComponent],
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', loadComponent: () => import('./enrollment/enrollment.component').then(m => m.EnrollmentComponent) }])
+    EnrollmentRoutingModule
   ],
   providers: [EnrollmentService]
 })
