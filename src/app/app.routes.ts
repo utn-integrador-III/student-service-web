@@ -10,7 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
 import { StudentLogComponent } from './pages/student-log/student-log.component';
-import { EnrollmentComponent } from './enrollment/enrollment/enrollment.component';
+import { EnrollmentComponent } from './enrollment/enrollment.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },

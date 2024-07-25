@@ -27,7 +27,7 @@ import { teacherLogModule } from './pages/teacher-log/teacher-log.module';
 import { homeModule } from './home/home.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { EnrollmentModule } from './enrollment/enrollment/enrollment.module';
+import { EnrollmentModule } from './enrollment/enrollment.module';
 
 @NgModule({
   declarations: [
