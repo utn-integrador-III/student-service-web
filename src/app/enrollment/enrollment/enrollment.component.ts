@@ -59,7 +59,7 @@ export class EnrollmentComponent {
         }
       );
     } else {
-      this.message = 'Código y correo no pueden estar vacíos.';
+      this.message = 'Correo y código no pueden estar vacíos.';
     }
   }
 }

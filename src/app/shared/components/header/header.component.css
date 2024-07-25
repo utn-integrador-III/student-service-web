@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #299980;
+  background-color: #1B3069;
   color: #fff;
   padding: 10px 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -109,7 +109,7 @@
     position: absolute;
     top: 60px; 
     right: 10px; 
-    background-color: #299980;
+    background-color: #1B3069;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     padding: 10px;
@@ -158,7 +158,7 @@
       width: 100%;
       flex-direction: column;
       margin-top: 10px;
-      background-color: #299980;
+      background-color: #1B3069;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       border-radius: 5px;

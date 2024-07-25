@@ -22,9 +22,6 @@
       </mat-form-field>
     </div>
 
-
-    
-
     <div class="col col-3" style="margin-top: 60px">
       <div class="container-fluid">
         <div class="row d-flex">
@@ -82,18 +79,18 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              style="background-color: #89C1E0"
+              style="background-color: #89c1e0"
             >
               <p style="color: aliceblue; text-align: center">Imagen</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               <img
-                *ngIf="element.image"
-                [src]="element.image"
+                *ngIf="element.attachment_path"
+                [src]="element.attachment_path"
                 alt="Imagen"
                 style="max-width: 100px; height: auto"
               />
-              <span *ngIf="!element.image">Sin imagen</span>
+              <span *ngIf="!element.attachment_path">Sin imagen</span>
             </td>
           </ng-container>
 
@@ -101,7 +98,7 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              style="background-color: #89C1E0"
+              style="background-color: #89c1e0"
             >
               <p style="color: aliceblue; text-align: center">Artículo</p>
             </th>
@@ -114,7 +111,7 @@
             <th
               mat-header-cell
               *matHeaderCellDef
-              style="background-color: #89C1E0"
+              style="background-color: #89c1e0"
             >
               <p style="color: aliceblue; text-align: center">Descripción</p>
             </th>
@@ -123,21 +120,52 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="category">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #89c1e0"
+            >
+              <p style="color: aliceblue; text-align: center">Categoría</p>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.category }}
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef style="background-color: #89C1E0">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #89c1e0"
+            >
               <p style="color: aliceblue; text-align: center">Acciones</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
-              <button mat-button style="color: purple" s>Modificar</button>
-              <button mat-button style="color: red;" (click)="deleteObject(element._id)">
+              <button
+                mat-button
+                style="color: purple"
+                (click)="openEditDialog(element)"
+              >
+                Modificar
+              </button>
+              <button
+                mat-button
+                style="color: red"
+                (click)="deleteObject(element._id)"
+              >
                 Eliminar
               </button>
             </td>
           </ng-container>
-          
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="onRowClick(row)"
+            class="clickable-row"
+          ></tr>
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="5">
               <p style="text-align: center; color: gray">
@@ -150,7 +178,6 @@
     </div>
   </div>
 </div>
-
 <div
   class="modal fade"
   id="addModal"
@@ -207,17 +234,17 @@
           />
         </div>
 
-<div class="mb-3">
-  <label for="item-descripcion" class="form-label">Descripción Detallada</label>
-  <textarea
-    class="form-control"
-    id="item-descripcion"
-    [(ngModel)]="newObject.description"
-    rows="4"
-  ></textarea>
-</div>
-
-
+        <div class="mb-3">
+          <label for="item-descripcion" class="form-label"
+            >Descripción Detallada</label
+          >
+          <textarea
+            class="form-control"
+            id="item-descripcion"
+            [(ngModel)]="newObject.description"
+            rows="4"
+          ></textarea>
+        </div>
 
         <div class="mb-3">
           <label for="item-email" class="form-label">Email</label>

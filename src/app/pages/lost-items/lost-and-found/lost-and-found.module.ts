@@ -6,7 +6,10 @@ import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule, provideAnimations} from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  provideAnimations,
+} from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,19 +18,19 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { provideHttpClient } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { LostAndFoundComponent } from './lost-and-found.component';
+import { LostItemsComponent } from '../lost-items.component';
 
 @NgModule({
-  declarations: [
-    LostAndFoundComponent,
-  ],
+  declarations: [LostAndFoundComponent, LostItemsComponent],
 
   imports: [
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     MatIconModule,
     ReactiveFormsModule,
@@ -37,6 +40,7 @@ import { LostAndFoundComponent } from './lost-and-found.component';
     BrowserAnimationsModule,
     MatButtonModule,
     CommonModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 100,
@@ -46,12 +50,20 @@ import { LostAndFoundComponent } from './lost-and-found.component';
       progressBar: true,
     }),
     MatSidenavModule,
+    CommonModule,
+    MatFormFieldModule,
     MatCardModule,
     MatListModule,
     MatPaginatorModule,
     FormsModule,
     MatDialogModule,
     MatToolbarModule,
-  ]
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatInputModule,
+    MatFormFieldModule,
+  ],
 })
-export class lostandfoundModule { }
+export class lostandfoundModule {}

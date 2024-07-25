@@ -6,10 +6,9 @@ export const environment = {
   production: false,
   URL_USERS: '',
   URL_REPORT: '',
-  URL_AUTH: '',
+  URL_AUTH: 'http://localhost:5002/login',
   URL_ZONE: '',
   URL_API_CATEGORY: '',
-  URL_LOSTANDFOUND: '',
+  URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
   URL_LOSTOBJECTSBYID: '',
 };
-

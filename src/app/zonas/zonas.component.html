@@ -1,11 +1,15 @@
+
+
 <div class="content-wrapper">
   <div class="container-fluid">
-    <!-- Toolbar and title -->
-    <mat-toolbar color="primary">
-    </mat-toolbar>
-    <h1 class="mt-4 text-center">Zonas</h1>
+    <div class="title-container">
+      <div class="line"></div>
+      <p class="title">Zonas</p>
+      <div class="line"></div>
+    </div>
 
-    <!-- Filters and add button -->
+    
+
     <div class="row mb-4">
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100 custom-filter-field">
@@ -18,7 +22,6 @@
       </div>
     </div>
 
-    <!-- Table -->
     <mat-table  [dataSource]="dataSource" class="mat-elevation-z8 w-100 custom-table">
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef  style="color: black"> Nombre </mat-header-cell>
