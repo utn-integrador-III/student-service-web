@@ -1,7 +1,7 @@
 export class IAuth {
-    email: string = '';
-    name: string = '';
-    status: string = '';
-    role_id: string[] = [];
-    token: string = '';
+  email: string = '';
+  name: string = '';
+  status: string = '';
+  role: string = '';
+  token: string = '';
 }
