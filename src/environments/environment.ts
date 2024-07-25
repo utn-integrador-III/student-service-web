@@ -11,4 +11,6 @@ export const environment = {
   URL_API_CATEGORY: '',
   URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
   URL_LOSTOBJECTSBYID: '',
+  URL_ENROLLMENT: 'http://localhost:5002/auth/enrollment',  
+  URL_VERIFY: 'http://localhost:5002/auth/verify' 
 };

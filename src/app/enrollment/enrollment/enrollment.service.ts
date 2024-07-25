@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';  // Ajusta la ruta según tu estructura de archivos
 
 @Injectable({
   providedIn: 'root'
 })
 export class EnrollmentService {
-  private apiUrl = 'http://localhost:5002/auth/enrollment';  // Ajusta la URL a la ruta correcta
-  private verifyUrl = 'http://localhost:5002/auth/verify';   // Ajusta la URL a la ruta correcta
+  private apiUrl = environment.URL_ENROLLMENT;
+  private verifyUrl = environment.URL_VERIFY;
 
   constructor(private http: HttpClient) {}
 

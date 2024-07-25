@@ -6,4 +6,6 @@ export const environment = {
   URL_API_CATEGORY: process.env['URL_CATEGORY'],
   URL_LOSTANDFOUND: process.env['URL_LOSTANDFOUND'],
   URL_LOSTOBJECTSBYID: process.env['URL_LOSTOBJECTSBYID'],
+  URL_ENROLLMENT: process.env['URL_ENROLLMENT'],
+  URL_VERIFY: process.env['URL_VERIFY'] 
 };
