@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ClassesDialogComponent } from './classes-dialog/classes-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-pick-classes',
@@ -8,9 +10,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class PickClassesComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['course', 'professor', 'lab', 'actions'];
+  displayedColumns: string[] = ['course', 'professor', 'lab'];
 
-  constructor() {
+  constructor(public dialog: MatDialog) {
     const data = [
       {
         course: 'Fundamentos de datos',
@@ -35,7 +37,10 @@ export class PickClassesComponent implements OnInit {
   }
 
   onRowClick(row: any) {
-    console.log('Fila clicada:', row);
+    this.dialog.open(ClassesDialogComponent, {
+      width: '500px',
+      data: row,
+    });
   }
 
   fill(element: any): void {

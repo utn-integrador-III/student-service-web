@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
 import { LostItemsComponent } from '../lost-items.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -13,13 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = [
-    'image',
-    'name',
-    'description',
-    'category',
-    'actions',
-  ];
+  displayedColumns: string[] = ['image', 'name', 'description', 'category'];
   @ViewChild('addModal') addModal!: ElementRef;
 
   newObject: any = {};
@@ -222,7 +217,22 @@ export class LostAndFoundComponent implements OnInit {
       }
     );
   }
-  onRowClick(row: any) {
-    console.log('Fila clicada:', row);
+  openDialog(element: any): void {
+    const dialogRef = this.dialog.open(ShowDialogComponent, {
+      width: '520px',
+      maxHeight: '80vh',
+
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        if (result.action === 'edit') {
+          this.openEditDialog(result.data);
+        } else if (result.action === 'delete') {
+          this.deleteObject(result.data._id);
+        }
+      }
+    });
   }
 }

@@ -11,34 +11,11 @@ export class HomeComponent {
 
   toggleBitacoraOptions() {
     this.showBitacoraOptions = !this.showBitacoraOptions;
-    this.showAjustesOptions = false; 
+    this.showAjustesOptions = false;
   }
 
   toggleAjustesOptions() {
     this.showAjustesOptions = !this.showAjustesOptions;
-    this.showBitacoraOptions = false; 
-  }
-
-  selectOption(option: string) {
-    console.log(`Opción seleccionada: ${option}`);
-    switch (option) {
-      case 'zonas':
-        console.log('Seleccionaste Zonas');
-        break;
-      case 'categoria':
-        console.log('Seleccionaste Categoría');
-        break;
-      case 'bitacoraProfesor':
-        console.log('Seleccionaste Bitácora Profesor');
-        break;
-      case 'bitacoraEstudiante':
-        console.log('Seleccionaste Bitácora Estudiante');
-        break;
-      default:
-        console.log('Opción no válida');
-        break;
-    }
-    this.showBitacoraOptions = false; 
-    this.showAjustesOptions = false; 
+    this.showBitacoraOptions = false;
   }
 }
