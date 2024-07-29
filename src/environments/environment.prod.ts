@@ -6,4 +6,6 @@ export const environment = {
   URL_API_CATEGORY: process.env['URL_CATEGORY'],
   URL_LOSTANDFOUND: process.env['URL_LOSTANDFOUND'],
   URL_LOSTOBJECTSBYID: process.env['URL_LOSTOBJECTSBYID'],
+  URL_API_LABMANAGING: process.env['URL_API_LABMANAGING'],
+  URL_API_PROFESSOR: process.env['URL_API_PROFESSOR'],
 };

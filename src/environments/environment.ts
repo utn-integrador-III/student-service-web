@@ -9,6 +9,8 @@ export const environment = {
   URL_AUTH: 'http://localhost:5002/login',
   URL_ZONE: '',
   URL_API_CATEGORY: '',
-  URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
+  URL_LOSTANDFOUND: 'http://localhost:5000/lostObject',
   URL_LOSTOBJECTSBYID: '',
+  URL_API_LABMANAGING: 'http://localhost:5003/lab',
+  URL_API_PROFESSOR: 'http://localhost:5003/professor',
 };

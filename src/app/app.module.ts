@@ -7,11 +7,8 @@ import { ExampleComponent } from './components/example/example.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ToastService } from './services/toaster.service';
 import { provideToastr } from 'ngx-toastr';
-import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 import { appReducer } from './store/app.reducer';
-import {
-  provideAnimations,
-} from '@angular/platform-browser/animations';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
@@ -23,18 +20,22 @@ import { ZoneModule } from './zonas/zonas.module';
 import { CategoriesModule } from './categorias/categorias.module';
 import { lostandfoundModule } from './pages/lost-items/lost-and-found/lost-and-found.module';
 import { studentLogModule } from './pages/student-log/student-log.module';
-import { teacherLogModule } from './pages/teacher-log/teacher-log.module';
 import { homeModule } from './home/home.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ReportIssueModule } from './pages/report-issues/report-issue/report-issue.module';
+import { VisualizationIssuesModule } from './pages/visualization-issues/visualization-issues.module';
+import { PickClassesComponent } from './pages/pick-classes/pick-classes.component';
+import { PickClassesModule } from './pages/pick-classes/pick-classes.module';
+import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
+import { TeacherLogModule } from './pages/teacher-log/teacher-log.module';
 @NgModule({
   declarations: [
     AppComponent,
     ExampleComponent,
-    ModuleObjectsComponent,
     FooterComponent,
     HeaderComponent,
-    MenuComponent
+    MenuComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -43,11 +44,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     AgregarZonaModule,
     categoriasModalModule,
     ZoneModule,
+    TeacherLogModule,
     CategoriesModule,
     lostandfoundModule,
     studentLogModule,
-    teacherLogModule,
     homeModule,
+    ReportIssueModule,
+    PickClassesModule,
+    VisualizationIssuesModule,
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
