@@ -1,47 +1,48 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { ToastrModule, provideToastr } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatOption } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ToastrModule } from 'ngx-toastr';
 import { LostAndFoundComponent } from './lost-and-found.component';
 import { LostItemsComponent } from '../lost-items.component';
 
 @NgModule({
   declarations: [LostAndFoundComponent, LostItemsComponent],
-
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule,
-    MatIconModule,
-    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule,
     MatButtonModule,
-    CommonModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
+    MatIconModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatListModule,
+    MatPaginatorModule,
+    MatDialogModule,
+    MatToolbarModule,
+    MatOption,
+    MatRadioModule,
+    MatCheckboxModule,
     ToastrModule.forRoot({
       timeOut: 100,
       positionClass: 'toast-bottom-right',
@@ -49,21 +50,6 @@ import { LostItemsComponent } from '../lost-items.component';
       closeButton: true,
       progressBar: true,
     }),
-    MatSidenavModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatListModule,
-    MatPaginatorModule,
-    FormsModule,
-    MatDialogModule,
-    MatToolbarModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
   ],
 })
-export class lostandfoundModule {}
+export class LostAndFoundModule {}

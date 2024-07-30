@@ -17,7 +17,7 @@ import { AgregarZonaModule } from './modal-agregar-zona/modal-agregar-zona.modul
 import { categoriasModalModule } from './categorias-modal/categorias-modal.module';
 import { ZoneModule } from './zonas/zonas.module';
 import { CategoriesModule } from './categorias/categorias.module';
-import { lostandfoundModule } from './pages/lost-items/lost-and-found/lost-and-found.module';
+import { LostAndFoundModule } from './pages/lost-items/lost-and-found/lost-and-found.module';
 import { studentLogModule } from './pages/student-log/student-log.module';
 import { teacherLogModule } from './pages/teacher-log/teacher-log.module';
 import { homeModule } from './home/home.module';
@@ -25,7 +25,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { appReducer } from './store/app.reducer';
-
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,12 +45,13 @@ import { appReducer } from './store/app.reducer';
     categoriasModalModule,
     ZoneModule,
     CategoriesModule,
-    lostandfoundModule,
+    LostAndFoundModule,
     studentLogModule,
     teacherLogModule,
     homeModule,
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    CommonModule,
   ],
   providers: [
     provideToastr(),

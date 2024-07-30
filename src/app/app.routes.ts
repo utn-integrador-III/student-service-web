@@ -33,6 +33,7 @@ export const routes: Routes = [
     component: CategoriasComponent,
     canActivate: [AuthGuard],
   },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

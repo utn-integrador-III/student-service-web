@@ -24,9 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
-    console.log('Token:', token); // Check if token is available
-    console.log('Request URL:', req.url);
-
     let authReq = req;
     if (token) {
       console.log('Attaching token to request');
@@ -35,8 +32,6 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: token, // Include token directly
         },
       });
-    } else {
-      console.log('No token available');
     }
 
     return next.handle(authReq).pipe(
