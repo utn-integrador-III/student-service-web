@@ -20,9 +20,13 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ToastrModule } from 'ngx-toastr';
 import { LostAndFoundComponent } from './lost-and-found.component';
 import { LostItemsComponent } from '../lost-items.component';
-
+import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 @NgModule({
-  declarations: [LostAndFoundComponent, LostItemsComponent],
+  declarations: [
+    LostAndFoundComponent,
+    LostItemsComponent,
+    ShowDialogComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,

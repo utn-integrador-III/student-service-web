@@ -13,7 +13,7 @@ import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
   styleUrls: ['./lost-and-found.component.css'],
 })
 export class LostAndFoundComponent implements OnInit {
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   displayedColumns: string[] = ['image', 'name', 'description', 'category'];
   @ViewChild('addModal') addModal!: ElementRef;
   selectedCategories: { [key: string]: boolean } = {};
@@ -25,6 +25,7 @@ export class LostAndFoundComponent implements OnInit {
     user_email: '',
     safekeeper: [],
   };
+
   categories: any[] = [];
   imagePreviewUrl: string | ArrayBuffer | null = null;
 
@@ -47,6 +48,7 @@ export class LostAndFoundComponent implements OnInit {
       },
       (error) => {
         this.toastr.error('Error al cargar los objetos.');
+        console.log(error);
       }
     );
   }
