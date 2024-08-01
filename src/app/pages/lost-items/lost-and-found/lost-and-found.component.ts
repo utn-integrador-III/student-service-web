@@ -47,7 +47,11 @@ export class LostAndFoundComponent implements OnInit {
         this.dataSource.data = response.data;
       },
       (error) => {
-        this.toastr.error('Error al cargar los objetos.');
+        if (error.status === 404) {
+          this.toastr.error('No hay objetos registrados.');
+        } else {
+          this.toastr.error('Error al cargar los objetos.');
+        }
         console.log(error);
       }
     );
@@ -62,7 +66,12 @@ export class LostAndFoundComponent implements OnInit {
         });
       },
       (error) => {
-        this.toastr.error('Error al cargar las categorías.');
+        if (error.status === 404) {
+          this.toastr.error('No se encontraron categorías.');
+        } else {
+          this.toastr.error('Error al cargar las categorías.');
+        }
+        console.log(error);
       }
     );
   }

@@ -28,7 +28,7 @@ export class ShowDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCategories();
-    this.checkAuthentication();
+    this.checkPermissions();
   }
 
   loadCategories() {
@@ -60,22 +60,26 @@ export class ShowDialogComponent implements OnInit {
     );
   }
 
-  checkAuthentication() {
+  checkPermissions() {
     this.store.select('auth').subscribe((authState) => {
       const currentUser: IAuth = authState.auth;
-      this.isAuthenticated = !!currentUser;
 
-      if (this.isAuthenticated) {
-        this.isOwner = this.element.user_email === currentUser.email;
-        this.canEdit = this.isOwner && this.element.status === 'Pending';
-        this.canDelete = this.isOwner && this.element.status === 'Pending';
+      if (currentUser && currentUser.email) {
+        this.canEdit =
+          this.element.status === 'Pending' &&
+          this.element.user_email === currentUser.email;
+        this.canDelete =
+          this.element.status === 'Pending' &&
+          this.element.user_email === currentUser.email;
+      } else {
+        this.canEdit = false;
+        this.canDelete = false;
       }
     });
   }
 
   onClose(): void {
     this.dialogRef.close();
-    location.reload();
   }
 
   onEdit(): void {
