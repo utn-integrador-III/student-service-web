@@ -32,12 +32,22 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md-4 mb-2">
-          <button class="modifybutton w-100" (click)="onEdit()">
+          <button
+            class="modifybutton w-100"
+            (click)="onEdit()"
+            [disabled]="!canEdit"
+            [ngClass]="{ 'disabled-button': !canEdit }"
+          >
             Modificar
           </button>
         </div>
         <div class="col-12 col-md-4 mb-2">
-          <button class="deletebutton w-100" (click)="onDelete()">
+          <button
+            class="deletebutton w-100"
+            (click)="onDelete()"
+            [disabled]="!canDelete"
+            [ngClass]="{ 'disabled-button': !canDelete }"
+          >
             Eliminar
           </button>
         </div>

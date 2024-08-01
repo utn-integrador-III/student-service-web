@@ -26,10 +26,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
     let authReq = req;
     if (token) {
-      console.log('Attaching token to request');
       authReq = req.clone({
         setHeaders: {
-          Authorization: token, // Include token directly
+          Authorization: token,
         },
       });
     }
@@ -40,6 +39,12 @@ export class AuthInterceptor implements HttpInterceptor {
           this.toastService.showError(
             'No estás autenticado. Por favor, inicia sesión nuevamente.'
           );
+        } else if (error.status === 403) {
+          this.toastService.showError(
+            'No tienes permiso para acceder a este recurso.'
+          );
+        } else {
+          this.toastService.showError('Ocurrió un error inesperado.');
         }
         return throwError(error);
       })

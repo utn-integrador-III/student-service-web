@@ -2,6 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoriaServices } from '../../../Services/categoriasServices';
 import { ToastrService } from 'ngx-toastr';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../../store/app.reducer';
+import { IAuth } from '../../../login/models/login.model';
 
 @Component({
   selector: 'app-show-dialog',
@@ -10,16 +13,22 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ShowDialogComponent implements OnInit {
   categories: any[] = [];
+  isAuthenticated: boolean = false;
+  isOwner: boolean = false;
+  canEdit: boolean = false;
+  canDelete: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<ShowDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public element: any,
     private srvCategorias: CategoriaServices,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
     this.loadCategories();
+    this.checkAuthentication();
   }
 
   loadCategories() {
@@ -31,13 +40,10 @@ export class ShowDialogComponent implements OnInit {
           if (this.element.category && Array.isArray(this.element.category)) {
             this.element.category = this.element.category.map(
               (categoryItem: any) => {
-                // Buscando la categoría por name en lugar de por ID
                 const categoryName = categoryItem.category_name;
-
                 const fullCategory = this.categories.find(
                   (c) => c.category_name === categoryName
                 );
-
                 return fullCategory || { category_name: 'Desconocido' };
               }
             );
@@ -54,16 +60,38 @@ export class ShowDialogComponent implements OnInit {
     );
   }
 
+  checkAuthentication() {
+    this.store.select('auth').subscribe((authState) => {
+      const currentUser: IAuth = authState.auth;
+      this.isAuthenticated = !!currentUser;
+
+      if (this.isAuthenticated) {
+        this.isOwner = this.element.user_email === currentUser.email;
+        this.canEdit = this.isOwner && this.element.status === 'Pending';
+        this.canDelete = this.isOwner && this.element.status === 'Pending';
+      }
+    });
+  }
+
   onClose(): void {
     this.dialogRef.close();
+    location.reload();
   }
 
   onEdit(): void {
-    this.dialogRef.close({ action: 'edit', data: this.element });
+    if (this.canEdit) {
+      this.dialogRef.close({ action: 'edit', data: this.element });
+    } else {
+      this.toastr.error('No tienes permiso para modificar este objeto.');
+    }
   }
 
   onDelete(): void {
-    this.dialogRef.close({ action: 'delete', data: this.element });
+    if (this.canDelete) {
+      this.dialogRef.close({ action: 'delete', data: this.element });
+    } else {
+      this.toastr.error('No tienes permiso para eliminar este objeto.');
+    }
   }
 
   capitalizeFirstLetter(text: string): string {

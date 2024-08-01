@@ -170,7 +170,19 @@ export class LostAndFoundComponent implements OnInit {
         );
       },
       (error) => {
-        this.toastr.error('Error al eliminar el objeto');
+        // Manejar errores específicos basados en el código de estado
+        if (error.status === 403) {
+          const errorMessage =
+            error.error?.message ||
+            'No tienes permiso para acceder a este recurso.';
+          this.toastr.error(errorMessage, 'Error');
+        } else if (error.status === 404) {
+          this.toastr.error('El objeto no se encontró.', 'Error');
+        } else if (error.status === 500) {
+          this.toastr.error('Se produjo un error en el servidor.', 'Error');
+        } else {
+          this.toastr.error('Error inesperado al eliminar el objeto.', 'Error');
+        }
       }
     );
   }
