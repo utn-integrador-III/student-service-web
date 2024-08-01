@@ -12,3 +12,7 @@ export class LogoutUser implements Action {
 }
 
 export type LoginActions = AuthenticateUser | LogoutUser;
+
+export function updateToken(arg0: { token: any; }): any {
+  throw new Error('Function not implemented.');
+}

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-zona.component';
-import { ToastService } from '../services/toaster.service';
+import { ToastService } from '../Services/toaster.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ZoneService } from '../Services/service-zone/zone.service';
 

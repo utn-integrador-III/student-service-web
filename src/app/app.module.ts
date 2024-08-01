@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { ExampleComponent } from './components/example/example.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastService } from './services/toaster.service';
+import { ToastService } from './Services/toaster.service';
 import { provideToastr } from 'ngx-toastr';
 import { ModuleObjectsComponent } from './module-objects/module-objects.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
