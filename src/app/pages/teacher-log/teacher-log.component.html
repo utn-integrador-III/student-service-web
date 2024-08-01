@@ -10,52 +10,40 @@
           <p style="text-align: center; margin-top: 20px; font-size: 20px">
             Apertura de laboratorio
           </p>
+
           <div class="mb-3">
-            <select id="seleccionarPersona" class="form-select inputs">
-              <option value="" disabled selected hidden>
-                Selecciona una persona
-              </option>
-              <option value="Floribeth Vindas Parras">
-                Floribeth Vindas Parras
-              </option>
-              <option value="Ever Barahoma Mendoza">
-                Ever Barahoma Mendoza
-              </option>
-              <option value="Jorge Felix Fernández">
-                Jorge Felix Fernández
+            <select id="seleccionarPersona" class="form-select inputs" [(ngModel)]="selectedProfessorName" (ngModelChange)="onProfessorSelect()">
+              <option value="" disabled selected hidden>Selecciona una persona</option>
+              <option *ngFor="let professor of professorNames" [value]="professor">
+                {{ professor }}
               </option>
             </select>
           </div>
           <div class="mb-3">
-            <select id="seleccionarPersona" class="form-select inputs">
-              <option value="" disabled selected hidden>
-                Seleccionar curso
+            <select id="seleccionarCurso" class="form-select inputs">
+              <option value="" disabled selected hidden>Selecciona un curso</option>
+              <option *ngFor="let course of courses" [value]="course.subject_id">
+                {{ course.subject_name }}
               </option>
-              <option value="Floribeth Vindas Parras">
-                Bases de datos anvanzadas
-              </option>
-              <option value="Ever Barahoma Mendoza">
-                Metodologia de la investigación
-              </option>
-              <option value="Jorge Felix Fernández">Matematicas general</option>
             </select>
           </div>
+
           <div class="mb-3">
-            <select id="seleccionarPersona" class="form-select inputs">
-              <option value="" disabled selected hidden>
-                Selecciona laboratorio
-              </option>
-              <option value="Floribeth Vindas Parras">
-                Floribeth Vindas Parras
-              </option>
-              <option value="Ever Barahoma Mendoza">
-                Ever Barahoma Mendoza
-              </option>
-              <option value="Jorge Felix Fernández">
-                Jorge Felix Fernández
-              </option>
+            <select id="labSelect" class="form-select inputs" [(ngModel)]="selectedLab" (ngModelChange)="onLabSelect($event)">
+              <option value="" [ngValue]="null">Selecciona un lab</option>
+              <option *ngFor="let lab of labs" [ngValue]="lab">{{ lab.lab_name }}</option>
             </select>
           </div>
+          
+          
+          
+
+
+
+
+
+
+         
           <button type="button" class="btn buttonApertura w-30">
             Apertura de laboratorio
           </button>

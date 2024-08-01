@@ -167,3 +167,20 @@
 a {
   text-decoration: none;
 }
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.custom-button {
+  background-color: #1b3069;
+  color: white;
+  height: 45px;
+  border-radius: 15px;
+  border: none;
+  width: 180px; 
+  text-align: center;
+  font-size: 16px;
+}

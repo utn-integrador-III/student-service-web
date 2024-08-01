@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
 import { LostItemsComponent } from '../lost-items.component';
 import { CategoriaServices } from '../../../Services/categoriasServices';
+import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -12,14 +13,8 @@ import { CategoriaServices } from '../../../Services/categoriasServices';
   styleUrls: ['./lost-and-found.component.css'],
 })
 export class LostAndFoundComponent implements OnInit {
-  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
-  displayedColumns: string[] = [
-    'image',
-    'name',
-    'description',
-    'category',
-    'actions',
-  ];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: string[] = ['image', 'name', 'description', 'category'];
   @ViewChild('addModal') addModal!: ElementRef;
   selectedCategories: { [key: string]: boolean } = {};
 
@@ -185,15 +180,29 @@ export class LostAndFoundComponent implements OnInit {
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   }
 
-  openEditDialog(row: any) {
+  openEditDialog(item: any): void {
     const dialogRef = this.dialog.open(LostItemsComponent, {
       width: '500px',
-      data: row,
+      data: { ...item },
+    });
+  }
+
+  openDialog(element: any): void {
+    const dialogRef = this.dialog.open(ShowDialogComponent, {
+      width: '520px',
+      maxHeight: '80vh',
+
+      data: element,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.loadObjects();
+        if (result.action === 'edit') {
+          this.openEditDialog(result.data);
+        } else if (result.action === 'delete') {
+          this.deleteObject(result.data._id);
+        }
       }
     });
   }

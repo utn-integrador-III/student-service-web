@@ -75,24 +75,18 @@
           class="mat-elevation-z8"
           style="text-align: center; width: 100%"
         >
-          <ng-container matColumnDef="image">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              style="background-color: #89c1e0"
-            >
-              <p style="color: aliceblue; text-align: center">Imagen</p>
-            </th>
-            <td mat-cell *matCellDef="let element" class="fixed-width">
-              <img
-                *ngIf="element.attachment_path"
-                [src]="element.attachment_path"
-                alt="Imagen"
-                style="max-width: 100px; height: auto"
-              />
-              <span *ngIf="!element.attachment_path">Sin imagen</span>
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="image">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            style="background-color: #89c1e0"
+          >
+            <p style="color: aliceblue; text-align: center">Imagen</p>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.image }}
+          </td>
+        </ng-container>
 
           <ng-container matColumnDef="name">
             <th
@@ -145,39 +139,16 @@
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="actions">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              style="background-color: #89c1e0"
-            >
-              <p style="color: aliceblue; text-align: center">Acciones</p>
-            </th>
-            <td mat-cell *matCellDef="let element" class="fixed-width">
-              <button
-                mat-button
-                style="color: purple"
-                (click)="openEditDialog(element)"
-              >
-                Modificar
-              </button>
-              <button
-                mat-button
-                style="color: red"
-                (click)="deleteObject(element._id)"
-              >
-                Eliminar
-              </button>
-            </td>
-          </ng-container>
+         
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr
-            mat-row
-            *matRowDef="let row; columns: displayedColumns"
-            (click)="onRowClick(row)"
-            class="clickable-row"
-          ></tr>
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          class="clickable-row" (click)="openDialog(row)"
+
+        ></tr>
+        
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="5">
               <p style="text-align: center; color: gray">
