@@ -37,20 +37,39 @@
       </div>
       <div class="form-group">
         <mat-label>Selecciona categorías</mat-label>
-        <div>
-          <mat-checkbox
-            *ngFor="let category of categories"
-            [checked]="selectedCategories[category.category_name]"
-            (change)="onCategoryChange(category.category_name, $event.checked)"
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 10px;
+            "
           >
-            {{ category.category_name }}
-          </mat-checkbox>
+            <mat-checkbox
+              *ngFor="let category of categories"
+              [checked]="selectedCategories[category.category_name]"
+              (change)="
+                onCategoryChange(category.category_name, $event.checked)
+              "
+            >
+              <span style="color: #333; margin-top: 8px; font-weight: 500">
+                {{ category.category_name }}
+              </span>
+            </mat-checkbox>
+          </div>
+          <mat-error
+            *ngIf="!getSelectedCategories().length"
+            style="
+              color: red;
+              font-size: 0.875rem;
+              text-align: center;
+              width: 100%;
+            "
+          >
+            Seleccione al menos una categoría.
+          </mat-error>
         </div>
-        <mat-error
-          *ngIf="form.get('category').invalid && form.get('category').touched"
-        >
-          Seleccione al menos una categoría.
-        </mat-error>
       </div>
       <div class="file-upload-wrapper" style="margin-bottom: 3px">
         <button

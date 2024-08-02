@@ -1,6 +1,6 @@
 table {
   width: 100%;
-  background-color: #F7F7F7;
+  background-color: #f7f7f7;
 }
 
 th,
@@ -24,7 +24,7 @@ td {
 
 .mat-header-cell {
   text-align: center;
-  background-color: #1B3069;
+  background-color: #1b3069;
   padding: 10px;
 }
 
@@ -38,7 +38,7 @@ td {
 .btn-agregar {
   margin-bottom: 20px;
   height: 35px;
-  background-color: #7788B5;
+  background-color: #7788b5;
   margin-top: 50px;
   border-radius: 5px;
   border: none;
@@ -89,12 +89,12 @@ table {
 .line {
   flex: 1;
   height: 5px;
-  background-color: #1B3069;
+  background-color: #1b3069;
 }
 .title {
   margin: 0 10px;
   font-size: 20px;
-  color: #1B3069 ;
+  color: #1b3069;
 }
 .clickable-row {
   cursor: pointer;
@@ -102,5 +102,5 @@ table {
 }
 
 .clickable-row:hover {
-  background-color: #e0f7fa; 
+  background-color: #e0f7fa;
 }
