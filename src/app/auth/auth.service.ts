@@ -11,6 +11,7 @@ import { IAuth } from '../login/models/login.model';
 import { ToastService } from '../Services/toaster.service';
 import { Router } from '@angular/router';
 import { error_message_handler } from '../shared/helper/error-message.handler';
+import { Injector } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AuthService implements OnDestroy {
     private store: Store<fromApp.AppState>,
     private http: HttpClient,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private injector: Injector
   ) {
     this.getAuthentication();
   }
@@ -124,9 +126,23 @@ export class AuthService implements OnDestroy {
     localStorage.setItem(this.JWT_TOKEN, jwt);
   }
 
+  restoreSession() {
+    const token = localStorage.getItem('JWT_TOKEN');
+    if (token) {
+      const updatedUser = {
+        ...this.userAuthenticate,
+        token: token
+      };
+      this.store.dispatch(new AuthActions.AuthenticateUser(updatedUser));
+      // Restart idle monitoring upon session restoration
+    }
+  }
+  
+
   logout() {
     this.store.dispatch(new AuthActions.LogoutUser());
     this.toastService.showSuccess('Session closed successfully', 'Success');
+    localStorage.removeItem(this.JWT_TOKEN)
     this.router.navigate(['/login']);
   }
 
