@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToastrService } from 'ngx-toastr';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
 import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
 import { LostItemsComponent } from '../lost-items.component';
-import { MatDialog } from '@angular/material/dialog';
+import { CategoriaServices } from '../../../Services/categoriasServices';
 import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 
 @Component({
@@ -13,65 +13,77 @@ import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
   styleUrls: ['./lost-and-found.component.css'],
 })
 export class LostAndFoundComponent implements OnInit {
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   displayedColumns: string[] = ['image', 'name', 'description', 'category'];
   @ViewChild('addModal') addModal!: ElementRef;
+  selectedCategories: { [key: string]: boolean } = {};
 
-  newObject: any = {};
+  newObject: any = {
+    category: [],
+    name: '',
+    description: '',
+    user_email: '',
+    safekeeper: [],
+  };
+
+  categories: any[] = [];
+  imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private srvlostObjects: LostAndFoundService,
     private toastr: ToastrService,
-    public dialog: MatDialog
-  ) {
-    this.dataSource = new MatTableDataSource([]);
-  }
+    public dialog: MatDialog,
+    private srvCategorias: CategoriaServices
+  ) {}
 
   ngOnInit(): void {
     this.loadObjects();
+    this.loadCategories();
   }
 
   loadObjects() {
     this.srvlostObjects.getObjects().subscribe(
       (response: any) => {
-        console.log(response);
         this.dataSource.data = response.data;
       },
       (error) => {
-        this.toastr.error('Error al cargar los objectos.');
-        console.error('Error al cargar los objectos:', error);
+        if (error.status === 404) {
+          this.toastr.error('No hay objetos registrados.');
+        } else {
+          this.toastr.error('Error al cargar los objetos.');
+        }
+        console.log(error);
       }
     );
   }
 
-  openEditDialog(item: any): void {
-    const dialogRef = this.dialog.open(LostItemsComponent, {
-      width: '500px',
-      data: { ...item },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const index = this.dataSource.data.findIndex(
-          (item) => item._id === result._id
-        );
-
-        if (index !== -1) {
-          this.dataSource.data[index] = result;
-          this.dataSource._updateChangeSubscription();
-
-          this.srvlostObjects.updateObjects(result).subscribe(
-            (response) => {
-              this.toastr.success('Objeto actualizado exitosamente');
-              this.loadObjects();
-            },
-            (error) => {
-              this.toastr.error('Error al actualizar el objeto', error);
-            }
-          );
+  loadCategories() {
+    this.srvCategorias.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.data;
+        this.categories.forEach((category) => {
+          this.selectedCategories[category.category_name] = false;
+        });
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.toastr.error('No se encontraron categorías.');
+        } else {
+          this.toastr.error('Error al cargar las categorías.');
         }
+        console.log(error);
       }
-    });
+    );
+  }
+
+  onCategoryChange() {
+    this.newObject.category = this.getSelectedCategories();
+  }
+
+  getSelectedCategories(): string[] {
+    return Object.keys(this.selectedCategories).filter(
+      (category) => this.selectedCategories[category]
+    );
   }
 
   addLostObject() {
@@ -80,9 +92,10 @@ export class LostAndFoundComponent implements OnInit {
     if (
       !this.newObject.name ||
       !this.newObject.description ||
-      !this.newObject.user_email
+      !this.newObject.user_email ||
+      !this.newObject.category.length
     ) {
-      this.toastr.error('Por favor llene los espacios');
+      this.toastr.error('Por favor llene todos los espacios');
       return;
     }
     if (!emailRegex.test(this.newObject.user_email)) {
@@ -95,20 +108,19 @@ export class LostAndFoundComponent implements OnInit {
     this.newObject.safekeeper = [fixedSafekeeper];
 
     this.srvlostObjects.addObjects(this.newObject).subscribe(
-      (response) => {
+      () => {
         this.toastr.success('Objeto añadido exitosamente');
         this.loadObjects();
         this.closeModal();
       },
       (error) => {
-        this.toastr.error('Error al añadir el objeto', error);
+        this.toastr.error('Error al añadir el objeto');
       }
     );
   }
 
   closeModal() {
-    this.clearForm();
-    this.resetModalFields();
+    this.resetForm();
     const modalElement = this.addModal.nativeElement;
     const backdropElement = document.querySelector('.modal-backdrop');
 
@@ -132,77 +144,32 @@ export class LostAndFoundComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        const imagePreview = document.getElementById(
-          'image-preview'
-        ) as HTMLImageElement;
-        imagePreview.src = e.target.result;
-        imagePreview.style.display = 'block';
+        this.imagePreviewUrl = e.target.result;
       };
       reader.readAsDataURL(file);
     }
   }
 
   removeImage() {
-    const imagePreview = document.getElementById(
-      'image-preview'
-    ) as HTMLImageElement;
+    this.imagePreviewUrl = null;
     const fileInput = document.getElementById('item-image') as HTMLInputElement;
-
-    imagePreview.src = '#';
-    imagePreview.style.display = 'none';
-    fileInput.value = '';
+    if (fileInput) {
+      fileInput.value = '';
+    }
   }
 
-  clearForm() {
+  resetForm() {
+    this.newObject = {
+      category: [],
+      name: '',
+      description: '',
+      user_email: '',
+    };
+    this.imagePreviewUrl = null;
     this.dataSource.filter = '';
-    this.resetImagePreview();
+    this.selectedCategories = {};
   }
 
-  resetImagePreview() {
-    const imagePreview = document.getElementById(
-      'image-preview'
-    ) as HTMLImageElement;
-    const fileInput = document.getElementById('item-image') as HTMLInputElement;
-
-    imagePreview.src = '#';
-    imagePreview.style.display = 'none';
-    if (fileInput) {
-      fileInput.value = '';
-    }
-  }
-
-  resetModalFields() {
-    const fileInput = document.getElementById('item-image') as HTMLInputElement;
-    const imagePreview = document.getElementById(
-      'image-preview'
-    ) as HTMLImageElement;
-    const itemNameInput = document.getElementById(
-      'item-name'
-    ) as HTMLInputElement;
-    const itemCategoryInput = document.getElementById(
-      'item-descripcion'
-    ) as HTMLInputElement;
-    const itemLocationInput = document.getElementById(
-      'item-email'
-    ) as HTMLInputElement;
-
-    if (fileInput) {
-      fileInput.value = '';
-    }
-    if (imagePreview) {
-      imagePreview.src = '#';
-      imagePreview.style.display = 'none';
-    }
-    if (itemNameInput) {
-      itemNameInput.value = '';
-    }
-    if (itemCategoryInput) {
-      itemCategoryInput.value = '';
-    }
-    if (itemLocationInput) {
-      itemLocationInput.value = '';
-    }
-  }
   deleteObject(id: string): void {
     this.srvlostObjects.deleteObjects(id).subscribe(
       () => {
@@ -212,11 +179,37 @@ export class LostAndFoundComponent implements OnInit {
         );
       },
       (error) => {
-        this.toastr.error('Error al eliminar el objeto');
-        console.error('Error al eliminar el objeto:', error);
+        // Manejar errores específicos basados en el código de estado
+        if (error.status === 403) {
+          const errorMessage =
+            error.error?.message ||
+            'No tienes permiso para acceder a este recurso.';
+          this.toastr.error(errorMessage, 'Error');
+        } else if (error.status === 404) {
+          this.toastr.error('El objeto no se encontró.', 'Error');
+        } else if (error.status === 500) {
+          this.toastr.error('Se produjo un error en el servidor.', 'Error');
+        } else {
+          this.toastr.error('Error inesperado al eliminar el objeto.', 'Error');
+        }
       }
     );
   }
+
+  onRowClick(row: any) {}
+
+  capitalizeFirstLetter(text: string): string {
+    if (!text) return 'No disponible';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  openEditDialog(item: any): void {
+    const dialogRef = this.dialog.open(LostItemsComponent, {
+      width: '500px',
+      data: { ...item },
+    });
+  }
+
   openDialog(element: any): void {
     const dialogRef = this.dialog.open(ShowDialogComponent, {
       width: '520px',
@@ -227,6 +220,7 @@ export class LostAndFoundComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
+        this.loadObjects();
         if (result.action === 'edit') {
           this.openEditDialog(result.data);
         } else if (result.action === 'delete') {

@@ -35,6 +35,7 @@ export const routes: Routes = [
     component: CategoriasComponent,
     canActivate: [AuthGuard],
   },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'reportIssues', component: ReportIssueComponent },
   { path: 'issues', component: VisualizationIssuesComponent },
   { path: 'classes', component: PickClassesComponent },

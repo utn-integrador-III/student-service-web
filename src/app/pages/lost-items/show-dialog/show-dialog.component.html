@@ -3,38 +3,58 @@
   <hr />
   <div class="info">
     <p><strong>Imagen:</strong></p>
-    <p><img [src]="element.image" alt="Imagen del objeto" style="max-width: 100px; max-height: 100px;" /></p>
+    <p>
+      <img
+        [src]="element.image"
+        alt="Imagen del objeto"
+        style="max-width: 100px; max-height: 100px"
+      />
+    </p>
     <p><strong>Nombre:</strong></p>
     <p>{{ element.name }}</p>
     <p><strong>Descripción:</strong></p>
     <p>{{ element.description }}</p>
-    <p><strong>Categoria:</strong></p>
-    <p>{{ element.category }}</p>
-
-
- 
-
-
+    <p><strong>Categoría:</strong></p>
+    <ng-container
+      *ngIf="element.category && element.category.length; else noCategories"
+    >
+      <p *ngFor="let category of element.category">
+        {{ capitalizeFirstLetter(category.category_name) }}
+      </p>
+    </ng-container>
+    <ng-template #noCategories>
+      <p>No disponible</p>
+    </ng-template>
   </div>
 
-
-<!-- show-dialog.component.html -->
-<div class="dialog-content">
-  <div class="container-fluid">
+  <!-- show-dialog.component.html -->
+  <div class="dialog-content">
+    <div class="container-fluid">
       <div class="row">
-          <div class="col-12 col-md-4 mb-2">
-              <button class="modifybutton w-100" (click)="onEdit()">Modificar</button>
-          </div>
-          <div class="col-12 col-md-4 mb-2">
-              <button class="deletebutton w-100" (click)="onDelete()">Eliminar</button>
-          </div>
-          <div class="col-12 col-md-4 mb-2">
-              <button class="closebutton w-100" (click)="onClose()">Cerrar</button>
-          </div>
+        <div class="col-12 col-md-4 mb-2">
+          <button
+            class="modifybutton w-100"
+            (click)="onEdit()"
+            [disabled]="!canEdit"
+            [ngClass]="{ 'disabled-button': !canEdit }"
+          >
+            Modificar
+          </button>
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+          <button
+            class="deletebutton w-100"
+            (click)="onDelete()"
+            [disabled]="!canDelete"
+            [ngClass]="{ 'disabled-button': !canDelete }"
+          >
+            Eliminar
+          </button>
+        </div>
+        <div class="col-12 col-md-4 mb-2">
+          <button class="closebutton w-100" (click)="onClose()">Cerrar</button>
+        </div>
       </div>
+    </div>
   </div>
-</div>
-
-
-
 </div>
