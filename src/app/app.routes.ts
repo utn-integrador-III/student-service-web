@@ -22,12 +22,12 @@ export const routes: Routes = [
   {
     path: 'teacherlog',
     component: TeacherLogComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'studentlog',
     component: StudentLogComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   { path: 'zones', component: ZonasComponent, canActivate: [AuthGuard] },
   {
