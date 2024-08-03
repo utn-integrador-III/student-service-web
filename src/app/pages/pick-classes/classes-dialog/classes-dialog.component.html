@@ -1,0 +1,22 @@
+<div class="popup">
+  <h5 class="title">Detalles del curso</h5>
+  <hr />
+
+  <div class="info">
+    <p><strong>Curso:</strong> {{ data.course }}</p>
+    <p><strong>Profesor:</strong> {{ data.professor }}</p>
+    <p><strong>Laboratorio:</strong> {{ data.lab }}</p>
+  </div>
+
+  <div class="buttonclose-container">
+    <button
+      class="buttonclose blue"
+      routerLinkActive="active"
+      routerLink="/studentlog"
+    >
+      Llenar
+    </button>
+
+    <button class="buttonclose red" (click)="onClose()">Cerrar</button>
+  </div>
+</div>
