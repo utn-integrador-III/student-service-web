@@ -3796,3 +3796,4 @@ export {
   MatTextColumn
 };
 //# sourceMappingURL=@angular_material_table.js.map
+
