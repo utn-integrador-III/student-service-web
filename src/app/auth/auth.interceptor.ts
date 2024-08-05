@@ -9,7 +9,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { ToastService } from '../services/toaster.service';
+import { ToastService } from '../Services/toaster.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -24,6 +24,8 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
 
+    console.log('Token from auth.interceptor:', token);
+    console.log('Request URL:', req.url);
     let authReq = req;
     if (token) {
       authReq = req.clone({
