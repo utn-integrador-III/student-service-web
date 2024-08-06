@@ -1,7 +1,7 @@
 import {
   ScrollingModule,
   ViewportRuler
-} from "./chunk-UKBQM3ZS.js";
+} from "./chunk-OULAWQZI.js";
 import {
   DataSource,
   _DisposeViewRepeaterStrategy,
@@ -9,13 +9,13 @@ import {
   _VIEW_REPEATER_STRATEGY,
   _ViewRepeaterOperation,
   isDataSource
-} from "./chunk-3CL3OIUZ.js";
+} from "./chunk-2ZP4QJA5.js";
 import {
   Directionality,
   MatCommonModule,
   Platform,
   _isNumberValue
-} from "./chunk-4Z6FPAYW.js";
+} from "./chunk-DXKVIMN6.js";
 import {
   DOCUMENT
 } from "./chunk-4TXBC3YF.js";
@@ -3796,4 +3796,3 @@ export {
   MatTextColumn
 };
 //# sourceMappingURL=@angular_material_table.js.map
-

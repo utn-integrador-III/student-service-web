@@ -14,7 +14,9 @@ import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
-  displayedColumns: string[] = ['image', 'name', 'description', 'category'];
+  //displayedColumns: string[] = ['image', 'name', 'description', 'category'];
+
+  displayedColumns: string[] = ['name', 'description', 'category', 'status'];
   @ViewChild('addModal') addModal!: ElementRef;
   selectedCategories: { [key: string]: boolean } = {};
 

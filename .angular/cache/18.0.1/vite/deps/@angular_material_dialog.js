@@ -9,10 +9,10 @@ import {
   OverlayRef,
   PortalModule,
   TemplatePortal
-} from "./chunk-GZ3MZ5GU.js";
+} from "./chunk-HXOSDGQ6.js";
 import {
   CdkScrollable
-} from "./chunk-UKBQM3ZS.js";
+} from "./chunk-OULAWQZI.js";
 import {
   animate,
   animateChild,
@@ -23,7 +23,7 @@ import {
   transition,
   trigger
 } from "./chunk-EYPFN56T.js";
-import "./chunk-3CL3OIUZ.js";
+import "./chunk-2ZP4QJA5.js";
 import {
   A11yModule,
   Directionality,
@@ -36,7 +36,7 @@ import {
   _getFocusedElementPierceShadowDom,
   coerceNumberProperty,
   hasModifierKey
-} from "./chunk-4Z6FPAYW.js";
+} from "./chunk-DXKVIMN6.js";
 import {
   DOCUMENT,
   Location
@@ -1793,4 +1793,3 @@ export {
   matDialogAnimations
 };
 //# sourceMappingURL=@angular_material_dialog.js.map
-
