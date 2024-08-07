@@ -16,7 +16,7 @@ export class EnrollmentComponent {
   showVerifyModal: boolean = false;
   message: string = '';
 
-  constructor(private enrollmentService: EnrollmentService, private toastService: ToastService) {}  // Inyecta el ToastService
+  constructor(private enrollmentService: EnrollmentService, private toastService: ToastService) {}
 
   openRegisterModal() {
     this.showRegisterModal = true;
@@ -35,32 +35,38 @@ export class EnrollmentComponent {
   }
 
   onSubmit() {
+    if (!this.name || !this.email || !this.password) {
+      this.toastService.showWarning('Todos los campos son obligatorios.');  // Mensaje de advertencia
+      return;
+    }
+
     const userData = { name: this.name, email: this.email, password: this.password };
     this.enrollmentService.enrollUser(userData).subscribe(
       response => {
-        this.toastService.showSuccess('Registro exitoso. Verifica tu correo electrónico.');  // Mensaje de éxito
+        this.toastService.showSuccess('Registro exitoso. Verifica tu correo electrónico.');
         this.closeRegisterModal();
         this.openVerifyModal();
       },
       error => {
-        this.toastService.showError('Error en el registro. Intenta de nuevo.');  // Mensaje de error
+        this.toastService.showError(error.message);
       }
     );
   }
 
   verifyCode() {
-    if (this.verificationCode && this.email) {
-      this.enrollmentService.verifyCode(this.email, this.verificationCode).subscribe(
-        response => {
-          this.toastService.showSuccess('Código verificado exitosamente.');  // Mensaje de éxito
-          this.closeVerifyModal();
-        },
-        error => {
-          this.toastService.showError('Error verificando el código.');  // Mensaje de error
-        }
-      );
-    } else {
-      this.toastService.showWarning('Correo y código no pueden estar vacíos.');  // Mensaje de advertencia
+    if (!this.email || !this.verificationCode) {
+      this.toastService.showWarning('Correo y código no pueden estar vacíos.');
+      return;
     }
+
+    this.enrollmentService.verifyCode(this.email, this.verificationCode).subscribe(
+      response => {
+        this.toastService.showSuccess('Código verificado exitosamente.');
+        this.closeVerifyModal();
+      },
+      error => {
+        this.toastService.showError(error.message);
+      }
+    );
   }
 }
