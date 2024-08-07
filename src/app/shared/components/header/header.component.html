@@ -8,15 +8,16 @@
   <nav class="nav-menu" [class.open]="menuOpen">
     <ul>
 
-      <li><a class="nav-link" [routerLink]="['/home']" (click)="closeMenu()">Inicio</a></li>
+      <li><a routerLink="/home" routerLinkActive="active"  (click)="closeMenu()">Inicio</a></li>
       <li><a routerLink="/lostAndFound" routerLinkActive="active" (click)="closeMenu()">Objectos perdidos</a></li>
+      <li><a routerLink="/reportIssues" routerLinkActive="active" (click)="closeMenu()">Reporte de averias</a></li>
+
       <li><a routerLink="/studentlog" routerLinkActive="active" (click)="closeMenu()">Bitacora estudiante</a></li>
-      <li><a routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a></li>
       <ng-container *ngIf="userAuthenticated; else loginLink">
         <li><a class="nav-link" (click)="logout(); closeMenu()">Cerrar sesión</a></li>
       </ng-container>
       <ng-template #loginLink>
-        <li><a class="nav-link" [routerLink]="['/login']" routerLinkActive="active" (click)="closeMenu()">Login</a></li>
+        <li><a class="nav-link"routerLink="/login" routerLinkActive="active" (click)="closeMenu()">Login</a></li>
       </ng-template>
     </ul>
     <span class="welcome-message" *ngIf="userAuthenticated">

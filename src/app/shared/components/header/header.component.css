@@ -109,7 +109,7 @@
     position: absolute;
     top: 60px; 
     right: 10px; 
-    background-color: #1B3069;
+    background-color: #89c1e0;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     padding: 10px;
@@ -155,10 +155,10 @@
   
     .nav-menu {
       display: none;
-      width: 100%;
+      width: 60%;
       flex-direction: column;
       margin-top: 10px;
-      background-color: #1B3069;
+      background-color: #89c1e0;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       border-radius: 5px;

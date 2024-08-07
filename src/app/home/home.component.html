@@ -108,8 +108,31 @@
             <img src="assets/images/bitacora.png" class="small-image" />
             <p>Bitácora</p>
             <div *ngIf="showBitacoraOptions" class="options1">
-              <button class="w-100" routerLink="/teacherlog" routerLinkActive="active" style="background-color: #1b3069; color:white; height:40px" (click)="selectOption('bitacoraProfesor')">Bitácora Profesor</button>
-              <button class="w-100" routerLink="/studentlog" routerLinkActive="active" style="background-color: #1b3069; color:white; height:45px" (click)="selectOption('bitacoraEstudiante')">Bitácora Estudiante</button>
+              <div class="button-container">
+                <button 
+                class="custom-button" 
+                routerLink="/classes" 
+                routerLinkActive="active" 
+               >
+                Clases
+              </button>
+                <button 
+                  class="custom-button" 
+                  routerLink="/teacherlog" 
+                  routerLinkActive="active" 
+             >
+                  Bitácora Profesor
+                </button>
+                <button 
+                  class="custom-button" 
+                  routerLink="/studentlog" 
+                  routerLinkActive="active" 
+                  >
+                  Bitácora Estudiante
+                </button>
+            
+              </div>
+              
               
             </div>
           </div>
@@ -153,8 +176,29 @@
             <img src="assets/images/ajustes.png" class="small-image" />
             <p>Ajustes</p>
             <div *ngIf="showAjustesOptions" class="options">
-              <button class="w-100" routerLink="/zones" routerLinkActive="active" style="background-color: #1b3069; color:white; height:40px" (click)="selectOption('zonas')">Zonas</button>
-              <button class="w-100" routerLink="/categorias" routerLinkActive="active" style="background-color: #1b3069; color:white; height:45px" (click)="selectOption('categoria')">Categoría</button>
+              <div class="button-container">
+                <button 
+                  class="custom-button" 
+                  routerLink="/zones" 
+                  routerLinkActive="active" 
+             >
+                  Zonas
+                </button>
+                <button 
+                  class="custom-button" 
+                  routerLink="/categorias" 
+                  routerLinkActive="active" 
+                 >
+                  Categoría
+                </button>
+                <button 
+                  class="custom-button" 
+                  routerLink="/issues" 
+                  routerLinkActive="active" 
+           >
+                  Averías
+                </button>
+              </div>
               
             </div>
           </div>

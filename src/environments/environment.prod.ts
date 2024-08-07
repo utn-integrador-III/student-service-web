@@ -2,10 +2,13 @@ export const environment = {
   URL_USERS: process.env['URL_USERS'],
   URL_REPORT: process.env['URL_REPORT'],
   URL_AUTH: process.env['URL_AUTH'],
+  URL_REFRESH: process.env['URL_AUTH_REFRESH'],
   URL_ZONE: process.env['URL_ZONE'],
   URL_API_CATEGORY: process.env['URL_CATEGORY'],
   URL_LOSTANDFOUND: process.env['URL_LOSTANDFOUND'],
   URL_LOSTOBJECTSBYID: process.env['URL_LOSTOBJECTSBYID'],
   URL_ENROLLMENT: process.env['URL_ENROLLMENT'],
-  URL_VERIFY: process.env['URL_VERIFY'] 
+  URL_VERIFY: process.env['URL_VERIFY'],
+  URL_API_LABMANAGING: process.env['URL_API_LABMANAGING'],
+  URL_API_PROFESSOR: process.env['URL_API_PROFESSOR'],
 };

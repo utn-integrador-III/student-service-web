@@ -1,7 +1,10 @@
+import { IRole } from "./role.model";
+
 export class IAuth {
-    email: string = '';
-    name: string = '';
-    status: string = '';
-    role_id: string[] = [];
-    token: string = '';
+  _id?: string = '';
+  email: string = '';
+  name: string = '';
+  status: string = '';
+  role: IRole = new IRole(); 
+  token: string = '';
 }

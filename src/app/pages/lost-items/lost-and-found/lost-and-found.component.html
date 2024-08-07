@@ -83,14 +83,8 @@
             >
               <p style="color: aliceblue; text-align: center">Imagen</p>
             </th>
-            <td mat-cell *matCellDef="let element" class="fixed-width">
-              <img
-                *ngIf="element.attachment_path"
-                [src]="element.attachment_path"
-                alt="Imagen"
-                style="max-width: 100px; height: auto"
-              />
-              <span *ngIf="!element.attachment_path">Sin imagen</span>
+            <td mat-cell *matCellDef="let element">
+              {{ element.image }}
             </td>
           </ng-container>
 
@@ -107,6 +101,8 @@
             </td>
           </ng-container>
 
+          
+     
           <ng-container matColumnDef="description">
             <th
               mat-header-cell
@@ -129,33 +125,32 @@
               <p style="color: aliceblue; text-align: center">Categoría</p>
             </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.category }}
+              <ul style="list-style-type: none; padding: 0; margin: 0">
+                <li
+                  *ngIf="
+                    element.category && element.category.length;
+                    else noCategories
+                  "
+                >
+                  <ng-container *ngFor="let category of element.category">
+                    {{ capitalizeFirstLetter(category.category_name) }}
+                  </ng-container>
+                </li>
+                <ng-template #noCategories> No disponible </ng-template>
+              </ul>
             </td>
           </ng-container>
 
-          <ng-container matColumnDef="actions">
+          <ng-container matColumnDef="status">
             <th
               mat-header-cell
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Acciones</p>
+              <p style="color: aliceblue; text-align: center">Estado</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
-              <button
-                mat-button
-                style="color: purple"
-                (click)="openEditDialog(element)"
-              >
-                Modificar
-              </button>
-              <button
-                mat-button
-                style="color: red"
-                (click)="deleteObject(element._id)"
-              >
-                Eliminar
-              </button>
+              {{ element.status }}
             </td>
           </ng-container>
 
@@ -163,9 +158,10 @@
           <tr
             mat-row
             *matRowDef="let row; columns: displayedColumns"
-            (click)="onRowClick(row)"
             class="clickable-row"
+            (click)="openDialog(row)"
           ></tr>
+
           <tr class="mat-row" *matNoDataRow>
             <td class="mat-cell" colspan="5">
               <p style="text-align: center; color: gray">
@@ -234,46 +230,80 @@
           />
         </div>
 
-        <div class="mb-3">
-          <label for="item-descripcion" class="form-label"
-            >Descripción Detallada</label
+        <div>
+          <label class="form-label">Categorías</label>
+          <div
+            style="display: flex; flex-direction: column; align-items: center"
           >
-          <textarea
-            class="form-control"
-            id="item-descripcion"
-            [(ngModel)]="newObject.description"
-            rows="4"
-          ></textarea>
+            <div
+              style="display: flex; flex-wrap: wrap; justify-content: center"
+            >
+              <mat-checkbox
+                *ngFor="let category of categories"
+                [(ngModel)]="selectedCategories[category.category_name]"
+                (change)="onCategoryChange()"
+                style="display: inline-flex; margin: 5px"
+              >
+                <span style="color: #333; margin-top: 8px; font-weight: 500">
+                  {{ category.category_name }}
+                </span>
+              </mat-checkbox>
+            </div>
+            <mat-error
+              *ngIf="!getSelectedCategories().length"
+              style="
+                color: red;
+                font-size: 0.875rem;
+                text-align: center;
+                width: 100%;
+              "
+            >
+              Seleccione al menos una categoría.
+            </mat-error>
+          </div>
+
+          <div class="mb-3">
+            <label for="item-descripcion" class="form-label"
+              >Descripción Detallada</label
+            >
+            <textarea
+              class="form-control"
+              id="item-descripcion"
+              [(ngModel)]="newObject.description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="item-email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="item-email"
+              [(ngModel)]="newObject.user_email"
+            />
+          </div>
         </div>
 
-        <div class="mb-3">
-          <label for="item-email" class="form-label">Email</label>
-          <input
-            type="text"
-            class="form-control"
-            id="item-email"
-            [(ngModel)]="newObject.user_email"
-          />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <div class="d-flex flex-wrap justify-content-between">
-          <button
-            type="button"
-            style="background-color: #299980; color: aliceblue"
-            class="btn btn-lg flex-grow-1 m-1"
-            (click)="addLostObject()"
-          >
-            Agregar
-          </button>
-          <button
-            type="button"
-            class="btn btn-secondary btn-lg flex-grow-1 m-1"
-            data-bs-dismiss="modal"
-            (click)="closeModal()"
-          >
-            Cerrar
-          </button>
+        <div class="modal-footer">
+          <div class="d-flex flex-wrap justify-content-between">
+            <button
+              type="button"
+              style="background-color: #299980; color: aliceblue"
+              class="btn btn-lg flex-grow-1 m-1"
+              (click)="addLostObject()"
+            >
+              Agregar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-lg flex-grow-1 m-1"
+              data-bs-dismiss="modal"
+              (click)="closeModal()"
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       </div>
     </div>

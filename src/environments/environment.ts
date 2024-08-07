@@ -6,11 +6,14 @@ export const environment = {
   production: false,
   URL_USERS: '',
   URL_REPORT: '',
-  URL_AUTH: 'http://localhost:5002/login',
-  URL_ZONE: '',
-  URL_API_CATEGORY: '',
+  URL_AUTH: 'http://localhost:5002/auth/login',
+  URL_REFRESH: 'http://localhost:5002/auth/refresh',
+  URL_ZONE: 'http://localhost:5001/zone',
+  URL_API_CATEGORY: 'http://localhost:5001/category',
   URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
   URL_LOSTOBJECTSBYID: '',
   URL_ENROLLMENT: 'http://localhost:5002/auth/enrollment',  
-  URL_VERIFY: 'http://localhost:5002/user/verification' 
+  URL_VERIFY: 'http://localhost:5002/user/verification',
+  URL_API_LABMANAGING: 'http://localhost:5003/lab',
+  URL_API_PROFESSOR: 'http://localhost:5003/professor',
 };

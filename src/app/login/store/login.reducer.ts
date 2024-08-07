@@ -1,26 +1,29 @@
-import { IAuthState } from "../models/login.interface";
-import * as LoginActions from "./login.action";
-import * as LoginConstant from "./login.constant";
+import { IAuthState } from '../models/login.interface';
+import * as LoginActions from './login.action';
+import * as LoginConstant from './login.constant';
 
 const initialState: IAuthState = {
-   auth: null
-}
+  auth: null,
+};
 
-export const loginReducer = (state = initialState, action: LoginActions.LoginActions) => {
-    switch (action.type) {
-        case LoginConstant.AUTHENTICATE_USER:
-            return {
-                ...state,
-                auth: action.payload
-            };
+export const loginReducer = (
+  state = initialState,
+  action: LoginActions.LoginActions
+): IAuthState => {
+  switch (action.type) {
+    case LoginConstant.AUTHENTICATE_USER:
+      return {
+        ...state,
+        auth: action.payload,
+      };
 
-        case LoginConstant.LOGOUT_USER:
-            return {
-                ...state,
-                auth: null
-            };
+    case LoginConstant.LOGOUT_USER:
+      return {
+        ...state,
+        auth: null,
+      };
 
-        default:
-            return state;
-    }
-}
+    default:
+      return state;
+  }
+};

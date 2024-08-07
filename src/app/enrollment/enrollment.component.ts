@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { EnrollmentService } from './enrollment.service';
-import { ToastService } from '../services/toaster.service';
+import { ToastService } from '../Services/toaster.service';
 
 @Component({
   selector: 'app-enrollment',

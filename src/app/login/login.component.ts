@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth/auth.service';
 import { IAuthResponse } from './models/login.interface';
-import { ToastService } from '../services/toaster.service';
+import { ToastService } from '../Services/toaster.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
