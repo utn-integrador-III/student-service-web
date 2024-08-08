@@ -14,4 +14,5 @@ export const environment = {
   URL_LOSTOBJECTSBYID: '',
   URL_API_LABMANAGING: 'http://localhost:5003/lab',
   URL_API_PROFESSOR: 'http://localhost:5003/professor',
+  URL_API_SAFEKEEPER: 'http://localhost:5001/safekeeper',
 };

@@ -105,10 +105,6 @@ export class LostAndFoundComponent implements OnInit {
       return;
     }
 
-    const fixedSafekeeper = { user_email: 'semataoe@utn.ac.cr' };
-
-    this.newObject.safekeeper = [fixedSafekeeper];
-
     this.srvlostObjects.addObjects(this.newObject).subscribe(
       () => {
         this.toastr.success('Objeto añadido exitosamente');
