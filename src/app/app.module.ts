@@ -57,6 +57,7 @@ import { VisualizationIssuesModule } from './pages/visualization-issues/visualiz
     VisualizationIssuesModule,
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    CommonModule,
     EnrollmentModule
   ],
   providers: [
