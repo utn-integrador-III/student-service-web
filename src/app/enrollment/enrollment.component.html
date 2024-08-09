@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>Registro y Autenticación</h1>
+  <button (click)="openRegisterModal()">Registrar Usuario</button>
+  <button (click)="openVerifyModal()">Verificar Usuario</button>
+  
+  <!-- Modal de Registro -->
+  <div *ngIf="showRegisterModal" class="modal">
+    <div class="modal-content">
+      <span (click)="closeRegisterModal()" class="close">&times;</span>
+      <h2>Registro</h2>
+      <input type="text" [(ngModel)]="name" placeholder="Nombre">
+      <input type="text" [(ngModel)]="email" placeholder="Correo Electrónico">
+      <input type="password" [(ngModel)]="password" placeholder="Contraseña">
+      <button (click)="onSubmit()">Registrar</button>
+    </div>
+  </div>
+  
+  <!-- Modal de Verificación -->
+  <div *ngIf="showVerifyModal" class="modal">
+    <div class="modal-content">
+      <span (click)="closeVerifyModal()" class="close">&times;</span>
+      <h2>Verificación</h2>
+      <input type="text" [(ngModel)]="email" placeholder="Correo Electrónico">
+      <input type="text" [(ngModel)]="verificationCode" placeholder="Código de Verificación">
+      <button (click)="verifyCode()">Verificar</button>
+    </div>
+  </div>
+
+  <div id="message">{{ message }}</div>
+</div>
