@@ -11,7 +11,7 @@ export class EnrollmentComponent {
   name: string = '';
   email: string = '';
   password: string = '';
-  verificationCode: string = '';
+  verificationCode: number ;
   showRegisterModal: boolean = false;
   showVerifyModal: boolean = false;
   message: string = '';

@@ -19,8 +19,8 @@ export class EnrollmentService {
     );
   }
 
-  verifyCode(email: string, code: string): Observable<any> {
-    return this.http.post<any>(this.verifyUrl, { email, code }).pipe(
+  verifyCode(email: string, code: number): Observable<any> {
+    return this.http.put<any>(this.verifyUrl, { 'user_email':email, 'verification_code': code }).pipe(
       catchError(this.handleError)
     );
   }

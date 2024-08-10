@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-  userAuthenticated: IAuth;
+  userAuthenticated: boolean = false;  // Cambiamos el tipo a booleano
   menuOpen: boolean = false;
   welcomeMessage: string;
 
@@ -24,8 +24,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.store.select('auth').subscribe((authState) => {
-      this.userAuthenticated = authState.auth;
-      this.welcomeMessage = `Bienvenid@ ${this.userAuthenticated?.name}`;
+      this.userAuthenticated = !!authState.auth; // Evaluamos si hay autenticación
+      this.welcomeMessage = this.userAuthenticated ? `Bienvenid@ ${authState.auth?.name}` : '';
     });
   }
 
