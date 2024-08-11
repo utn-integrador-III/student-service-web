@@ -1,242 +1,278 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of, Subscription, throwError } from 'rxjs';
-import { map, catchError, tap, finalize } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import {
+  Observable,
+  of,
+  Subscription,
+  BehaviorSubject,
+  throwError,
+} from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../login/store/login.action';
 import { IAuthResponse } from '../login/models/login.interface';
 import { IAuth } from '../login/models/login.model';
 import { ToastService } from '../Services/toaster.service';
 import { Router } from '@angular/router';
 import { error_message_handler } from '../shared/helper/error-message.handler';
-import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  private subscriptionUser: Subscription = new Subscription();
+  private subscriptionUser: Subscription;
   private readonly JWT_TOKEN = 'JWT_TOKEN';
-  private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
-  private readonly USER_DATA = 'USER_DATA';
-  private readonly SESSION_CLOSED_FLAG = 'SESSION_CLOSED';
-  private userAuthenticate: IAuth | null = null;
-  private apiUrl = environment.URL_AUTH;
-  private refreshTokenUrl = environment.URL_REFRESH;
-  private logoutUrl = environment.URL_LOGOUT;
+  private apiUrl = environment.URL_AUTH || '/api/auth';
+  private authStateSubject = new BehaviorSubject<boolean>(false);
+  authStateChanged = this.authStateSubject.asObservable();
 
   constructor(
+    private store: Store<fromApp.AppState>,
     private http: HttpClient,
     private toastService: ToastService,
-    private router: Router,
-    private store: Store<any>
+    private router: Router
   ) {
-    this.initializeAuthentication();
-    this.addBeforeUnloadListener();
+    this.initAuthListener();
   }
 
   ngOnDestroy() {
-    this.subscriptionUser.unsubscribe();
-    this.removeBeforeUnloadListener();
-  }
-
-  private addBeforeUnloadListener() {
-    window.addEventListener('beforeunload', this.handleBeforeUnload.bind(this));
-  }
-
-  private removeBeforeUnloadListener() {
-    window.removeEventListener(
-      'beforeunload',
-      this.handleBeforeUnload.bind(this)
-    );
-  }
-
-  private handleBeforeUnload(event: BeforeUnloadEvent) {
-    // Solo cerrar sesión si la bandera está establecida
-    if (sessionStorage.getItem(this.SESSION_CLOSED_FLAG) === 'true') {
-      // Borrar los tokens del almacenamiento local
-      this.clearLocalStorage();
-
-      // Intentar cerrar la sesión de manera asíncrona
-      const token = this.getToken();
-      if (token && this.userAuthenticate?.email) {
-        const data = new FormData();
-        data.append('email', this.userAuthenticate.email);
-
-        // Enviar el logout de manera asíncrona usando sendBeacon
-        navigator.sendBeacon(this.logoutUrl, data);
-      }
+    if (this.subscriptionUser) {
+      this.subscriptionUser.unsubscribe();
     }
   }
 
-  private shouldClearLocalStorage(): boolean {
-    return sessionStorage.getItem(this.SESSION_CLOSED_FLAG) === 'true';
+  initAuthListener() {
+    this.subscriptionUser = this.store.select('auth').subscribe((authStore) => {
+      const user = authStore?.auth;
+      this.updateAuthState(!!user?.token);
+    });
   }
 
-  private clearSessionFlags() {
-    sessionStorage.removeItem(this.SESSION_CLOSED_FLAG);
-  }
-
-  private setSessionClosedFlag() {
-    sessionStorage.setItem(this.SESSION_CLOSED_FLAG, 'true');
-  }
-
-  getToken(): string {
-    return localStorage.getItem(this.JWT_TOKEN) || '';
-  }
-
-  getRefreshToken(): string {
-    return localStorage.getItem(this.REFRESH_TOKEN) || '';
-  }
-
-  private storeTokens(token: string, refreshToken: string) {
-    localStorage.setItem(this.JWT_TOKEN, token);
-    localStorage.setItem(this.REFRESH_TOKEN, refreshToken);
-  }
-
-  private storeUserData(user: IAuth) {
-    localStorage.setItem(this.USER_DATA, JSON.stringify(user));
+  private updateAuthState(isAuthenticated: boolean) {
+    this.authStateSubject.next(isAuthenticated);
   }
 
   login(email: string, password: string): Observable<IAuthResponse> {
-    return this.http.post<any>(this.apiUrl, { email, password }).pipe(
-      map((response) => {
-        const result = new IAuthResponse();
-        if (
-          response &&
-          response.data &&
-          response.message_code === 'USER_AUTHENTICATED'
-        ) {
-          const user: IAuth = {
-            email: response.data.email,
-            name: response.data.name,
-            role: response.data.role,
-            status: response.data.status,
-            token: response.data.token,
-          };
-          this.handleAuthentication(user, response.data.refreshToken);
-          result.auth = user;
-          this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito');
-        } else {
+    const result = new IAuthResponse();
+    return this.http
+      .post<any>(`${this.apiUrl}/login`, { email, password })
+      .pipe(
+        map((response) => {
+          if (
+            response?.data &&
+            response.message_code === 'USER_AUTHENTICATED'
+          ) {
+            const user: IAuth = {
+              email: response.data.email,
+              name: response.data.name,
+              role: response.data.role,
+              status: response.data.status,
+              token: response.data.token,
+            };
+            this.store.dispatch(new AuthActions.AuthenticateUser(user));
+            this.storeJwtToken(user.token);
+            this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito');
+            this.updateAuthState(true);
+            result.auth = user;
+          } else {
+            result.isError = true;
+            this.toastService.showError(
+              'Error en el inicio de sesión. Por favor, inténtelo de nuevo.'
+            );
+          }
+          return result;
+        }),
+        catchError((error) => {
           result.isError = true;
-          this.toastService.showError(
-            'Error en el inicio de sesión. Por favor, inténtelo de nuevo.'
-          );
-        }
-        return result;
-      }),
-      catchError((error: any) => {
-        console.error('Login error:', error);
-        const result = new IAuthResponse();
-        result.isError = true;
-        result.errorMessage = error_message_handler(error);
-        this.toastService.showError(result.errorMessage);
-        return of(result);
-      })
+          this.handleLoginError(error, result);
+          return of(result);
+        })
+      );
+  }
+
+  autoLogin(): Observable<boolean> {
+    const token = this.getStoredToken();
+    if (!token) {
+      return of(false);
+    }
+    return this.verifyToken(token).pipe(
+      map((isValid) => (isValid ? true : (this.logout(), false))),
+      catchError(() => (this.logout(), of(false)))
     );
   }
 
-  refreshToken(): Observable<any> {
-    const refreshToken = this.getRefreshToken();
-    if (!refreshToken) {
-      return throwError(() => new Error('No refresh token available.'));
-    }
-
+  private verifyToken(token: string): Observable<boolean> {
     return this.http
-      .post<any>(`${this.refreshTokenUrl}`, { token: refreshToken })
+      .post<any>(
+        `${this.apiUrl}/verify_auth`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      )
       .pipe(
-        tap((response: any) => {
-          if (response && response.data && response.data.token) {
+        map((response) => !!response?.data),
+        catchError(() => of(false))
+      );
+  }
+
+  refreshToken() {
+    const currentToken = this.getStoredToken();
+    if (!currentToken) {
+      console.error('No token found for refresh');
+      this.logout();
+      return throwError('No token found');
+    }
+    return this.http
+      .post<any>(`${this.apiUrl}/refresh`, { token: currentToken })
+      .pipe(
+        tap((response) => {
+          if (response?.data?.token) {
             const updatedUser = {
-              ...this.userAuthenticate!,
+              ...this.isAuthenticated(),
               token: response.data.token,
             };
-            this.handleAuthentication(updatedUser, response.data.refreshToken);
+            this.store.dispatch(new AuthActions.AuthenticateUser(updatedUser));
+            this.storeJwtToken(response.data.token);
+            this.updateAuthState(true);
           } else {
-            throw new Error('Invalid response structure for token refresh');
+            console.error(
+              'Token refresh failed: Invalid response structure',
+              response
+            );
+            this.logout();
           }
         }),
         catchError((error) => {
           console.error('Token refresh error:', error);
           this.logout();
-          return throwError(() => error);
+          return throwError(error);
         })
       );
   }
 
-  private initializeAuthentication() {
-    // Limpiar la bandera de sesión cerrada al inicializar
-    this.clearSessionFlags();
-
-    const userData = localStorage.getItem(this.USER_DATA);
-    const token = this.getToken();
-    if (userData && token) {
-      const user: IAuth = JSON.parse(userData);
-      user.token = token;
-      this.store.dispatch(new AuthActions.AuthenticateUser(user));
-      this.refreshToken().subscribe();
-    }
-    this.subscribeToAuthStore();
+  private storeJwtToken(jwt: string) {
+    localStorage.setItem(this.JWT_TOKEN, jwt);
   }
 
-  logout() {
-    const token = this.getToken();
-    if (token) {
-      this.http
-        .put(this.logoutUrl, { email: this.userAuthenticate?.email })
-        .pipe(
-          finalize(() => {
-            this.clearLocalStorage();
-            this.store.dispatch(new AuthActions.LogoutUser());
-            this.router.navigate(['/login']);
-          })
-        )
-        .subscribe(
-          () =>
-            this.toastService.showSuccess(
-              'Sesión cerrada exitosamente',
-              'Éxito'
-            ),
-          (error) => {
-            console.error('Logout error:', error);
-            this.toastService.showError('Error al cerrar sesión');
-          }
-        );
-    } else {
-      this.clearLocalStorage();
-      this.store.dispatch(new AuthActions.LogoutUser());
-      this.router.navigate(['/login']);
-    }
+  private getStoredToken(): string | null {
+    return localStorage.getItem(this.JWT_TOKEN);
   }
 
-  private clearLocalStorage() {
-    console.log('Clearing local storage');
-    localStorage.removeItem(this.JWT_TOKEN);
-    localStorage.removeItem(this.REFRESH_TOKEN);
-    localStorage.removeItem(this.USER_DATA);
-  }
-
-  isAuthenticated(): boolean {
-    return !!this.userAuthenticate?.token;
+  isAuthenticated(): IAuth {
+    let authState: IAuth | null = null;
+    this.store.select('auth').subscribe((authStore) => {
+      authState = authStore?.auth;
+    });
+    return authState || { email: '', token: '' };
   }
 
   isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this.getStoredToken();
   }
 
-  private handleAuthentication(user: IAuth, refreshToken: string) {
-    this.store.dispatch(new AuthActions.AuthenticateUser(user));
-    this.storeTokens(user.token, refreshToken);
-    this.storeUserData(user);
+  getToken(): string {
+    return this.isAuthenticated().token || this.getStoredToken() || '';
   }
 
-  private subscribeToAuthStore() {
-    this.subscriptionUser = this.store.select('auth').subscribe((authStore) => {
-      this.userAuthenticate = authStore?.auth || null;
-    });
+  getUserName(): string {
+    return this.isAuthenticated().name || '';
   }
 
-  getUserName() {
-    return this.userAuthenticate?.name || '';
+  private handleLoginError(error: any, result: IAuthResponse) {
+    if (error.status === 404) {
+      this.toastService.showError('Endpoint no encontrado. Verifique la URL.');
+    } else if (error.error?.message_code === 'INVALID_CREDENTIALS') {
+      result.errorMessage =
+        'El correo electrónico o la contraseña no son correctos.';
+      this.toastService.showError(result.errorMessage);
+    } else if (error.error?.message_code === 'USER_NOT_ACTIVE') {
+      result.errorMessage = 'Debe activar su cuenta antes de iniciar sesión.';
+      this.toastService.showWarning(result.errorMessage);
+    } else {
+      result.errorMessage = error_message_handler(error);
+      this.toastService.showError(result.errorMessage);
+    }
+    this.store.dispatch(new AuthActions.LogoutUser());
+  }
+
+  checkAuthState(): Observable<void> {
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    if (token) {
+      return this.http
+        .post<any>(
+          `${this.apiUrl}/verify_auth`,
+          {},
+          {
+            headers: { Authorization: token },
+          }
+        )
+        .pipe(
+          map((response) => {
+            if (response?.data) {
+              const updatedUser = {
+                email: response.data.email,
+                name: response.data.name,
+                role: response.data.role,
+                status: response.data.status,
+                token: token,
+              };
+              this.store.dispatch(
+                new AuthActions.AuthenticateUser(updatedUser)
+              );
+              this.updateAuthState(true);
+            } else {
+              this.updateAuthState(false);
+              this.logout();
+            }
+          }),
+          catchError((error) => {
+            console.error('Check auth state error:', error);
+            this.updateAuthState(false);
+            this.logout();
+            return of(undefined);
+          })
+        );
+    } else {
+      this.updateAuthState(false);
+      return of(undefined);
+    }
+  }
+
+  logout() {
+    const authState = this.isAuthenticated();
+    const userEmail = authState.email;
+
+    if (!userEmail) {
+      console.error('User email is not available.');
+      this.performLocalLogout();
+      return;
+    }
+
+    this.http
+      .put<any>(`${this.apiUrl}/logout`, { email: userEmail })
+      .pipe(
+        tap((response) => {
+          if (response?.message_code === 'USER_LOGGED_OUT') {
+          } else {
+          }
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      )
+      .subscribe({
+        complete: () => {
+          this.performLocalLogout();
+        },
+      });
+  }
+
+  private performLocalLogout() {
+    this.store.dispatch(new AuthActions.LogoutUser());
+    localStorage.removeItem(this.JWT_TOKEN);
+    this.router.navigate(['/login']);
   }
 }
