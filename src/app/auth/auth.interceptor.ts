@@ -1,54 +1,40 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpInterceptor,
   HttpRequest,
   HttpHandler,
   HttpEvent,
+  HttpInterceptor,
   HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from './auth.service';
-import { ToastService } from '../Services/toaster.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    private authService: AuthService,
-    private toastService: ToastService
-  ) {}
+  constructor(private router: Router) {}
 
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
-    const token = this.authService.getToken();
+  ): Observable<HttpEvent<unknown>> {
+    const token = localStorage.getItem('JWT_TOKEN');
 
-    console.log('Token from auth.interceptor:', token);
-    console.log('Request URL:', req.url);
-    let authReq = req;
     if (token) {
-      authReq = req.clone({
+      request = request.clone({
         setHeaders: {
           Authorization: token,
         },
       });
     }
 
-    return next.handle(authReq).pipe(
+    return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
-          this.toastService.showError(
-            'No estás autenticado. Por favor, inicia sesión nuevamente.'
-          );
-        } else if (error.status === 403) {
-          this.toastService.showError(
-            'No tienes permiso para acceder a este recurso.'
-          );
-        } else {
-          this.toastService.showError('Ocurrió un error inesperado.');
+          // Instead of calling AuthService directly, navigate to login
+          this.router.navigate(['/login']);
         }
-        return throwError(error);
+        return throwError(() => error);
       })
     );
   }

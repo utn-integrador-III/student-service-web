@@ -1,45 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { of, Subscription } from 'rxjs';
-import { exhaustMap, filter } from 'rxjs/operators';
-import * as fromApp from './store/app.reducer';
+import { exhaustMap, filter, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   userName: string = '';
   isAuth: boolean = false;
   pageTitle: any;
-  routerSubscription: Subscription;
+  private routerSubscription: Subscription;
 
-  constructor(private store: Store<fromApp.AppState>, private router: Router, private authService: AuthService,) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit() {
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      exhaustMap(event => {
-        if (this.authService.isAuthenticated()) {
-          return this.authService.refreshToken();
-        }
-        return of(null);
-      })
-    ).subscribe({
-      next: (response) => {
-        if (response && response.isError) {
-          console.error('Token refresh failed', response.isError);
+    this.routerSubscription = this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        exhaustMap(() => {
+          if (this.authService.isAuthenticated()) {
+            return this.authService.refreshToken().pipe(
+              catchError((error) => {
+                console.error('Error refreshing token:', error);
+                this.authService.logout();
+                return of(null);
+              })
+            );
+          }
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (response && response.isError) {
+            console.error('Token refresh failed:', response.isError);
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          } else {
+            this.isAuth = this.authService.isAuthenticated();
+            this.userName = this.authService.getUserName();
+            this.pageTitle = this.router.url.replace('/', '');
+            if (this.pageTitle === '') {
+              this.pageTitle = 'Home';
+            }
+          }
+        },
+        error: (err) => {
+          console.error('Error during navigation or token refresh:', err);
           this.authService.logout();
-        }
-      },
-      error: (err) => {
-        console.error('Navigation or refresh token error', err);
-        // Optionally handle network errors differently
-      }
-    });
+          this.router.navigate(['/login']);
+        },
+      });
   }
 
   ngOnDestroy() {
@@ -47,5 +62,4 @@ export class AppComponent implements OnInit {
       this.routerSubscription.unsubscribe();
     }
   }
-
 }
