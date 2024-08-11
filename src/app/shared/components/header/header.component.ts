@@ -35,7 +35,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.checkAuthState().subscribe({
       next: () => {},
       error: (error) => {
-        console.error('Error al verificar el estado de autenticación:', error);
         this.router.navigate(['/login']);
       },
     });
@@ -47,8 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.welcomeMessage = 'Bienvenid@ Invitado';
     }
-    console.log('Welcome Message:', this.welcomeMessage);
-    console.log('User Authenticated:', this.userAuthenticated);
   }
 
   ngOnDestroy() {

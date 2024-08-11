@@ -34,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
         );
       },
       error: (error) => {
-        console.error('Error al verificar el estado de autenticación:', error);
         this.router.navigate(['/login']);
       },
     });

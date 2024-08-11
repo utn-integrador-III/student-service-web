@@ -121,7 +121,6 @@ export class AuthService implements OnDestroy {
   refreshToken() {
     const currentToken = this.getStoredToken();
     if (!currentToken) {
-      console.error('No token found for refresh');
       this.logout();
       return throwError('No token found');
     }
@@ -138,15 +137,10 @@ export class AuthService implements OnDestroy {
             this.storeJwtToken(response.data.token);
             this.updateAuthState(true);
           } else {
-            console.error(
-              'Token refresh failed: Invalid response structure',
-              response
-            );
             this.logout();
           }
         }),
         catchError((error) => {
-          console.error('Token refresh error:', error);
           this.logout();
           return throwError(error);
         })
@@ -229,7 +223,6 @@ export class AuthService implements OnDestroy {
             }
           }),
           catchError((error) => {
-            console.error('Check auth state error:', error);
             this.updateAuthState(false);
             this.logout();
             return of(undefined);
@@ -246,7 +239,6 @@ export class AuthService implements OnDestroy {
     const userEmail = authState.email;
 
     if (!userEmail) {
-      console.error('User email is not available.');
       this.performLocalLogout();
       return;
     }
