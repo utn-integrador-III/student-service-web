@@ -21,6 +21,7 @@ import { studentLogModule } from './pages/student-log/student-log.module';
 import { homeModule } from './home/home.module';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EnrollmentModule } from './enrollment/enrollment.module';
 import { appReducer } from './store/app.reducer';
 import { CommonModule } from '@angular/common';
 import { TeacherLogModule } from './pages/teacher-log/teacher-log.module';
@@ -58,6 +59,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     CommonModule,
+    EnrollmentModule,
   ],
   providers: [
     provideToastr(),

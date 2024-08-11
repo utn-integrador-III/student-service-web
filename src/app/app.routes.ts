@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { ZonasComponent } from './zonas/zonas.component';
 import { TeacherLogComponent } from './pages/teacher-log/teacher-log.component';
 import { StudentLogComponent } from './pages/student-log/student-log.component';
+import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ReportIssueComponent } from './pages/report-issues/report-issue/report-issue.component';
 import { VisualizationIssuesComponent } from './pages/visualization-issues/visualization-issues.component';
@@ -19,6 +20,12 @@ export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'example', component: ExampleComponent },
   { path: 'lostAndFound', component: LostAndFoundComponent },
+  { path: 'teacherlog', component: TeacherLogComponent },
+  { path: 'studentlog', component: StudentLogComponent },
+  { path: 'zones', component: ZonasComponent },
+  { path: 'categorias', component: CategoriasComponent },
+  { path: 'enroll', component: EnrollmentComponent },
+
   {
     path: 'teacherlog',
     component: TeacherLogComponent,
