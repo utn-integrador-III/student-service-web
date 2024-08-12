@@ -97,25 +97,10 @@ export class AuthService implements OnDestroy {
     if (!token) {
       return of(false);
     }
-    return this.verifyToken(token).pipe(
+    return this.verifyToken().pipe(
       map((isValid) => (isValid ? true : (this.logout(), false))),
       catchError(() => (this.logout(), of(false)))
     );
-  }
-
-  private verifyToken(token: string): Observable<boolean> {
-    return this.http
-      .post<any>(
-        `${this.apiUrl}/verify_auth`,
-        {},
-        {
-          headers: { Authorization: token },
-        }
-      )
-      .pipe(
-        map((response) => !!response?.data),
-        catchError(() => of(false))
-      );
   }
 
   refreshToken() {
@@ -152,7 +137,8 @@ export class AuthService implements OnDestroy {
   }
 
   private getStoredToken(): string | null {
-    return localStorage.getItem(this.JWT_TOKEN);
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    return token;
   }
 
   isAuthenticated(): IAuth {
@@ -192,13 +178,30 @@ export class AuthService implements OnDestroy {
     this.store.dispatch(new AuthActions.LogoutUser());
   }
 
-  checkAuthState(): Observable<void> {
+  private verifyToken(): Observable<boolean> {
     const token = localStorage.getItem(this.JWT_TOKEN);
+    return this.http
+      .post<any>(
+        `${this.apiUrl}/verify_auth`,
+        {},
+        {
+          headers: { Authorization: token },
+        }
+      )
+      .pipe(
+        map((response) => !!response?.data),
+        catchError(() => of(false))
+      );
+  }
+
+  checkAuthState(): Observable<void> {
+    const token = localStorage.getItem(this.JWT_TOKEN)?.trim();
+
     if (token) {
       return this.http
         .post<any>(
           `${this.apiUrl}/verify_auth`,
-          {},
+          { permission: '' },
           {
             headers: { Authorization: token },
           }
