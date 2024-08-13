@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { LostAndFoundComponent } from './lost-and-found.component';
 import { LostItemsComponent } from '../lost-items.component';
 import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
   declarations: [
     LostAndFoundComponent,
@@ -47,6 +48,7 @@ import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
     MatOption,
     MatRadioModule,
     MatCheckboxModule,
+    MatSelectModule,
     ToastrModule.forRoot({
       timeOut: 100,
       positionClass: 'toast-bottom-right',

@@ -17,16 +17,4 @@ export class SafekeeperService {
   getAllSafekeepers(): Observable<any> {
     return this.http.get(`${this.baseUrl}`);
   }
-
-  addSafekeeper(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}`, data);
-  }
-
-  updateSafekeeper(id: string, safekeeper: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${id}`, safekeeper);
-  }
-
-  deleteSafekeeper(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${id}`);
-  }
 }

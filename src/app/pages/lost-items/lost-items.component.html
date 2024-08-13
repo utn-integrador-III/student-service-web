@@ -14,14 +14,14 @@
   <div mat-dialog-content>
     <form [formGroup]="form" (ngSubmit)="onSaveClick()">
       <div class="form-group">
-        <mat-label>Nombre</mat-label>
+        <h2>Nombre</h2>
         <input matInput formControlName="name" class="input-field" />
         <mat-error *ngIf="form.get('name').invalid && form.get('name').touched">
           El nombre es requerido.
         </mat-error>
       </div>
       <div class="form-group">
-        <mat-label>Descripción</mat-label>
+        <h2>Descripción</h2>
         <textarea
           matInput
           formControlName="description"
@@ -36,7 +36,7 @@
         </mat-error>
       </div>
       <div class="form-group">
-        <mat-label>Selecciona categorías</mat-label>
+        <h2>Selecciona categorías</h2>
         <div style="display: flex; flex-direction: column; align-items: center">
           <div
             style="
@@ -71,6 +71,43 @@
           </mat-error>
         </div>
       </div>
+
+      <div class="form-group">
+        <h2>Selecciona safekeepers</h2>
+        <div style="display: flex; flex-direction: column; align-items: center">
+          <div
+            style="
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+              gap: 10px;
+            "
+          >
+            <mat-checkbox
+              *ngFor="let safekeeper of safekeepers"
+              [checked]="selectedSafekeepers[safekeeper.email]"
+              (change)="onSafekeepersChange()"
+            >
+              <span style="color: #333; margin-top: 8px; font-weight: 500">
+                {{ safekeeper.name }}
+              </span>
+            </mat-checkbox>
+          </div>
+          <mat-error
+            *ngIf="!getSelectedSafekeepers().length"
+            style="
+              color: red;
+              font-size: 0.875rem;
+              text-align: center;
+              width: 100%;
+            "
+          >
+            Seleccione al menos un safekeeper.
+          </mat-error>
+        </div>
+      </div>
+
+      <!--
       <div class="file-upload-wrapper" style="margin-bottom: 3px">
         <button
           type="button"
@@ -94,7 +131,7 @@
         (dragleave)="onDragLeave($event)"
         [class.dragover]="isDragOver"
       >
-        <mat-label>Imagen</mat-label>
+        <h2>Imagen</h2>
         <div *ngIf="filePreview" class="image-preview">
           <img [src]="filePreview" alt="Image Preview" />
           <button type="button" class="delete-button" (click)="onDelete()">
@@ -105,6 +142,7 @@
           Drag and drop an image here or click to select
         </p>
       </div>
+      -->
       <div mat-dialog-actions>
         <button
           type="submit"

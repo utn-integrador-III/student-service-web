@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CategoriaServices } from '../../Services/categoriasServices';
 import { ToastrService } from 'ngx-toastr';
 import { LostAndFoundService } from '../../Services/service-LostAndFound/LostAndFound.service';
+import { SafekeeperService } from '../../Services/safekeeper/safekeeper.service';
 
 @Component({
   selector: 'app-lost-items',
@@ -23,8 +24,10 @@ export class LostItemsComponent implements OnInit {
   filePreview: string | ArrayBuffer | null = null;
   selectedFileName: string = 'No file selected';
   selectedCategories: { [key: string]: boolean } = {};
+  selectedSafekeepers: { [email: string]: boolean } = {};
   form: FormGroup;
   categories: any[] = [];
+  safekeepers: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<LostItemsComponent>,
@@ -32,13 +35,51 @@ export class LostItemsComponent implements OnInit {
     private fb: FormBuilder,
     private srvCategorias: CategoriaServices,
     private toastr: ToastrService,
-    private srvlostObjects: LostAndFoundService
+    private srvlostObjects: LostAndFoundService,
+    private srvSafekeepers: SafekeeperService
   ) {
     this.initializeForm();
   }
 
   ngOnInit(): void {
     this.loadCategories();
+    this.loadSafekeepers();
+  }
+
+  loadSafekeepers(): void {
+    this.srvSafekeepers.getAllSafekeepers().subscribe(
+      (response: any) => {
+        this.safekeepers = response.data;
+        this.initializeSelectedSafekeepers();
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los safekeepers.');
+        console.log(error);
+      }
+    );
+  }
+
+  initializeSelectedSafekeepers(): void {
+    const safekeepers = Array.isArray(this.data.safekeeper)
+      ? this.data.safekeeper
+      : [];
+    this.safekeepers.forEach((safekeeper) => {
+      this.selectedSafekeepers[safekeeper.email] = safekeepers.some(
+        (sk: any) => sk.email === safekeeper.email
+      );
+    });
+  }
+
+  getSelectedSafekeepers(): any[] {
+    return Object.keys(this.selectedSafekeepers)
+      .filter((email) => this.selectedSafekeepers[email])
+      .map((email) => ({ email, accepted: false }));
+  }
+
+  onSafekeepersChange(): void {
+    this.form.patchValue({
+      safekeepers: this.getSelectedSafekeepers(),
+    });
   }
 
   initializeForm(): void {
@@ -46,6 +87,7 @@ export class LostItemsComponent implements OnInit {
       name: [this.data.name || '', Validators.required],
       description: [this.data.description || '', Validators.required],
       category: [this.data.category || [], Validators.required],
+      safekeeper: [this.data.safekeeper || [], Validators.required],
     });
   }
 
@@ -59,15 +101,12 @@ export class LostItemsComponent implements OnInit {
       return;
     }
 
-    const selectedCategories = this.getSelectedCategories();
-
     const updatedObject = {
       _id: this.data._id,
-      name: this.form.get('name')?.value,
-      description: this.form.get('description')?.value,
-      category: selectedCategories,
+      ...this.form.value,
     };
 
+    console.log(updatedObject);
     this.srvlostObjects.updateObjects(updatedObject).subscribe(
       (response) => {
         this.toastr.success('Objeto actualizado exitosamente');
@@ -164,12 +203,8 @@ export class LostItemsComponent implements OnInit {
   }
 
   getSelectedCategories(): string[] {
-    const selected = [];
-    for (const key in this.selectedCategories) {
-      if (this.selectedCategories[key]) {
-        selected.push(key);
-      }
-    }
-    return selected;
+    return Object.keys(this.selectedCategories).filter(
+      (key) => this.selectedCategories[key]
+    );
   }
 }

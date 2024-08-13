@@ -6,6 +6,7 @@ import { LostAndFoundService } from '../../../Services/service-LostAndFound/Lost
 import { LostItemsComponent } from '../lost-items.component';
 import { CategoriaServices } from '../../../Services/categoriasServices';
 import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
+import { SafekeeperService } from '../../../Services/safekeeper/safekeeper.service';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -14,11 +15,18 @@ import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 })
 export class LostAndFoundComponent implements OnInit {
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
-  //displayedColumns: string[] = ['image', 'name', 'description', 'category'];
+  displayedColumns: string[] = [
+    'name',
+    'description',
+    'category',
+    'safekeeper',
+    'status',
+  ];
 
-  displayedColumns: string[] = ['name', 'description', 'category', 'status'];
   @ViewChild('addModal') addModal!: ElementRef;
+
   selectedCategories: { [key: string]: boolean } = {};
+  selectedSafekeepers: { [email: string]: boolean } = {};
 
   newObject: any = {
     category: [],
@@ -29,18 +37,43 @@ export class LostAndFoundComponent implements OnInit {
   };
 
   categories: any[] = [];
+  safekeepers: any[] = [];
   imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     private srvlostObjects: LostAndFoundService,
     private toastr: ToastrService,
     public dialog: MatDialog,
-    private srvCategorias: CategoriaServices
+    private srvCategorias: CategoriaServices,
+    private srvSafekeepers: SafekeeperService
   ) {}
 
   ngOnInit(): void {
     this.loadObjects();
     this.loadCategories();
+    this.loadSafekeepers();
+  }
+
+  loadSafekeepers(): void {
+    this.srvSafekeepers.getAllSafekeepers().subscribe(
+      (response: any) => {
+        this.safekeepers = response.data;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los safekeepers.');
+        console.log(error);
+      }
+    );
+  }
+
+  getSelectedSafekeepers(): any[] {
+    return Object.keys(this.selectedSafekeepers)
+      .filter((email) => this.selectedSafekeepers[email])
+      .map((email) => ({ email, accepted: false }));
+  }
+
+  onSafekeepersChange(): void {
+    this.newObject.safekeeper = this.getSelectedSafekeepers();
   }
 
   loadObjects() {
@@ -89,13 +122,15 @@ export class LostAndFoundComponent implements OnInit {
   }
 
   addLostObject() {
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr)$/i;
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr|utn\.ac\.cr|adm\.utn\.ac\.cr)$/i;
 
     if (
       !this.newObject.name ||
       !this.newObject.description ||
       !this.newObject.user_email ||
-      !this.newObject.category.length
+      !this.newObject.category.length ||
+      !this.newObject.safekeeper.length
     ) {
       this.toastr.error('Por favor llene todos los espacios');
       return;
@@ -105,6 +140,7 @@ export class LostAndFoundComponent implements OnInit {
       return;
     }
 
+    console.log(this.newObject);
     this.srvlostObjects.addObjects(this.newObject).subscribe(
       () => {
         this.toastr.success('Objeto añadido exitosamente');
@@ -162,10 +198,12 @@ export class LostAndFoundComponent implements OnInit {
       name: '',
       description: '',
       user_email: '',
+      safekeeper: [],
     };
     this.imagePreviewUrl = null;
     this.dataSource.filter = '';
     this.selectedCategories = {};
+    this.selectedSafekeepers = {};
   }
 
   deleteObject(id: string): void {
@@ -177,7 +215,6 @@ export class LostAndFoundComponent implements OnInit {
         );
       },
       (error) => {
-        // Manejar errores específicos basados en el código de estado
         if (error.status === 403) {
           const errorMessage =
             error.error?.message ||
@@ -212,7 +249,6 @@ export class LostAndFoundComponent implements OnInit {
     const dialogRef = this.dialog.open(ShowDialogComponent, {
       width: '520px',
       maxHeight: '80vh',
-
       data: element,
     });
 
