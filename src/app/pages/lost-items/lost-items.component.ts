@@ -109,6 +109,7 @@ export class LostItemsComponent implements OnInit {
     console.log(updatedObject);
     this.srvlostObjects.updateObjects(updatedObject).subscribe(
       (response) => {
+        window.location.reload();
         this.toastr.success('Objeto actualizado exitosamente');
         this.dialogRef.close(updatedObject);
       },
