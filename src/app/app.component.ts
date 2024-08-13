@@ -1,51 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AuthService } from './auth/auth.service';
-import { of, Subscription } from 'rxjs';
-import { exhaustMap, filter } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import * as fromApp from './store/app.reducer';
+import { AuthService } from './auth/auth.service';
+import { IAuth } from './login/models/login.model';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
-  userName: string = '';
-  isAuth: boolean = false;
-  pageTitle: any;
-  routerSubscription: Subscription;
+export class AppComponent implements OnInit, OnDestroy {
+  userAuthenticated: IAuth | null = null;
+  private subscriptions: Subscription = new Subscription();
 
-  constructor(private store: Store<fromApp.AppState>, private router: Router, private authService: AuthService,) {}
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      exhaustMap(event => {
-        if (this.authService.isAuthenticated()) {
-          return this.authService.refreshToken();
-        }
-        return of(null);
-      })
-    ).subscribe({
-      next: (response) => {
-        if (response && response.isError) {
-          console.error('Token refresh failed', response.isError);
-          this.authService.logout();
-        }
+    this.authService.checkAuthState().subscribe({
+      next: () => {
+        this.subscriptions.add(
+          this.store.select('auth').subscribe((authState) => {
+            this.userAuthenticated = authState.auth;
+            if (!this.userAuthenticated?.token) {
+              this.router.navigate(['/login']);
+            }
+          })
+        );
       },
-      error: (err) => {
-        console.error('Navigation or refresh token error', err);
-        // Optionally handle network errors differently
-      }
+      error: (error) => {
+        this.router.navigate(['/login']);
+      },
     });
   }
 
   ngOnDestroy() {
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
+    this.authService.logout();
   }
-
 }

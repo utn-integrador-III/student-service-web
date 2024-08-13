@@ -11,7 +11,7 @@ export class EnrollmentComponent {
   name: string = '';
   email: string = '';
   password: string = '';
-  verificationCode: number ;
+  verificationCode: number;
   showRegisterModal: boolean = false;
   showVerifyModal: boolean = false;
   message: string = '';
@@ -36,7 +36,7 @@ export class EnrollmentComponent {
 
   onSubmit() {
     if (!this.name || !this.email || !this.password) {
-      this.toastService.showWarning('Todos los campos son obligatorios.');  // Mensaje de advertencia
+      this.toastService.showWarning('Todos los campos son obligatorios.');
       return;
     }
 

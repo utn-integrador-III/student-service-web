@@ -1,40 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subscription, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import * as fromApp from '../../../store/app.reducer';
-import * as AuthActions from '../../../login/store/login.action';
 import { IAuth } from '../../../login/models/login.model';
-import { ToastService } from '../../../Services/toaster.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent implements OnInit {
-  userAuthenticated: boolean = false;  // Cambiamos el tipo a booleano
+export class HeaderComponent implements OnInit, OnDestroy {
+  userAuthenticated: IAuth | null = null;
   menuOpen: boolean = false;
-  welcomeMessage: string;
+  welcomeMessage: string = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
-    this.store.select('auth').subscribe((authState) => {
-      this.userAuthenticated = !!authState.auth; // Evaluamos si hay autenticación
-      this.welcomeMessage = this.userAuthenticated ? `Bienvenid@ ${authState.auth?.name}` : '';
+    this.subscriptions.add(
+      this.store.select('auth').subscribe((authState) => {
+        this.userAuthenticated = authState.auth;
+        this.updateWelcomeMessage();
+      })
+    );
+
+    this.authService.checkAuthState().subscribe({
+      next: () => {},
+      error: (error) => {
+        this.router.navigate(['/login']);
+      },
     });
   }
 
+  private updateWelcomeMessage() {
+    if (this.userAuthenticated && this.userAuthenticated.name) {
+      this.welcomeMessage = `Bienvenid@ ${this.userAuthenticated.name}`;
+    } else {
+      this.welcomeMessage = 'Bienvenid@ Invitado';
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+  }
+
   logout() {
-    this.store.dispatch(new AuthActions.LogoutUser());
-    this.toastService.showSuccess('Se cerró sesión exitosamente', 'Éxito');
-    this.router.navigate(['/login']).then(() => {
-      window.location.reload();
-    });
+    this.authService.logout();
   }
 
   closeMenu() {
