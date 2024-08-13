@@ -101,8 +101,6 @@
             </td>
           </ng-container>
 
-          
-     
           <ng-container matColumnDef="description">
             <th
               mat-header-cell
@@ -137,6 +135,31 @@
                   </ng-container>
                 </li>
                 <ng-template #noCategories> No disponible </ng-template>
+              </ul>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="safekeeper">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              style="background-color: #89c1e0"
+            >
+              <p style="color: aliceblue; text-align: center">Safekeeper</p>
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <ul style="list-style-type: none; padding: 0; margin: 0">
+                <li
+                  *ngIf="
+                    element.safekeeper && element.safekeeper.length;
+                    else noSafekeeper
+                  "
+                >
+                  <ng-container *ngFor="let safekeeper of element.safekeeper">
+                    {{ safekeeper.email }}
+                  </ng-container>
+                </li>
+                <ng-template #noSafekeeper> No disponible </ng-template>
               </ul>
             </td>
           </ng-container>
@@ -182,7 +205,7 @@
   aria-hidden="true"
   #addModal
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title w-100 text-center" id="addModalLabel">
@@ -196,6 +219,7 @@
         ></button>
       </div>
       <div class="modal-body">
+        <!--
         <div class="mb-3">
           <label for="item-image" class="form-label">Imagen</label>
           <input
@@ -220,6 +244,7 @@
             Eliminar imagen
           </button>
         </div>
+        -->
         <div class="mb-3">
           <label for="item-name" class="form-label">Nombre del Artículo</label>
           <input
@@ -230,59 +255,72 @@
           />
         </div>
 
-        <div>
+        <div class="mb-3">
           <label class="form-label">Categorías</label>
-          <div
-            style="display: flex; flex-direction: column; align-items: center"
-          >
-            <div
-              style="display: flex; flex-wrap: wrap; justify-content: center"
-            >
+          <div class="categories-container">
+            <div class="checkbox-group">
               <mat-checkbox
                 *ngFor="let category of categories"
                 [(ngModel)]="selectedCategories[category.category_name]"
                 (change)="onCategoryChange()"
-                style="display: inline-flex; margin: 5px"
+                class="categories-checkbox"
               >
-                <span style="color: #333; margin-top: 8px; font-weight: 500">
-                  {{ category.category_name }}
-                </span>
+                <span class="categories-label">{{
+                  category.category_name
+                }}</span>
               </mat-checkbox>
             </div>
             <mat-error
               *ngIf="!getSelectedCategories().length"
-              style="
-                color: red;
-                font-size: 0.875rem;
-                text-align: center;
-                width: 100%;
-              "
+              class="categories-error"
             >
               Seleccione al menos una categoría.
             </mat-error>
           </div>
+        </div>
 
-          <div class="mb-3">
-            <label for="item-descripcion" class="form-label"
-              >Descripción Detallada</label
+        <div class="mb-3">
+          <label class="form-label">Safekeepers</label>
+          <div class="safekeepers-container">
+            <div class="checkbox-group">
+              <mat-checkbox
+                *ngFor="let safekeeper of safekeepers"
+                [(ngModel)]="selectedSafekeepers[safekeeper.email]"
+                (change)="onSafekeepersChange()"
+                class="safekeepers-checkbox"
+              >
+                <span class="safekeepers-label">{{ safekeeper.name }}</span>
+              </mat-checkbox>
+            </div>
+            <mat-error
+              *ngIf="!getSelectedSafekeepers().length"
+              class="safekeepers-error"
             >
-            <textarea
-              class="form-control"
-              id="item-descripcion"
-              [(ngModel)]="newObject.description"
-              rows="4"
-            ></textarea>
+              Seleccione al menos un safekeeper.
+            </mat-error>
           </div>
+        </div>
 
-          <div class="mb-3">
-            <label for="item-email" class="form-label">Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="item-email"
-              [(ngModel)]="newObject.user_email"
-            />
-          </div>
+        <div class="mb-3">
+          <label for="item-descripcion" class="form-label"
+            >Descripción Detallada</label
+          >
+          <textarea
+            class="form-control"
+            id="item-descripcion"
+            [(ngModel)]="newObject.description"
+            rows="4"
+          ></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="item-email" class="form-label">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="item-email"
+            [(ngModel)]="newObject.user_email"
+          />
         </div>
 
         <div class="modal-footer">

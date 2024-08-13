@@ -1,20 +1,18 @@
 <div class="popup">
-  <h5 class="title">Detalle de objeto</h5>
+  <h1 class="title">Detalle de objeto</h1>
   <hr />
   <div class="info">
-    <p><strong>Imagen:</strong></p>
+    <!--
+    <h2>Imagen:</h2>
     <p>
-      <img
-        [src]="element.image"
-        alt="Imagen del objeto"
-        style="max-width: 100px; max-height: 100px"
-      />
+      <img [src]="element.image" alt="Imagen del objeto" class="object-image" />
     </p>
-    <p><strong>Nombre:</strong></p>
+    -->
+    <h2>Nombre:</h2>
     <p>{{ element.name }}</p>
-    <p><strong>Descripción:</strong></p>
+    <h2>Descripción:</h2>
     <p>{{ element.description }}</p>
-    <p><strong>Categoría:</strong></p>
+    <h2>Categoría:</h2>
     <ng-container
       *ngIf="element.category && element.category.length; else noCategories"
     >
@@ -25,7 +23,23 @@
     <ng-template #noCategories>
       <p>No disponible</p>
     </ng-template>
-    <p><strong>Estado:</strong></p>
+    <h2>Safekeeper:</h2>
+    <ng-container
+      *ngIf="
+        element.safekeeper && element.safekeeper.length;
+        else noSafekeepers
+      "
+    >
+      <ul class="safekeepers-list">
+        <li *ngFor="let safekeeper of element.safekeeper">
+          {{ safekeeper.email }}
+        </li>
+      </ul>
+    </ng-container>
+    <ng-template #noSafekeepers>
+      <p>No disponible</p>
+    </ng-template>
+    <h2>Estado:</h2>
     <p>{{ element.status }}</p>
   </div>
 
