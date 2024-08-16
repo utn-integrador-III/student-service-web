@@ -30,6 +30,7 @@ import { ReportIssueModule } from './pages/report-issues/report-issue/report-iss
 import { VisualizationIssuesModule } from './pages/visualization-issues/visualization-issues.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { changePasswordMdule } from './change-password/change-password.module';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     MenuComponent,
   ],
   imports: [
+    changePasswordMdule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
