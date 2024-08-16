@@ -33,27 +33,32 @@ export class ChangePasswordComponent {
     });
   }
 
+
   ChangePassword(form: NgForm) {
+    if (!this.userAuthenticated) {
+      this.toastService.showError('Debes estar autenticado para cambiar tu contraseña.');
+      this.router.navigate(['/login']);
+      return;
+    }
+
     if (form.valid) {
       const { user_email, old_password, new_password, confirm_password } = form.value;
-       if (new_password !== confirm_password) {
+      if (new_password !== confirm_password) {
         this.toastService.showError('La nueva contraseña y la confirmación no coinciden. Por favor, verifica e inténtalo de nuevo.');
-      }else{
+      } else {
         this._changePassword
-            .changePassword(form.value)
-            .subscribe({
-              next: (val: any) => {
-                this.toastService.showSuccess('Tu contraseña ha sido actualizada exitosamente.');
-                this.router.navigate(['/home']);
-              },
-              error: (err: any) => {
-                console.error(err);
-                this.toastService.showError(`Ocurrió un error inesperado al intentar cambiar la contraseña.`);
-              }
-      });
+          .changePassword(form.value)
+          .subscribe({
+            next: (val: any) => {
+              this.toastService.showSuccess('Tu contraseña ha sido actualizada exitosamente.');
+              this.router.navigate(['/home']);
+            },
+            error: (err: any) => {
+              console.error(err);
+              this.toastService.showError('Ocurrió un error inesperado al intentar cambiar la contraseña.');
+            }
+          });
+      }
+    }
   }
-}
-
-    
-}
 }
