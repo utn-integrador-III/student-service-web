@@ -39,7 +39,6 @@ export class ChangePasswordComponent {
        if (new_password !== confirm_password) {
         this.toastService.showError('La nueva contraseña y la confirmación no coinciden. Por favor, verifica e inténtalo de nuevo.');
       }else{
-        console.log('Form values:', form.value);
         this._changePassword
             .changePassword(form.value)
             .subscribe({
