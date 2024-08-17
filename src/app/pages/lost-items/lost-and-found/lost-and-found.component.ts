@@ -39,6 +39,7 @@ export class LostAndFoundComponent implements OnInit {
   categories: any[] = [];
   safekeepers: any[] = [];
   imagePreviewUrl: string | ArrayBuffer | null = null;
+  fileInput: any;
 
   constructor(
     private srvlostObjects: LostAndFoundService,
@@ -169,22 +170,24 @@ export class LostAndFoundComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  previewImage(event: any) {
-    const file = event.target.files[0];
-    if (file) {
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreviewUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
     }
   }
 
-  removeImage() {
+  removeImage(): void {
     this.imagePreviewUrl = null;
-    const fileInput = document.getElementById('item-image') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
     }
   }
 

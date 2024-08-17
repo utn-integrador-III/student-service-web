@@ -20,6 +20,34 @@
           El nombre es requerido.
         </mat-error>
       </div>
+
+      <div class="form-group">
+        <h2 for="item-image" class="form-label">Imagen</h2>
+        <input
+          type="file"
+          class="form-control"
+          id="item-image"
+          accept="image/*"
+          (change)="previewImage($event)"
+        />
+        <div class="image-preview-container">
+          <img
+            id="image-preview"
+            class="img-preview"
+            [src]="imagePreviewUrl"
+            alt="Vista previa de la imagen"
+            *ngIf="imagePreviewUrl"
+          />
+          <button
+            type="button"
+            class="btn btn-danger mt-2 mb-2"
+            (click)="removeImage()"
+          >
+            Eliminar imagen
+          </button>
+        </div>
+      </div>
+
       <div class="form-group">
         <h2>Descripción</h2>
         <textarea

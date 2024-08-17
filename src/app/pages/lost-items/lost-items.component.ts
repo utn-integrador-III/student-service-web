@@ -30,6 +30,7 @@ export class LostItemsComponent implements OnInit {
   form: FormGroup;
   categories: any[] = [];
   safekeepers: any[] = [];
+  imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<LostItemsComponent>,
@@ -44,6 +45,27 @@ export class LostItemsComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadData();
+  }
+
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
+    }
+  }
+
+  removeImage(): void {
+    this.imagePreviewUrl = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
   }
 
   initializeForm(): void {
