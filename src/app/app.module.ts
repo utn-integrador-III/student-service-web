@@ -30,6 +30,7 @@ import { ReportIssueModule } from './pages/report-issues/report-issue/report-iss
 import { VisualizationIssuesModule } from './pages/visualization-issues/visualization-issues.module';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { ResetPasswordModule } from './reset-password/reset-password.module';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     CommonModule,
     EnrollmentModule,
+    ResetPasswordModule, 
   ],
   providers: [
     provideToastr(),
