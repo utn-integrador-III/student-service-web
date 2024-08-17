@@ -13,6 +13,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { ReportIssueComponent } from './pages/report-issues/report-issue/report-issue.component';
 import { VisualizationIssuesComponent } from './pages/visualization-issues/visualization-issues.component';
 import { PickClassesComponent } from './pages/pick-classes/pick-classes.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
   { path: 'zones', component: ZonasComponent },
   { path: 'categorias', component: CategoriasComponent },
   { path: 'enroll', component: EnrollmentComponent },
+  {path: 'cambiocontraseña', component: ChangePasswordComponent},
   { path: 'reset-password', component: ResetPasswordComponent },
 
   {
