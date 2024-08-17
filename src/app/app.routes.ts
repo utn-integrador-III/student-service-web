@@ -14,6 +14,7 @@ import { ReportIssueComponent } from './pages/report-issues/report-issue/report-
 import { VisualizationIssuesComponent } from './pages/visualization-issues/visualization-issues.component';
 import { PickClassesComponent } from './pages/pick-classes/pick-classes.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,6 +28,7 @@ export const routes: Routes = [
   { path: 'categorias', component: CategoriasComponent },
   { path: 'enroll', component: EnrollmentComponent },
   {path: 'cambiocontraseña', component: ChangePasswordComponent},
+  { path: 'reset-password', component: ResetPasswordComponent },
 
   {
     path: 'teacherlog',
