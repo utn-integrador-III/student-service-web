@@ -1,4 +1,10 @@
-.user-name{
-    text-align: right;
-    width: 70%;
+.user-name {
+  text-align: right;
+  width: 70%;
+}
+
+.container2 {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }

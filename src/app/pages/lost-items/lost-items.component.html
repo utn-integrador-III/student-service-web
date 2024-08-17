@@ -86,7 +86,7 @@
             <mat-checkbox
               *ngFor="let safekeeper of safekeepers"
               [checked]="selectedSafekeepers[safekeeper.email]"
-              (change)="onSafekeepersChange()"
+              (change)="onSafekeeperChange(safekeeper.email, $event.checked)"
             >
               <span style="color: #333; margin-top: 8px; font-weight: 500">
                 {{ safekeeper.name }}
