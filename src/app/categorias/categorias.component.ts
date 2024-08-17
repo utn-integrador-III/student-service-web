@@ -5,6 +5,7 @@ import { CategoriaServices } from '../Services/categoriasServices';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ToastService } from '../Services/toaster.service';
 
 @Component({
   selector: 'app-categorias',
@@ -20,7 +21,7 @@ export class CategoriasComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _dialog: MatDialog, private _categoryServices: CategoriaServices) { }
+  constructor(private _dialog: MatDialog, private _categoryServices: CategoriaServices,private toastService: ToastService) { }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
@@ -60,10 +61,12 @@ export class CategoriasComponent implements OnInit {
     this._categoryServices.deleteCategoria(id).subscribe({
       next: (res) => {
         console.log('Categoria eliminada con éxito:', res);
+        this.toastService.showSuccess('Categoria eliminada con exito')
         this.getCategoriaList();
       },
       error: (err) => {
         console.error('Error al eliminar la categoría:', err);
+        this.toastService.showError('Error al eliminar la categoría')
       }
     });
   }
