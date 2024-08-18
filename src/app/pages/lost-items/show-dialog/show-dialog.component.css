@@ -96,11 +96,6 @@ p {
   transform: scale(1.05);
 }
 
-.closebutton:hover {
-  background-color: #6f6f6f;
-  transform: scale(1.05);
-}
-
 .modifybutton {
   background-color: #5a8094;
   color: white;

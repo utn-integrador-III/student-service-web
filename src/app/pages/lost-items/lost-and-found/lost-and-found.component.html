@@ -75,26 +75,13 @@
           class="mat-elevation-z8"
           style="text-align: center; width: 100%"
         >
-          <ng-container matColumnDef="image">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              style="background-color: #89c1e0"
-            >
-              <p style="color: aliceblue; text-align: center">Imagen</p>
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.image }}
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="name">
             <th
               mat-header-cell
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Artículo</p>
+              <p style="color: black; text-align: center">Artículo</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.name }}
@@ -107,7 +94,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Descripción</p>
+              <p style="color: black; text-align: center">Descripción</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.description }}
@@ -120,7 +107,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Categoría</p>
+              <p style="color: black; text-align: center">Categoría</p>
             </th>
             <td mat-cell *matCellDef="let element">
               <ul style="list-style-type: none; padding: 0; margin: 0">
@@ -145,7 +132,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Safekeeper</p>
+              <p style="color: black; text-align: center">Safekeeper</p>
             </th>
             <td mat-cell *matCellDef="let element">
               <ul style="list-style-type: none; padding: 0; margin: 0">
@@ -170,7 +157,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Estado</p>
+              <p style="color: black; text-align: center">Estado</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.status }}
@@ -211,12 +198,6 @@
         <h5 class="modal-title w-100 text-center" id="addModalLabel">
           Agregar Objeto Perdido
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
       </div>
       <div class="modal-body">
         <div>
