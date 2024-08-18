@@ -36,4 +36,30 @@ th, td{
     text-align: center;
     color: #EEEEEE;
 }
+.clock-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+.time-input-group label {
+    margin-bottom: 0;
+    font-weight: bold;
+}
+.time-input-group select {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+.clock-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
 

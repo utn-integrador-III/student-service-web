@@ -6,6 +6,7 @@ import * as fromApp from '../../../store/app.reducer';
 import { IAuth } from '../../../login/models/login.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { ProfessorEmail } from '../../../Services/professorByEmail/professorByEmail.service';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +22,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<fromApp.AppState>,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private professorEmail: ProfessorEmail
   ) {}
 
   ngOnInit() {
@@ -41,11 +43,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private updateWelcomeMessage() {
+    const domain = '@utn.ac.cr';
     if (this.userAuthenticated && this.userAuthenticated.name) {
       this.welcomeMessage = `Bienvenid@ ${this.userAuthenticated.name}`;
     } else {
       this.welcomeMessage = 'Bienvenid@ Invitado';
     }
+    if (this.userAuthenticated.email.endsWith(domain)) {
+      this.infoInformacionByEmail(this.userAuthenticated.email);
+    }
+  }
+
+  infoInformacionByEmail(email: string): void {
+    this.professorEmail.getProfessorByEmail(email).subscribe((response) => {
+      if (response && response.data) {
+        this.userAuthenticated = {
+          ...this.userAuthenticated,
+        };
+      }
+    });
   }
 
   ngOnDestroy() {

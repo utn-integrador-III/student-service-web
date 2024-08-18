@@ -1,5 +1,5 @@
 <p class="titulo">Bitacora</p>
-<div class="linea-horizontal"></div> 
+<div class="linea-horizontal"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-5">
@@ -12,45 +12,90 @@
           </p>
 
           <div class="mb-3">
-            <select id="seleccionarPersona" class="form-select inputs" [(ngModel)]="selectedProfessorName" (ngModelChange)="onProfessorSelect()">
-              <option value="" disabled selected hidden>Selecciona una persona</option>
-              <option *ngFor="let professor of professorNames" [value]="professor">
-                {{ professor }}
-              </option>
-            </select>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="professorName"
+              disabled
+            />
           </div>
+
           <div class="mb-3">
-            <select id="seleccionarCurso" class="form-select inputs">
-              <option value="" disabled selected hidden>Selecciona un curso</option>
-              <option *ngFor="let course of courses" [value]="course.subject_id">
-                {{ course.subject_name }}
+            <select
+              id="career-select"
+              class="form-select"
+              [(ngModel)]="selectedCareer"
+              name="selectedCareer"
+            >
+              <option *ngIf="careers.length > 0" [ngValue]="careers[0]">
+                {{ careers[0]?.career_name }}
+              </option>
+              <option *ngFor="let career of careers" [ngValue]="career">
+                {{ career.career_name }}
               </option>
             </select>
           </div>
 
           <div class="mb-3">
-            <select id="labSelect" class="form-select inputs" [(ngModel)]="selectedLab" (ngModelChange)="onLabSelect($event)">
+            <select
+              id="course-select"
+              [(ngModel)]="selectedCourse"
+              class="form-select inputs"
+            >
+              <option *ngIf="courses.length > 0" [ngValue]="courses[0]">
+                {{ courses[0]?.course_id }} | {{ courses[0]?.course_name }}
+              </option>
+              <option
+                *ngFor="let course of courses.slice(1)"
+                [ngValue]="course"
+              >
+                {{ course.course_id }} | {{ course.course_name }}
+              </option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <select
+              id="labSelect"
+              class="form-select inputs"
+              [(ngModel)]="selectedLab"
+              (ngModelChange)="onLabSelect($event)"
+            >
               <option value="" [ngValue]="null">Selecciona un lab</option>
-              <option *ngFor="let lab of labs" [ngValue]="lab">{{ lab.lab_name }}</option>
+              <option *ngFor="let lab of labs" [ngValue]="lab">
+                {{ lab.lab_name }}
+              </option>
             </select>
           </div>
-          
-          
-          
+
+          <div class="mb-3">
+            <label for="endTime" class="form-label">Hora de Fin</label>
+            <input
+              id="endTime"
+              type="datetime-local"
+              class="form-control"
+              [(ngModel)]="endTime"
+              name="endTime"
+              required
+            />
+          </div>
 
 
+          <div class="clock-form"></div>
 
 
-
-
-         
-          <button type="button" class="btn buttonApertura w-30">
+          <button type="button" class="btn buttonApertura w-30 mt-4" (click)="saveBooking()">
             Apertura de laboratorio
           </button>
+
+
         </div>
+
+
+
         <div
           class="col-1"
-          style="border-right: 2px solid  rgb(27, 48, 105);  height: 130vh"
+          style="border-right: 2px solid rgb(27, 48, 105); height: 130vh"
         ></div>
       </div>
     </div>
@@ -72,50 +117,64 @@
         <div class="row">
           <div class="col-1"></div>
           <div style="margin-top: 15px" class="col-10">
-            <mat-form-field style="width: 100%; height: 60px"  appearance="outline">
+            <mat-form-field
+              style="width: 100%; height: 60px"
+              appearance="outline"
+            >
               <mat-label>Filtrar</mat-label>
-              <input matInput (keyup)="applyFilter($event)" placeholder="Ej. ium" #input />
+              <input
+                matInput
+                (keyup)="applyFilter($event)"
+                placeholder="Ej. ium"
+                #input
+              />
               <button mat-icon-button matSuffix>
                 <mat-icon>search</mat-icon>
               </button>
             </mat-form-field>
-      
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+
+            <table
+              mat-table
+              [dataSource]="dataSource"
+              class="mat-elevation-z8"
+              style="width: 100%"
+            >
               <!-- name Column -->
               <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef>Nombre</th>
                 <td mat-cell *matCellDef="let element">{{ element.name }}</td>
               </ng-container>
-      
+
               <!-- computer_number Column -->
               <ng-container matColumnDef="computer_number">
-                <th mat-header-cell *matHeaderCellDef>
-                  Numero de computadora
-                </th>
+                <th mat-header-cell *matHeaderCellDef>Numero de computadora</th>
                 <td mat-cell *matCellDef="let element">
                   {{ element.computer_number }}
                 </td>
               </ng-container>
-      
+
               <!-- date Column -->
-              <ng-container  matColumnDef="date">
+              <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef>Fecha</th>
                 <td mat-cell *matCellDef="let element">{{ element.date }}</td>
               </ng-container>
-      
+
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr  mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr style="background-color: white;" class="mat-row" *matNoDataRow>
-                <td  style="background-color: #F7F7F7; color:black;" class="mat-cell" colspan="3"><p style="margin-top: 10px;">No se encontraron datos</p></td>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              <tr style="background-color: white" class="mat-row" *matNoDataRow>
+                <td
+                  style="background-color: #f7f7f7; color: black"
+                  class="mat-cell"
+                  colspan="3"
+                >
+                  <p style="margin-top: 10px">No se encontraron datos</p>
+                </td>
               </tr>
             </table>
           </div>
           <div class="col-1"></div>
         </div>
       </div>
-      
-
-      
     </div>
   </div>
 
