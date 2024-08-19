@@ -1,13 +1,10 @@
 <div class="fondo">
-  <h1
-    mat-dialog-title
-    style="
+  <h1 mat-dialog-title style="
       text-align: center;
       color: black;
       margin-top: 20px;
       margin-bottom: -10px;
-    "
-  >
+    ">
     Modificar Artículo
   </h1>
   <hr />
@@ -22,51 +19,37 @@
       </div>
       <div class="form-group">
         <h2>Descripción</h2>
-        <textarea
-          matInput
-          formControlName="description"
-          class="input-field"
-        ></textarea>
-        <mat-error
-          *ngIf="
+        <textarea matInput formControlName="description" class="input-field"></textarea>
+        <mat-error *ngIf="
             form.get('description').invalid && form.get('description').touched
-          "
-        >
+          ">
           La descripción es requerida.
         </mat-error>
       </div>
       <div class="form-group">
         <h2>Selecciona categorías</h2>
         <div style="display: flex; flex-direction: column; align-items: center">
-          <div
-            style="
+          <div style="
               display: flex;
               flex-wrap: wrap;
               justify-content: center;
               gap: 10px;
-            "
-          >
-            <mat-checkbox
-              *ngFor="let category of categories"
-              [checked]="selectedCategories[category.category_name]"
+            ">
+            <mat-checkbox *ngFor="let category of categories" [checked]="selectedCategories[category.category_name]"
               (change)="
                 onCategoryChange(category.category_name, $event.checked)
-              "
-            >
+              ">
               <span style="color: #333; margin-top: 8px; font-weight: 500">
                 {{ category.category_name }}
               </span>
             </mat-checkbox>
           </div>
-          <mat-error
-            *ngIf="!getSelectedCategories().length"
-            style="
+          <mat-error *ngIf="!getSelectedCategories().length" style="
               color: red;
               font-size: 0.875rem;
               text-align: center;
               width: 100%;
-            "
-          >
+            ">
             Seleccione al menos una categoría.
           </mat-error>
         </div>
@@ -75,89 +58,37 @@
       <div class="form-group">
         <h2>Selecciona safekeepers</h2>
         <div style="display: flex; flex-direction: column; align-items: center">
-          <div
-            style="
+          <div style="
               display: flex;
               flex-wrap: wrap;
               justify-content: center;
               gap: 10px;
-            "
-          >
-            <mat-checkbox
-              *ngFor="let safekeeper of safekeepers"
-              [checked]="selectedSafekeepers[safekeeper.email]"
-              (change)="onSafekeepersChange()"
-            >
+            ">
+            <mat-checkbox *ngFor="let safekeeper of safekeepers" [checked]="selectedSafekeepers[safekeeper.email]"
+              (change)="onSafekeepersChange()">
               <span style="color: #333; margin-top: 8px; font-weight: 500">
                 {{ safekeeper.name }}
               </span>
             </mat-checkbox>
           </div>
-          <mat-error
-            *ngIf="!getSelectedSafekeepers().length"
-            style="
+          <mat-error *ngIf="!getSelectedSafekeepers().length" style="
               color: red;
               font-size: 0.875rem;
               text-align: center;
               width: 100%;
-            "
-          >
+            ">
             Seleccione al menos un safekeeper.
           </mat-error>
         </div>
       </div>
 
-      <!--
-      <div class="file-upload-wrapper" style="margin-bottom: 3px">
-        <button
-          type="button"
-          class="file-upload-button"
-          (click)="fileInput.click()"
-        >
-          Select File
-        </button>
-        <input
-          #fileInput
-          type="file"
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
-        <span class="file-name">{{ selectedFileName }}</span>
-      </div>
-      <div
-        class="form-group1"
-        (drop)="onDrop($event)"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        [class.dragover]="isDragOver"
-      >
-        <h2>Imagen</h2>
-        <div *ngIf="filePreview" class="image-preview">
-          <img [src]="filePreview" alt="Image Preview" />
-          <button type="button" class="delete-button" (click)="onDelete()">
-            Delete
-          </button>
-        </div>
-        <p *ngIf="!filePreview">
-          Drag and drop an image here or click to select
-        </p>
-      </div>
-      -->
       <div mat-dialog-actions>
-        <button
-          type="submit"
-          style="background-color: #1b3069; color: aliceblue"
-          class="btn btn-secondary btn-lg flex-grow-1 m-1"
-          [disabled]="form.invalid"
-        >
+        <button type="submit" style="background-color: #1b3069; color: aliceblue"
+          class="btn btn-secondary btn-lg flex-grow-1 m-1" [disabled]="form.invalid">
           Guardar
         </button>
-        <button
-          type="button"
-          style="background-color: #696969; color: aliceblue"
-          class="btn btn-lg flex-grow-1 m-1"
-          (click)="onNoClick()"
-        >
+        <button type="button" style="background-color: #696969; color: aliceblue" class="btn btn-lg flex-grow-1 m-1"
+          (click)="onNoClick()">
           Cancelar
         </button>
       </div>
