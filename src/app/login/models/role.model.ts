@@ -1,7 +1,6 @@
 export class IRole {
-    name: string = '';
-    permissions: string[] = [];
-    is_active: boolean = true; 
-    screens: string[] = [];
-  }
-  
+  name: string = '';
+  permissions: string[] = [];
+  is_active: boolean = true;
+  screens: string[] = [];
+}
