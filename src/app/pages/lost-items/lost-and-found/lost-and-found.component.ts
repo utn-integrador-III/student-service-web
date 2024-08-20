@@ -7,6 +7,7 @@ import { LostItemsComponent } from '../lost-items.component';
 import { CategoriaServices } from '../../../Services/categoriasServices';
 import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
 import { SafekeeperService } from '../../../Services/safekeeper/safekeeper.service';
+import { PermissionService } from '../../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-lost-and-found',
@@ -39,19 +40,24 @@ export class LostAndFoundComponent implements OnInit {
   categories: any[] = [];
   safekeepers: any[] = [];
   imagePreviewUrl: string | ArrayBuffer | null = null;
+  canViewLostObjects: boolean = false;
+  canManageLostObjects: boolean = false;
 
   constructor(
     private srvlostObjects: LostAndFoundService,
     private toastr: ToastrService,
     public dialog: MatDialog,
     private srvCategorias: CategoriaServices,
-    private srvSafekeepers: SafekeeperService
+    private srvSafekeepers: SafekeeperService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {
     this.loadObjects();
     this.loadCategories();
     this.loadSafekeepers();
+    this.canViewLostObjects = this.permissionService.canViewLostObjects();
+    this.canManageLostObjects = this.permissionService.canManageLostObjects();
   }
 
   loadSafekeepers(): void {

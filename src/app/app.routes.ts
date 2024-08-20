@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { ExampleComponent } from './components/example/example.component';
 import { LostAndFoundComponent } from './pages/lost-items/lost-and-found/lost-and-found.component';
 import { CategoriasComponent } from './categorias/categorias.component';
 import { LoginComponent } from './login/login.component';
@@ -17,39 +16,81 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export const routes: Routes = [
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'example', component: ExampleComponent },
-  { path: 'lostAndFound', component: LostAndFoundComponent },
-  { path: 'teacherlog', component: TeacherLogComponent },
-  { path: 'studentlog', component: StudentLogComponent },
-  { path: 'zones', component: ZonasComponent },
-  { path: 'categorias', component: CategoriasComponent },
-  { path: 'enroll', component: EnrollmentComponent },
-  {path: 'cambiocontraseña', component: ChangePasswordComponent},
-  { path: 'reset-password', component: ResetPasswordComponent },
-
+  {
+    path: 'lostAndFound',
+    component: LostAndFoundComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [
+        { screen: '/lostAndFound', action: 'read' },
+        { screen: '/lostAndFound', action: 'write' },
+        { screen: '/lostAndFound', action: 'delete' },
+        { screen: '/lostAndFound', action: 'update' },
+      ],
+    },
+  },
   {
     path: 'teacherlog',
     component: TeacherLogComponent,
     canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/teacherlog', action: 'read' }],
+    },
   },
   {
     path: 'studentlog',
     component: StudentLogComponent,
     canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/studentlog', action: 'read' }],
+    },
   },
-  { path: 'zones', component: ZonasComponent, canActivate: [AuthGuard] },
+  {
+    path: 'zones',
+    component: ZonasComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/zones', action: 'read' }],
+    },
+  },
   {
     path: 'categorias',
     component: CategoriasComponent,
     canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/categorias', action: 'read' }],
+    },
   },
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'reportIssues', component: ReportIssueComponent },
-  { path: 'issues', component: VisualizationIssuesComponent },
-  { path: 'classes', component: PickClassesComponent },
+  { path: 'enroll', component: EnrollmentComponent },
+  { path: 'cambiocontraseña', component: ChangePasswordComponent },
+  {
+    path: 'reportIssues',
+    component: ReportIssueComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/reportIssues', action: 'create' }],
+    },
+  },
+  {
+    path: 'issues',
+    component: VisualizationIssuesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/issues', action: 'read' }],
+    },
+  },
+  {
+    path: 'classes',
+    component: PickClassesComponent,
+    canActivate: [AuthGuard],
+    data: {
+      requiredPermissions: [{ screen: '/classes', action: 'read' }],
+    },
+  },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
 ];
 
 @NgModule({
