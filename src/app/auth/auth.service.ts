@@ -270,18 +270,38 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.JWT_TOKEN);
     this.router.navigate(['/login']);
   }
-  
+
   resetPassword(email: string): Observable<any> {
     const url = `${this.apiUrl}/password/reset`;
     return this.http.post(url, { email }).pipe(
       tap(() => {
-        this.toastService.showSuccess('Correo de restablecimiento de contraseña enviado.');
+        this.toastService.showSuccess(
+          'Correo de restablecimiento de contraseña enviado.'
+        );
       }),
       catchError((error) => {
-        this.toastService.showError('Error al enviar el correo de restablecimiento de contraseña.');
+        this.toastService.showError(
+          'Error al enviar el correo de restablecimiento de contraseña.'
+        );
         return throwError(error);
       })
     );
   }
-  
+
+  getCurrentUser() {
+    return this.isAuthenticated();
+  }
+
+  hasPermission(permission) {
+    const user = this.getCurrentUser();
+    return user?.role?.permissions?.includes(permission);
+  }
+
+  getUserInfo() {
+    return this.store.select('auth').pipe(
+      map((authState) => {
+        return authState.auth;
+      })
+    );
+  }
 }
