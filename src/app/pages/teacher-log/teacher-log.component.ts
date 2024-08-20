@@ -116,7 +116,6 @@ export class TeacherLogComponent implements OnInit {
           this.selectedLab = this.labs[0];
         }
       } else {
-        console.error('La propiedad `data` no es un array o no está presente');
       }
       this.cdr.detectChanges();
     });
@@ -164,25 +163,6 @@ export class TeacherLogComponent implements OnInit {
       start_time: startTime,
       end_time: formattedEndTime,
     };
-
-    // Imprimir datos en consola
-    console.log('Datos de la reserva:');
-    console.log('Nombre del profesor:', this.professorName);
-    console.log('Email del profesor:', this.professorEmail);
-    console.log(
-      'Carrera seleccionada:',
-      this.selectedCareer?.career_name || 'No seleccionada'
-    );
-    console.log(
-      'Curso seleccionado:',
-      this.selectedCourse?.course_name || 'No seleccionado'
-    );
-    console.log(
-      'Laboratorio seleccionado:',
-      this.selectedLab?.lab_name || 'No seleccionado'
-    );
-    console.log('Hora de inicio:', startTime);
-    console.log('Hora de fin:', formattedEndTime);
 
     // Enviar datos al servicio
     this.Booking.addBooking(bookingData).subscribe(

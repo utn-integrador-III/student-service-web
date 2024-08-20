@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
+import { IAuth } from '../../login/models/login.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-student-log',
@@ -7,6 +11,10 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./student-log.component.css'],
 })
 export class StudentLogComponent implements OnInit {
+  private subscriptions: Subscription = new Subscription();
+  userAuthenticated: IAuth | null = null;
+  StudentName: string = '';
+
   displayedColumns: string[] = ['name', 'computer_number', 'date', 'accions'];
 
   dataSource = new MatTableDataSource<any>([
@@ -22,7 +30,7 @@ export class StudentLogComponent implements OnInit {
   imageUrlsRight: any[] = [];
   selectedImage: any = null; // Variable para mantener la imagen seleccionada
 
-  constructor() {
+  constructor(private store: Store<fromApp.AppState>) {
     for (let i = 1; i <= 20; i++) {
       let formattedNumber = ('0' + i).slice(-2);
       let image = {
@@ -38,7 +46,17 @@ export class StudentLogComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.subscriptions.add(
+      this.store.select('auth').subscribe((authState) => {
+        this.userAuthenticated = authState.auth;
+        this.StudentName = this.userAuthenticated.name;
+
+        console.log(this.userAuthenticated.name);
+        console.log(this.userAuthenticated.email);
+      })
+    );
+  }
 
   selectedComputerNumber: string;
 
