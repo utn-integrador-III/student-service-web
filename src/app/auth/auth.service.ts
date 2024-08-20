@@ -8,7 +8,7 @@ import {
   BehaviorSubject,
   throwError,
 } from 'rxjs';
-import { map, catchError, tap, take } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '../login/store/login.action';
@@ -38,10 +38,12 @@ export class AuthService implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptionUser?.unsubscribe();
+    if (this.subscriptionUser) {
+      this.subscriptionUser.unsubscribe();
+    }
   }
 
-  private initAuthListener() {
+  initAuthListener() {
     this.subscriptionUser = this.store.select('auth').subscribe((authStore) => {
       const user = authStore?.auth;
       this.updateAuthState(!!user?.token);
@@ -53,11 +55,11 @@ export class AuthService implements OnDestroy {
   }
 
   login(email: string, password: string): Observable<IAuthResponse> {
+    const result = new IAuthResponse();
     return this.http
       .post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         map((response) => {
-          const result = new IAuthResponse();
           if (
             response?.data &&
             response.message_code === 'USER_AUTHENTICATED'
@@ -83,7 +85,6 @@ export class AuthService implements OnDestroy {
           return result;
         }),
         catchError((error) => {
-          const result = new IAuthResponse();
           result.isError = true;
           this.handleLoginError(error, result);
           return of(result);
@@ -97,26 +98,16 @@ export class AuthService implements OnDestroy {
       return of(false);
     }
     return this.verifyToken().pipe(
-      map((isValid) => {
-        if (isValid) {
-          return true;
-        } else {
-          this.logout();
-          return false;
-        }
-      }),
-      catchError(() => {
-        this.logout();
-        return of(false);
-      })
+      map((isValid) => (isValid ? true : (this.logout(), false))),
+      catchError(() => (this.logout(), of(false)))
     );
   }
 
-  refreshToken(): Observable<any> {
+  refreshToken() {
     const currentToken = this.getStoredToken();
     if (!currentToken) {
       this.logout();
-      return throwError(() => new Error('No token found'));
+      return throwError('No token found');
     }
     return this.http
       .post<any>(`${this.apiUrl}/refresh`, { token: currentToken })
@@ -124,7 +115,7 @@ export class AuthService implements OnDestroy {
         tap((response) => {
           if (response?.data?.token) {
             const updatedUser = {
-              ...this.getCurrentUser(),
+              ...this.isAuthenticated(),
               token: response.data.token,
             };
             this.store.dispatch(new AuthActions.AuthenticateUser(updatedUser));
@@ -136,7 +127,7 @@ export class AuthService implements OnDestroy {
         }),
         catchError((error) => {
           this.logout();
-          return throwError(() => error);
+          return throwError(error);
         })
       );
   }
@@ -146,30 +137,28 @@ export class AuthService implements OnDestroy {
   }
 
   private getStoredToken(): string | null {
-    return localStorage.getItem(this.JWT_TOKEN);
+    const token = localStorage.getItem(this.JWT_TOKEN);
+    return token;
   }
 
-  getCurrentUser(): IAuth | null {
+  isAuthenticated(): IAuth {
     let authState: IAuth | null = null;
-    this.store
-      .select('auth')
-      .pipe(take(1))
-      .subscribe((authStore) => {
-        authState = authStore?.auth;
-      });
-    return authState;
+    this.store.select('auth').subscribe((authStore) => {
+      authState = authStore?.auth;
+    });
+    return authState || { email: '', token: '' };
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return of(!!this.getStoredToken());
+  isLoggedIn(): boolean {
+    return !!this.getStoredToken();
   }
 
   getToken(): string {
-    return this.getCurrentUser().token || this.getStoredToken() || '';
+    return this.isAuthenticated().token || this.getStoredToken() || '';
   }
 
   getUserName(): string {
-    return this.getCurrentUser().name || '';
+    return this.isAuthenticated().name || '';
   }
 
   private handleLoginError(error: any, result: IAuthResponse) {
@@ -190,12 +179,14 @@ export class AuthService implements OnDestroy {
   }
 
   private verifyToken(): Observable<boolean> {
-    const token = this.getStoredToken();
+    const token = localStorage.getItem(this.JWT_TOKEN);
     return this.http
       .post<any>(
         `${this.apiUrl}/verify_auth`,
         {},
-        { headers: { Authorization: token || '' } }
+        {
+          headers: { Authorization: token },
+        }
       )
       .pipe(
         map((response) => !!response?.data),
@@ -204,19 +195,21 @@ export class AuthService implements OnDestroy {
   }
 
   checkAuthState(): Observable<void> {
-    const token = this.getStoredToken();
+    const token = localStorage.getItem(this.JWT_TOKEN)?.trim();
 
     if (token) {
       return this.http
         .post<any>(
           `${this.apiUrl}/verify_auth`,
           { permission: '' },
-          { headers: { Authorization: token } }
+          {
+            headers: { Authorization: token },
+          }
         )
         .pipe(
           map((response) => {
             if (response?.data) {
-              const updatedUser: IAuth = {
+              const updatedUser = {
                 email: response.data.email,
                 name: response.data.name,
                 role: response.data.role,
@@ -232,7 +225,7 @@ export class AuthService implements OnDestroy {
               this.logout();
             }
           }),
-          catchError(() => {
+          catchError((error) => {
             this.updateAuthState(false);
             this.logout();
             return of(undefined);
@@ -245,7 +238,8 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
-    const userEmail = this.getCurrentUser().email;
+    const authState = this.isAuthenticated();
+    const userEmail = authState.email;
 
     if (!userEmail) {
       this.performLocalLogout();
@@ -254,9 +248,20 @@ export class AuthService implements OnDestroy {
 
     this.http
       .put<any>(`${this.apiUrl}/logout`, { email: userEmail })
-      .pipe(catchError((error) => throwError(() => error)))
+      .pipe(
+        tap((response) => {
+          if (response?.message_code === 'USER_LOGGED_OUT') {
+          } else {
+          }
+        }),
+        catchError((error) => {
+          return throwError(error);
+        })
+      )
       .subscribe({
-        complete: () => this.performLocalLogout(),
+        complete: () => {
+          this.performLocalLogout();
+        },
       });
   }
 
@@ -265,65 +270,18 @@ export class AuthService implements OnDestroy {
     localStorage.removeItem(this.JWT_TOKEN);
     this.router.navigate(['/login']);
   }
-
+  
   resetPassword(email: string): Observable<any> {
     const url = `${this.apiUrl}/password/reset`;
     return this.http.post(url, { email }).pipe(
       tap(() => {
-        this.toastService.showSuccess(
-          'Correo de restablecimiento de contraseña enviado.'
-        );
+        this.toastService.showSuccess('Correo de restablecimiento de contraseña enviado.');
       }),
       catchError((error) => {
-        this.toastService.showError(
-          'Error al enviar el correo de restablecimiento de contraseña.'
-        );
-        return throwError(() => error);
+        this.toastService.showError('Error al enviar el correo de restablecimiento de contraseña.');
+        return throwError(error);
       })
     );
   }
-
-  getUserInfo(): Observable<IAuth> {
-    return of(this.getCurrentUser());
-  }
-
-  hasScreenAccess(screen: string): boolean {
-    return this.getCurrentUser()?.role?.screens?.includes(screen) || false;
-  }
-
-  hasPermission(permission: string): boolean {
-    return (
-      this.getCurrentUser()?.role?.permissions?.includes(permission) || false
-    );
-  }
-
-  initAuthState(): Observable<boolean> {
-    const token = this.getStoredToken();
-    if (!token) {
-      return of(false);
-    }
-    return this.verifyToken().pipe(
-      map((isValid) => {
-        if (isValid) {
-          const currentUser = this.getCurrentUser();
-          if (currentUser && currentUser.token) {
-            this.store.dispatch(new AuthActions.AuthenticateUser(currentUser));
-            this.updateAuthState(true);
-            return true;
-          } else {
-            console.error('Usuario actual no válido');
-            this.logout();
-            return false;
-          }
-        } else {
-          this.logout();
-          return false;
-        }
-      }),
-      catchError(() => {
-        this.logout();
-        return of(false);
-      })
-    );
-  }
+  
 }
