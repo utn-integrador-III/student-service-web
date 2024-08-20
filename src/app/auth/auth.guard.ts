@@ -18,18 +18,20 @@ export class AuthGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     return this.authService.getUserInfo().pipe(
       map((user) => {
-        if (!user) {
-          this.router.navigate(['/home']);
-          return false;
+        const screenPath = `/${route.routeConfig?.path}`;
+        console.log('AuthGuard: User Info:', user);
+        console.log('AuthGuard: Screen Path:', screenPath);
+
+        // Permitir acceso a las pantallas de objetos perdidos para usuarios no autenticados
+        if (this.permissionService.canAccessScreen(screenPath)) {
+          console.log('AuthGuard: Access granted to:', screenPath);
+          return true;
         }
 
-        const screenPath = `/${route.routeConfig?.path}`;
-        if (this.permissionService.canAccessScreen(screenPath)) {
-          return true;
-        } else {
-          this.permissionService.redirectToHome();
-          return false;
-        }
+        console.log('AuthGuard: Access denied, redirecting to home.');
+        // Redirigir a la página de inicio si el acceso no está permitido
+        this.permissionService.redirectToHome();
+        return false;
       })
     );
   }

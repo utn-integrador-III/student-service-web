@@ -141,12 +141,14 @@ export class AuthService implements OnDestroy {
     return token;
   }
 
-  isAuthenticated(): IAuth {
+  isAuthenticated(): IAuth | null {
     let authState: IAuth | null = null;
+
     this.store.select('auth').subscribe((authStore) => {
-      authState = authStore?.auth;
+      authState = authStore?.auth || null; // Devolver null si no hay estado de autenticación
     });
-    return authState || { email: '', token: '' };
+
+    return authState;
   }
 
   isLoggedIn(): boolean {
@@ -154,7 +156,10 @@ export class AuthService implements OnDestroy {
   }
 
   getToken(): string {
-    return this.isAuthenticated().token || this.getStoredToken() || '';
+    const authState = this.isAuthenticated();
+    return authState
+      ? authState.token || this.getStoredToken() || ''
+      : this.getStoredToken() || '';
   }
 
   getUserName(): string {
@@ -288,8 +293,14 @@ export class AuthService implements OnDestroy {
     );
   }
 
-  getCurrentUser() {
-    return this.isAuthenticated();
+  getCurrentUser(): IAuth | null {
+    const user = this.isAuthenticated();
+
+    if (!user) {
+      return null; // Si no hay un usuario autenticado, devolver null
+    }
+
+    return user; // Devolver el objeto de usuario si está autenticado
   }
 
   hasPermission(permission) {

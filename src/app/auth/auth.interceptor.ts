@@ -19,6 +19,14 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     const token = this.authService.getToken();
+
+    if (!token) {
+      console.warn(
+        'No token found, request will proceed without Authorization header.'
+      );
+      return next.handle(req);
+    }
+
     const authReq = req.clone({
       setHeaders: {
         Authorization: token,
