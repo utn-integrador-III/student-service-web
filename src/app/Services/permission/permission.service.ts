@@ -50,6 +50,15 @@ export class PermissionService {
   // Método para verificar si un usuario no autenticado puede acceder a una pantalla
   public canAccessAsUnauthenticated(screenPath: string): boolean {
     const unauthenticatedRoutes = ['/lostAndFound'];
+
+    // Verificar si el usuario está autenticado
+    const userInfo = this.authService.getCurrentUser();
+
+    if (userInfo) {
+      return false;
+    }
+
+    // Si el usuario no está autenticado, verificar si tiene acceso a la ruta
     if (unauthenticatedRoutes.includes(screenPath)) {
       return true;
     }
