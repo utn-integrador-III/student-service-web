@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { PermissionService } from '../Services/permission/permission.service';
 import { Router } from '@angular/router';
+import { ToastService } from '../Services/toaster.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,8 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private permissionService: PermissionService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
@@ -34,6 +36,7 @@ export class AuthGuard implements CanActivate {
         }
 
         // If the user cannot access, redirect to the home page
+        this.toastService.showError('No tiene acceso');
         this.router.navigate(['/home']);
         return false;
       })

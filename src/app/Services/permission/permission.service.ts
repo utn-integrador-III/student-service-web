@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { IAuth } from '../../../app/login/models/login.model';
+import { ToastService } from '../../Services/toaster.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,11 @@ export class PermissionService {
     },
   };
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
   // Método para verificar si el usuario tiene acceso a una pantalla
   canAccessScreen(screenPath: string): boolean {
@@ -62,6 +67,7 @@ export class PermissionService {
     if (unauthenticatedRoutes.includes(screenPath)) {
       return true;
     }
+    this.toastService.showError('No tiene acceso');
     this.router.navigate(['/home']);
     return false;
   }
