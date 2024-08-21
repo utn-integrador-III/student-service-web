@@ -107,42 +107,6 @@
         </div>
       </div>
 
-      <!--
-      <div class="file-upload-wrapper" style="margin-bottom: 3px">
-        <button
-          type="button"
-          class="file-upload-button"
-          (click)="fileInput.click()"
-        >
-          Select File
-        </button>
-        <input
-          #fileInput
-          type="file"
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
-        <span class="file-name">{{ selectedFileName }}</span>
-      </div>
-      <div
-        class="form-group1"
-        (drop)="onDrop($event)"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        [class.dragover]="isDragOver"
-      >
-        <h2>Imagen</h2>
-        <div *ngIf="filePreview" class="image-preview">
-          <img [src]="filePreview" alt="Image Preview" />
-          <button type="button" class="delete-button" (click)="onDelete()">
-            Delete
-          </button>
-        </div>
-        <p *ngIf="!filePreview">
-          Drag and drop an image here or click to select
-        </p>
-      </div>
-      -->
       <div mat-dialog-actions>
         <button
           type="submit"
