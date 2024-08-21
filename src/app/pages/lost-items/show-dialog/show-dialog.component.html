@@ -2,12 +2,16 @@
   <h1 class="title">Detalle de objeto</h1>
   <hr />
   <div class="info">
-    <!--
     <h2>Imagen:</h2>
-    <p>
-      <img [src]="element.image" alt="Imagen del objeto" class="object-image" />
-    </p>
-    -->
+    <div class="image-preview-container">
+      <img
+        id="image-preview"
+        class="img-preview"
+        [src]="imagePreviewUrl"
+        alt="Vista previa de la imagen"
+        *ngIf="imagePreviewUrl"
+      />
+    </div>
     <h2>Nombre:</h2>
     <p>{{ element.name }}</p>
     <h2>Descripción:</h2>
@@ -66,9 +70,6 @@
           >
             Eliminar
           </button>
-        </div>
-        <div class="col-12 col-md-4 mb-2">
-          <button class="closebutton w-100" (click)="onClose()">Cerrar</button>
         </div>
       </div>
     </div>

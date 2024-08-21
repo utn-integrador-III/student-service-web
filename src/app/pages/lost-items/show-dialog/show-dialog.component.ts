@@ -18,6 +18,7 @@ export class ShowDialogComponent implements OnInit {
   isOwner: boolean = false;
   canEdit: boolean = false;
   canDelete: boolean = false;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<ShowDialogComponent>,
@@ -34,6 +35,20 @@ export class ShowDialogComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.checkPermissions();
+  }
+
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
+    }
   }
 
   loadCategories() {

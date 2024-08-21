@@ -41,6 +41,7 @@ export class LostAndFoundComponent implements OnInit {
   safekeepers: any[] = [];
   imagePreviewUrl: string | ArrayBuffer | null = null;
   canCreate = false;
+  fileInput: any;
 
   constructor(
     private srvlostObjects: LostAndFoundService,
@@ -55,8 +56,6 @@ export class LostAndFoundComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadObjects();
-    this.loadCategories();
-    this.loadSafekeepers();
   }
 
   loadSafekeepers(): void {
@@ -66,7 +65,6 @@ export class LostAndFoundComponent implements OnInit {
       },
       (error) => {
         this.toastr.error('Error al cargar los safekeepers.');
-        console.log(error);
       }
     );
   }
@@ -85,6 +83,8 @@ export class LostAndFoundComponent implements OnInit {
     this.srvlostObjects.getObjects().subscribe(
       (response: any) => {
         this.dataSource.data = response.data;
+        this.loadCategories();
+        this.loadSafekeepers();
       },
       (error) => {
         if (error.status === 404) {
@@ -92,7 +92,6 @@ export class LostAndFoundComponent implements OnInit {
         } else {
           this.toastr.error('Error al cargar los objetos.');
         }
-        console.log(error);
       }
     );
   }
@@ -111,7 +110,6 @@ export class LostAndFoundComponent implements OnInit {
         } else {
           this.toastr.error('Error al cargar las categorías.');
         }
-        console.log(error);
       }
     );
   }
@@ -145,7 +143,6 @@ export class LostAndFoundComponent implements OnInit {
       return;
     }
 
-    console.log(this.newObject);
     this.srvlostObjects.addObjects(this.newObject).subscribe(
       () => {
         this.toastr.success('Objeto añadido exitosamente');
@@ -178,22 +175,24 @@ export class LostAndFoundComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  previewImage(event: any) {
-    const file = event.target.files[0];
-    if (file) {
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagePreviewUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
     }
   }
 
-  removeImage() {
+  removeImage(): void {
     this.imagePreviewUrl = null;
-    const fileInput = document.getElementById('item-image') as HTMLInputElement;
-    if (fileInput) {
-      fileInput.value = '';
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
     }
   }
 
@@ -235,8 +234,6 @@ export class LostAndFoundComponent implements OnInit {
       }
     );
   }
-
-  onRowClick(row: any) {}
 
   capitalizeFirstLetter(text: string): string {
     if (!text) return 'No disponible';
