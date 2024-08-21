@@ -11,6 +11,7 @@ import { CategoriaServices } from '../../Services/categoriasServices';
 import { ToastrService } from 'ngx-toastr';
 import { LostAndFoundService } from '../../Services/service-LostAndFound/LostAndFound.service';
 import { SafekeeperService } from '../../Services/safekeeper/safekeeper.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-lost-items',
@@ -28,6 +29,7 @@ export class LostItemsComponent implements OnInit {
   form: FormGroup;
   categories: any[] = [];
   safekeepers: any[] = [];
+  canEdit: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<LostItemsComponent>,
@@ -36,9 +38,11 @@ export class LostItemsComponent implements OnInit {
     private srvCategorias: CategoriaServices,
     private toastr: ToastrService,
     private srvlostObjects: LostAndFoundService,
-    private srvSafekeepers: SafekeeperService
+    private srvSafekeepers: SafekeeperService,
+    private permissionService: PermissionService
   ) {
     this.initializeForm();
+    this.canEdit = this.permissionService.canManageLostObjects();
   }
 
   ngOnInit(): void {

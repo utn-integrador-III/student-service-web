@@ -72,7 +72,7 @@ export class AuthService implements OnDestroy {
               token: response.data.token,
             };
             this.store.dispatch(new AuthActions.AuthenticateUser(user));
-            this.storeJwtToken(user.token);
+            this.storeJwtToken(user.token, user); // Guardar el token y la información completa del usuario
             this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito');
             this.updateAuthState(true);
             result.auth = user;
@@ -119,7 +119,7 @@ export class AuthService implements OnDestroy {
               token: response.data.token,
             };
             this.store.dispatch(new AuthActions.AuthenticateUser(updatedUser));
-            this.storeJwtToken(response.data.token);
+            this.storeJwtToken(response.data.token, response.data);
             this.updateAuthState(true);
           } else {
             this.logout();
@@ -132,8 +132,9 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  private storeJwtToken(jwt: string) {
+  private storeJwtToken(jwt: string, user: IAuth) {
     localStorage.setItem(this.JWT_TOKEN, jwt);
+    localStorage.setItem('USER_INFO', JSON.stringify(user));
   }
 
   private getStoredToken(): string | null {
@@ -141,12 +142,27 @@ export class AuthService implements OnDestroy {
     return token;
   }
 
+  private getStoredUser(): IAuth | null {
+    const user = localStorage.getItem('USER_INFO');
+    return user ? JSON.parse(user) : null;
+  }
+
   isAuthenticated(): IAuth | null {
     let authState: IAuth | null = null;
 
-    this.store.select('auth').subscribe((authStore) => {
-      authState = authStore?.auth || null; // Devolver null si no hay estado de autenticación
-    });
+    this.store
+      .select('auth')
+      .subscribe((authStore) => {
+        authState = authStore?.auth || null;
+      })
+      .unsubscribe(); // Unsubscribir inmediatamente después de recibir el valor.
+
+    if (!authState) {
+      authState = this.getStoredUser(); // Recuperar el usuario del localStorage si no está en memoria
+      if (authState) {
+        this.store.dispatch(new AuthActions.AuthenticateUser(authState));
+      }
+    }
 
     return authState;
   }
@@ -273,6 +289,7 @@ export class AuthService implements OnDestroy {
   private performLocalLogout() {
     this.store.dispatch(new AuthActions.LogoutUser());
     localStorage.removeItem(this.JWT_TOKEN);
+    localStorage.removeItem('USER_INFO');
     this.router.navigate(['/login']);
   }
 

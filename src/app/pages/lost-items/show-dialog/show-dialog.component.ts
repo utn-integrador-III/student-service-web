@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import { IAuth } from '../../../login/models/login.model';
+import { PermissionService } from '../../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-show-dialog',
@@ -23,8 +24,12 @@ export class ShowDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public element: any,
     private srvCategorias: CategoriaServices,
     private toastr: ToastrService,
-    private store: Store<fromApp.AppState>
-  ) {}
+    private store: Store<fromApp.AppState>,
+    private permissionService: PermissionService
+  ) {
+    this.canDelete = this.permissionService.canManageLostObjects();
+    this.canEdit = this.permissionService.canManageLostObjects();
+  }
 
   ngOnInit(): void {
     this.loadCategories();

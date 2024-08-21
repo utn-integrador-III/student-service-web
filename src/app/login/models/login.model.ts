@@ -7,13 +7,12 @@ export class IAuth {
   status?: string;
   role?: IRole;
   token?: string;
-
   constructor(
     _id: string = '',
     email: string = '',
     name: string = '',
     status: string = '',
-    role: IRole = new IRole(), // Asumiendo que IRole es una clase
+    role: IRole = new IRole(),
     token: string = ''
   ) {
     this._id = _id;
