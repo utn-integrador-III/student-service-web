@@ -7,6 +7,7 @@ import { IAuth } from '../../../app/login/models/login.model';
   providedIn: 'root',
 })
 export class PermissionService {
+  // Definición de los permisos por rol
   private rolePermissions = {
     Admin: {
       '/lostAndFound': ['read', 'write', 'delete', 'update'],
@@ -27,74 +28,85 @@ export class PermissionService {
     'Lost-Property/Member': {
       '/lostAndFound': ['read'],
       '/studentlog': ['read', 'write', 'update', 'delete'],
+      '/classes': ['read', 'write', 'delete', 'update'],
     },
   };
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  // Método para verificar si el usuario tiene acceso a una pantalla
   canAccessScreen(screenPath: string): boolean {
-    const user = this.authService.getCurrentUser();
-
-    if (!user) {
-      return this.canAccessAsUnauthenticated(screenPath);
+    const userInfo = localStorage.getItem('USER_INFO');
+    if (userInfo) {
+      const user: IAuth = JSON.parse(userInfo);
+      return this.hasAccess(user, screenPath);
+    } else {
+      // User is not authenticated, redirect to the login page
+      this.router.navigate(['/home']);
+      return false;
     }
-
-    return this.hasAccess(user, screenPath);
   }
 
-  private canAccessAsUnauthenticated(screenPath: string): boolean {
+  // Método para verificar si un usuario no autenticado puede acceder a una pantalla
+  public canAccessAsUnauthenticated(screenPath: string): boolean {
     const unauthenticatedRoutes = ['/lostAndFound'];
     if (unauthenticatedRoutes.includes(screenPath)) {
       return true;
     }
-    this.redirectToLogin();
-    return false;
-  }
-
-  private hasAccess(user: IAuth, screenPath: string): boolean {
-    if (user.role?.name === 'Admin') {
-      return true; // Admin tiene acceso total
-    }
-
-    if (user.role && this.rolePermissions[user.role.name]) {
-      return !!this.rolePermissions[user.role.name][screenPath];
-    }
-
-    this.redirectToHome();
-    return false;
-  }
-
-  redirectToHome() {
     this.router.navigate(['/home']);
+    return false;
   }
 
-  redirectToLogin() {
-    this.router.navigate(['/login']);
+  // Método para verificar si un usuario tiene acceso a una pantalla
+  private hasAccess(user: IAuth, screenPath: string): boolean {
+    // Si el usuario es un administrador, tiene acceso a todo
+    if (user.role?.name === 'Admin') {
+      return true;
+    }
+
+    // Verificar si el usuario tiene los permisos necesarios para acceder a la pantalla
+    if (user.role && this.rolePermissions[user.role.name]) {
+      return this.hasPermission('read', screenPath);
+    }
+
+    // Si el usuario no tiene acceso, redirigir a la página de inicio
+    this.router.navigate(['/home']);
+    return false;
   }
 
+  // Método para verificar si el usuario tiene un permiso específico en una pantalla
   hasPermission(permission: string, screenPath: string): boolean {
     const user = this.authService.getCurrentUser();
-    if (!user || !user.role) return false;
+    if (!user || !user.role) {
+      return false;
+    }
 
     const rolePerms = this.rolePermissions[user.role.name];
-    return (
-      rolePerms &&
-      rolePerms[screenPath] &&
-      rolePerms[screenPath].includes(permission)
-    );
+    if (!rolePerms || !rolePerms[screenPath]) {
+      return false;
+    }
+    return rolePerms[screenPath].includes(permission);
   }
-
+  // Método para verificar si el usuario tiene un rol específico
   private hasRole(role: string): boolean {
     const user = this.authService.getCurrentUser();
     return user?.role?.name === role;
   }
 
+  // Métodos para verificar permisos específicos
   canManageLostObjects(): boolean {
-    return this.hasRole('Admin') || this.hasRole('Lost-Property/Member');
+    const user = this.authService.getCurrentUser();
+    return (
+      this.hasRole('Admin') ||
+      user?.role?.permissions.includes('lostobject_mngmt')
+    );
   }
 
   canManageIssues(): boolean {
-    return this.hasRole('Admin') || this.hasRole('BookinComputer');
+    const user = this.authService.getCurrentUser();
+    return (
+      this.hasRole('Admin') || user?.role?.permissions.includes('issue_mngmt')
+    );
   }
 
   canAccessAdvancedSettings(): boolean {
@@ -109,6 +121,7 @@ export class PermissionService {
     return this.hasRole('Admin');
   }
 
+  // Métodos para verificar permisos específicos de lectura, escritura, eliminación y actualización
   canReadWriteDeleteUpdate(screenPath: string): boolean {
     const user = this.authService.getCurrentUser();
     if (!user || !user.role) return false;

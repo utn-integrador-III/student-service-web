@@ -6,6 +6,7 @@ import { ModalAgregarZonaComponent } from '../modal-agregar-zona/modal-agregar-z
 import { ToastService } from '../Services/toaster.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ZoneService } from '../Services/service-zone/zone.service';
+import { PermissionService } from '../Services/permission/permission.service';
 
 @Component({
   selector: 'app-zonas',
@@ -16,6 +17,9 @@ export class ZonasComponent implements OnInit {
   zonas: any[] = [];
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['name', 'location', 'actions'];
+  canWrite = false;
+  canDelete = false;
+  canUpdate = false;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -23,8 +27,13 @@ export class ZonasComponent implements OnInit {
     private dialog: MatDialog,
     private zoneService: ZoneService,
     private snackBar: MatSnackBar,
-    private toasterService: ToastService
-  ) {}
+    private toasterService: ToastService,
+    private permissionService: PermissionService
+  ) {
+    this.canWrite = this.permissionService.hasPermission('write', '/zones');
+    this.canDelete = this.permissionService.hasPermission('delete', '/zones');
+    this.canUpdate = this.permissionService.hasPermission('update', '/zones');
+  }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource();
