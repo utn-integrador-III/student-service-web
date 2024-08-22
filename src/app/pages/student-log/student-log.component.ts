@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-student-log',
@@ -21,8 +22,10 @@ export class StudentLogComponent implements OnInit {
   imageUrlsLeft: any[] = [];
   imageUrlsRight: any[] = [];
   selectedImage: any = null; // Variable para mantener la imagen seleccionada
+  canCreate = false;
+  canDelete = false;
 
-  constructor() {
+  constructor(private permissionService: PermissionService) {
     for (let i = 1; i <= 20; i++) {
       let formattedNumber = ('0' + i).slice(-2);
       let image = {
@@ -36,6 +39,14 @@ export class StudentLogComponent implements OnInit {
         this.imageUrlsRight.push(image);
       }
     }
+    this.canCreate = this.permissionService.hasPermission(
+      'write',
+      '/studentlog'
+    );
+    this.canDelete = this.permissionService.hasPermission(
+      'write',
+      '/studentlog'
+    );
   }
 
   ngOnInit(): void {}

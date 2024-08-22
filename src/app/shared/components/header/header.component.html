@@ -7,12 +7,13 @@
     <ul>
       <li><a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Inicio</a></li>
       <li><a routerLink="/lostAndFound" routerLinkActive="active" (click)="closeMenu()">Objectos perdidos</a></li>
-      <li><a routerLink="/reportIssues" routerLinkActive="active" (click)="closeMenu()">Reporte de averias</a></li>
-      <li><a routerLink="/studentlog" routerLinkActive="active" (click)="closeMenu()">Bitacora estudiante</a></li>
+      <li *ngIf="showIssues"> <a routerLink="/reportIssues" routerLinkActive="active" (click)="closeMenu()">Reporte de averías</a>
+      </li>      
+      <li *ngIf="showStudentLog"><a routerLink="/studentlog" routerLinkActive="active" (click)="closeMenu()">Bitacora estudiante</a></li>
       
       <!-- Mostrar esta sección si el usuario no está autenticado -->
       <ng-container *ngIf="!userAuthenticated">
-        <li><a class="nav-link" routerLink="/enrollment" routerLinkActive="active" (click)="closeMenu()">Registrar me</a></li>
+        <li><a class="nav-link" routerLink="/enrollment" routerLinkActive="active" (click)="closeMenu()">Registrarme</a></li>
       </ng-container>
       
       <!-- Mostrar esta sección si el usuario está autenticado -->

@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LabManaging } from './../../../Services/lab-Managing/labManaging.service';
+import { PermissionService } from '../../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-report-issue',
@@ -14,11 +15,15 @@ export class ReportIssueComponent implements OnInit {
   selectedComputerNumber: string = '';
   labs: any[] = [];
   selectedLab: any = null;
+  canCreate = false;
 
   constructor(
     private labManaging: LabManaging,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef,
+    private permissionService: PermissionService
+  ) {
+    this.canCreate = this.permissionService.canManageIssues();
+  }
 
   ngOnInit(): void {
     this.loadLabs();

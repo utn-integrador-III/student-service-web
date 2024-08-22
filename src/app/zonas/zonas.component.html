@@ -1,5 +1,3 @@
-
-
 <div class="content-wrapper">
   <div class="container-fluid">
     <div class="title-container">
@@ -8,46 +6,82 @@
       <div class="line"></div>
     </div>
 
-    
-
     <div class="row mb-4">
       <div class="col-md-6">
         <mat-form-field appearance="outline" class="w-100 custom-filter-field">
           <mat-label style="color: black">Buscar...</mat-label>
-          <input matInput style="color: black" (input)="filtrarZonas($event)">
+          <input matInput style="color: black" (input)="filtrarZonas($event)" />
         </mat-form-field>
       </div>
       <div class="col-md-6 d-flex justify-content-end">
-        <button mat-raised-button style="background-color: #6fc0a8; color:antiquewhite" class="btn-agregar" (click)="abrirModal(1)">Agregar</button>
+        <button
+          mat-raised-button
+          style="background-color: #6fc0a8; color: antiquewhite"
+          class="btn-agregar"
+          (click)="abrirModal(1)"
+          [disabled]="!canWrite"
+        >
+          Agregar
+        </button>
       </div>
     </div>
 
-    <mat-table  [dataSource]="dataSource" class="mat-elevation-z8 w-100 custom-table">
+    <mat-table
+      [dataSource]="dataSource"
+      class="mat-elevation-z8 w-100 custom-table"
+    >
       <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef  style="color: black"> Nombre </mat-header-cell>
-        <mat-cell *matCellDef="let zona"  style="color: black"> {{ zona.name }} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="color: black">
+          Nombre
+        </mat-header-cell>
+        <mat-cell *matCellDef="let zona" style="color: black">
+          {{ zona.name }}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="location">
-        <mat-header-cell *matHeaderCellDef  style="color: black"> Localidad </mat-header-cell>
-        <mat-cell *matCellDef="let zona"  style="color: black"> {{ zona.location }} </mat-cell>
+        <mat-header-cell *matHeaderCellDef style="color: black">
+          Localidad
+        </mat-header-cell>
+        <mat-cell *matCellDef="let zona" style="color: black">
+          {{ zona.location }}
+        </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef  style="color: black"> Acciones </mat-header-cell>
-        <mat-cell *matCellDef="let zona"  style="color: black">
-          <button mat-button style="color: rgb(0, 255, 13)" (click)="editarZona(zona)">Editar</button>
-          <button mat-button style="color: rgb(197, 0, 0)" (click)="eliminarZona(zona)">Eliminar</button>
+        <mat-header-cell *matHeaderCellDef style="color: black">
+          Acciones
+        </mat-header-cell>
+        <mat-cell *matCellDef="let zona" style="color: black">
+          <button
+            mat-button
+            style="color: rgb(0, 255, 13)"
+            (click)="editarZona(zona)"
+            [disabled]="!canUpdate"
+          >
+            Editar
+          </button>
+          <button
+            mat-button
+            style="color: rgb(197, 0, 0)"
+            (click)="eliminarZona(zona)"
+            [disabled]="!canDelete"
+          >
+            Eliminar
+          </button>
         </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
 
     <!-- Pager -->
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
   </div>
 
->
+  >
 </div>
