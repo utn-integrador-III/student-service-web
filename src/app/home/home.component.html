@@ -110,13 +110,14 @@
             <div *ngIf="showBitacoraOptions" class="options1">
               <div class="button-container">
                 <button 
-                class="custom-button" 
-                routerLink="/classes" 
-                routerLinkActive="active" 
-               >
-                Clases
-              </button>
+                  *ngIf="showClass" 
+                  class="custom-button" 
+                  routerLink="/classes" 
+                  routerLinkActive="active">
+                  Clases
+                </button>
                 <button 
+                  *ngIf="showTeacherLog"
                   class="custom-button" 
                   routerLink="/teacherlog" 
                   routerLinkActive="active" 
@@ -124,6 +125,7 @@
                   Bitácora Profesor
                 </button>
                 <button 
+                  *ngIf="showCategorias"
                   class="custom-button" 
                   routerLink="/studentlog" 
                   routerLinkActive="active" 
@@ -178,6 +180,7 @@
             <div *ngIf="showAjustesOptions" class="options">
               <div class="button-container">
                 <button 
+                  *ngIf="showZones"
                   class="custom-button" 
                   routerLink="/zones" 
                   routerLinkActive="active" 
@@ -185,6 +188,7 @@
                   Zonas
                 </button>
                 <button 
+                  *ngIf="showCategorias"
                   class="custom-button" 
                   routerLink="/categorias" 
                   routerLinkActive="active" 
@@ -192,6 +196,7 @@
                   Categoría
                 </button>
                 <button 
+                  *ngIf="showIssues"
                   class="custom-button" 
                   routerLink="/issues" 
                   routerLinkActive="active" 
