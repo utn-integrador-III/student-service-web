@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import * as fromApp from './store/app.reducer';
 import { AuthService } from './auth/auth.service';
@@ -17,8 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<fromApp.AppState>,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -27,14 +25,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.subscriptions.add(
           this.store.select('auth').subscribe((authState) => {
             this.userAuthenticated = authState.auth;
-            if (!this.userAuthenticated?.token) {
-              this.router.navigate(['/login']);
-            }
           })
         );
       },
       error: (error) => {
-        this.router.navigate(['/login']);
+        console.error('Error checking auth state:', error);
       },
     });
   }

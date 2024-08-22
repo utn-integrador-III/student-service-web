@@ -1,39 +1,47 @@
-.titulo{
-    text-align: center;
-    color: #1B3069;
-    font-size: 20px;
-    margin-top: 30px;
-    font-style: normal;
+.disabled-button {
+  background-color: #d3d3d3;
+  color: #a9a9a9;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.titulo {
+  text-align: center;
+  color: #1b3069;
+  font-size: 20px;
+  margin-top: 30px;
+  font-style: normal;
 }
 .linea-horizontal {
-    border-top: 2px solid #1B3069; /* Ajustado a un color más oscuro */
-    margin: 0 auto;
+  border-top: 2px solid #1b3069; /* Ajustado a un color más oscuro */
+  margin: 0 auto;
 }
 
-.llenadoDatos{
-    width: 620px;
+.llenadoDatos {
+  width: 620px;
 }
-.inputs{
-    /*width: 462px;*/
-    margin: 0 auto; 
-    display: block; 
-    border-radius: 3px;
-    height: 50px;
-    background-color:#EEEEEE ;
+.inputs {
+  /*width: 462px;*/
+  margin: 0 auto;
+  display: block;
+  border-radius: 3px;
+  height: 50px;
+  background-color: #eeeeee;
 }
-.buttonApertura{
-    background-color:#1B3069 ;
-    color: #EEEEEE;
-    margin: 0 auto; 
-    display: block; 
-}
-
-table{
-    background-color: #89C1E0;
-    text-align: center;
-}
-th, td{
-    text-align: center;
-    color: #EEEEEE;
+.buttonApertura {
+  background-color: #1b3069;
+  color: #eeeeee;
+  margin: 0 auto;
+  display: block;
 }
 
+table {
+  background-color: #89c1e0;
+  text-align: center;
+}
+th,
+td {
+  text-align: center;
+  color: #eeeeee;
+}

@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProfessorManaging } from '../../Services/professors/professor.service';
 import { LabManaging } from '../../Services/lab-Managing/labManaging.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 interface Professor {
   professor_name: string;
@@ -28,12 +29,19 @@ export class TeacherLogComponent implements OnInit {
   labs: any[] = [];
   selectedLab: any = null;
   selectedProfessorName: string = '';
+  canWrite = false;
 
   constructor(
     private professorManaging: ProfessorManaging,
     private cdr: ChangeDetectorRef,
-    private labManaging: LabManaging
-  ) {}
+    private labManaging: LabManaging,
+    private permissionService: PermissionService
+  ) {
+    this.canWrite = this.permissionService.hasPermission(
+      'write',
+      '/teacherlog'
+    );
+  }
 
   ngOnInit() {
     this.loadProfessors();

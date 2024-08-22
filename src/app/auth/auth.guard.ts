@@ -1,31 +1,45 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AuthService } from './auth.service';
+import { PermissionService } from '../Services/permission/permission.service';
+import { Router } from '@angular/router';
+import { ToastService } from '../Services/toaster.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private permissionService: PermissionService,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
-  canActivate(): Observable<boolean> {
-    return this.authService.isLoggedIn()
-      ? of(true)
-      : this.authService.refreshToken().pipe(
-          map(() => {
-            if (this.authService.isLoggedIn()) {
-              return true;
-            } else {
-              this.router.navigate(['/login']);
-              return false;
-            }
-          }),
-          catchError(() => {
-            this.router.navigate(['/login']);
-            return of(false);
-          })
-        );
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+    const screenPath = `/${route.routeConfig?.path}`;
+
+    // Check if the route is allowed for unauthenticated users
+    if (this.permissionService.canAccessAsUnauthenticated(screenPath)) {
+      return of(true);
+    }
+
+    return this.authService.getUserInfo().pipe(
+      map((user) => {
+        // Check if the user is authenticated and can access the screen
+        const canAccess = this.permissionService.canAccessScreen(screenPath);
+
+        if (canAccess) {
+          return true;
+        }
+
+        // If the user cannot access, redirect to the home page
+        this.toastService.showError('No tiene acceso');
+        this.router.navigate(['/home']);
+        return false;
+      })
+    );
   }
 }
