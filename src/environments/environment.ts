@@ -20,4 +20,5 @@ export const environment = {
   URL_LOGOUT: 'http://localhost:5002/auth/logout',
   URL_PASSWORD_RESET: 'http://localhost:5002/user/password',
   URL_CHANGE_PASSOWORD: 'http://localhost:5002/user/password',
+  
 };
