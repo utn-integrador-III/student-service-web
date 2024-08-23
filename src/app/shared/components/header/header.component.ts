@@ -25,11 +25,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>,
     private router: Router,
     private authService: AuthService
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.showIssues = this.permissionService.canAccessScreen('/reportIssues');
     this.showStudentLog = this.permissionService.canAccessScreen('/studentlog');
+  }
+
+  ngOnInit() {
     this.subscriptions.add(
       this.store.select('auth').subscribe((authState) => {
         this.userAuthenticated = authState.auth;
