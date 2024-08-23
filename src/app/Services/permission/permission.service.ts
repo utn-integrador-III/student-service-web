@@ -21,6 +21,7 @@ export class PermissionService {
       '/classes': ['read', 'write', 'delete', 'update'],
     },
     BookinComputer: {
+      '/lostAndFound': ['read'],
       '/teacherlog': ['read', 'write', 'delete', 'update'],
       '/reportIssues': ['read', 'write', 'delete', 'update'],
       '/issues': ['read', 'write', 'delete', 'update'],
@@ -39,14 +40,19 @@ export class PermissionService {
     private toastService: ToastService
   ) {}
 
+  // Método para obtener el usuario desde localStorage
+  private getUserFromLocalStorage(): IAuth | null {
+    const userInfo = localStorage.getItem('USER_INFO');
+    return userInfo ? JSON.parse(userInfo) : null;
+  }
+
   // Método para verificar si el usuario tiene acceso a una pantalla
   canAccessScreen(screenPath: string): boolean {
-    const userInfo = localStorage.getItem('USER_INFO');
-    if (userInfo) {
-      const user: IAuth = JSON.parse(userInfo);
+    const user = this.getUserFromLocalStorage();
+    if (user) {
       return this.hasAccess(user, screenPath);
     } else {
-      // User is not authenticated, redirect to the login page
+      // Usuario no autenticado, redirigir a la página de inicio
       this.router.navigate(['/home']);
       return false;
     }
@@ -57,9 +63,9 @@ export class PermissionService {
     const unauthenticatedRoutes = ['/lostAndFound'];
 
     // Verificar si el usuario está autenticado
-    const userInfo = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
 
-    if (userInfo) {
+    if (user) {
       return false;
     }
 
@@ -91,7 +97,7 @@ export class PermissionService {
 
   // Método para verificar si el usuario tiene un permiso específico en una pantalla
   hasPermission(permission: string, screenPath: string): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     if (!user || !user.role) {
       return false;
     }
@@ -102,15 +108,16 @@ export class PermissionService {
     }
     return rolePerms[screenPath].includes(permission);
   }
+
   // Método para verificar si el usuario tiene un rol específico
   private hasRole(role: string): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     return user?.role?.name === role;
   }
 
   // Métodos para verificar permisos específicos
   canManageLostObjects(): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     return (
       this.hasRole('Admin') ||
       user?.role?.permissions.includes('lostobject_mngmt')
@@ -118,7 +125,7 @@ export class PermissionService {
   }
 
   canManageIssues(): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     return (
       this.hasRole('Admin') || user?.role?.permissions.includes('issue_mngmt')
     );
@@ -138,7 +145,7 @@ export class PermissionService {
 
   // Métodos para verificar permisos específicos de lectura, escritura, eliminación y actualización
   canReadWriteDeleteUpdate(screenPath: string): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     if (!user || !user.role) return false;
 
     const rolePerms = this.rolePermissions[user.role.name];
@@ -154,7 +161,7 @@ export class PermissionService {
   }
 
   canReadOnly(screenPath: string): boolean {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUserFromLocalStorage();
     if (!user || !user.role) return false;
 
     const rolePerms = this.rolePermissions[user.role.name];

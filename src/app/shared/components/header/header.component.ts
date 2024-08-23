@@ -16,8 +16,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userAuthenticated: IAuth | null = null;
   menuOpen: boolean = false;
   welcomeMessage: string = '';
-  showIssues=false
-  showStudentLog=false
+  showIssues = false;
+  showStudentLog = false;
   private subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.store.select('auth').subscribe((authState) => {
         this.userAuthenticated = authState.auth;
         this.updateWelcomeMessage();
-        
       })
     );
 

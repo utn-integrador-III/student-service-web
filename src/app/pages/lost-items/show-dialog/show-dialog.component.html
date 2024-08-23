@@ -43,6 +43,8 @@
     <ng-template #noSafekeepers>
       <p>No disponible</p>
     </ng-template>
+    <h2>Fecha de registro:</h2>
+    <p>{{ element.creation_date | date : "dd/MM/yyyy" }}</p>
     <h2>Estado:</h2>
     <p>{{ element.status }}</p>
   </div>
