@@ -13,7 +13,7 @@
         <input type="password" id="password" name="password" ngModel required placeholder=" ">
         <label for="password">contraseña</label>
       </div>
-      <a href="#" class="forgot-password">¿Ha olvidado su contraseña?</a>
+      <a [routerLink]="['/reset-password']" class="forgot-password">¿Ha olvidado su contraseña?</a>
       <div class="login-button-container">
         <button type="submit" [disabled]="!loginForm.valid" class="login-button">Iniciar sesión</button>
       </div>

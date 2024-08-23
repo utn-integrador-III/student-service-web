@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { PermissionService } from '../../Services/permission/permission.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import { IAuth } from '../../login/models/login.model';
@@ -59,6 +60,32 @@ export class StudentLogComponent implements OnInit {
         this.loadLabs();
         this.cdr.detectChanges();
       })
+    );
+  selectedImage: any = null; // Variable para mantener la imagen seleccionada
+  canCreate = false;
+  canDelete = false;
+
+  constructor(private permissionService: PermissionService) {
+    for (let i = 1; i <= 20; i++) {
+      let formattedNumber = ('0' + i).slice(-2);
+      let image = {
+        imageUrl: `/assets/images/computer.png`,
+        number: formattedNumber,
+      };
+
+      if (i <= 10) {
+        this.imageUrlsLeft.push(image);
+      } else {
+        this.imageUrlsRight.push(image);
+      }
+    }
+    this.canCreate = this.permissionService.hasPermission(
+      'write',
+      '/studentlog'
+    );
+    this.canDelete = this.permissionService.hasPermission(
+      'write',
+      '/studentlog'
     );
   }
 

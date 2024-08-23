@@ -72,10 +72,13 @@ export class AuthService implements OnDestroy {
               token: response.data.token,
             };
             this.store.dispatch(new AuthActions.AuthenticateUser(user));
-            this.storeJwtToken(user.token);
+            this.storeJwtToken(user.token, user); // Guardar el token y la información completa del usuario
             this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito');
             this.updateAuthState(true);
             result.auth = user;
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
           } else {
             result.isError = true;
             this.toastService.showError(
@@ -119,7 +122,7 @@ export class AuthService implements OnDestroy {
               token: response.data.token,
             };
             this.store.dispatch(new AuthActions.AuthenticateUser(updatedUser));
-            this.storeJwtToken(response.data.token);
+            this.storeJwtToken(response.data.token, response.data);
             this.updateAuthState(true);
           } else {
             this.logout();
@@ -132,8 +135,9 @@ export class AuthService implements OnDestroy {
       );
   }
 
-  private storeJwtToken(jwt: string) {
+  private storeJwtToken(jwt: string, user: IAuth) {
     localStorage.setItem(this.JWT_TOKEN, jwt);
+    localStorage.setItem('USER_INFO', JSON.stringify(user));
   }
 
   private getStoredToken(): string | null {
@@ -141,12 +145,29 @@ export class AuthService implements OnDestroy {
     return token;
   }
 
-  isAuthenticated(): IAuth {
+  private getStoredUser(): IAuth | null {
+    const user = localStorage.getItem('USER_INFO');
+    return user ? JSON.parse(user) : null;
+  }
+
+  isAuthenticated(): IAuth | null {
     let authState: IAuth | null = null;
-    this.store.select('auth').subscribe((authStore) => {
-      authState = authStore?.auth;
-    });
-    return authState || { email: '', token: '' };
+
+    this.store
+      .select('auth')
+      .subscribe((authStore) => {
+        authState = authStore?.auth || null;
+      })
+      .unsubscribe(); // Unsubscribir inmediatamente después de recibir el valor.
+
+    if (!authState) {
+      authState = this.getStoredUser(); // Recuperar el usuario del localStorage si no está en memoria
+      if (authState) {
+        this.store.dispatch(new AuthActions.AuthenticateUser(authState));
+      }
+    }
+
+    return authState;
   }
 
   isLoggedIn(): boolean {
@@ -154,7 +175,10 @@ export class AuthService implements OnDestroy {
   }
 
   getToken(): string {
-    return this.isAuthenticated().token || this.getStoredToken() || '';
+    const authState = this.isAuthenticated();
+    return authState
+      ? authState.token || this.getStoredToken() || ''
+      : this.getStoredToken() || '';
   }
 
   getUserName(): string {
@@ -268,6 +292,47 @@ export class AuthService implements OnDestroy {
   private performLocalLogout() {
     this.store.dispatch(new AuthActions.LogoutUser());
     localStorage.removeItem(this.JWT_TOKEN);
-    this.router.navigate(['/login']);
+    localStorage.removeItem('USER_INFO');
+    location.reload();
+  }
+
+  resetPassword(email: string): Observable<any> {
+    const url = `${this.apiUrl}/password/reset`;
+    return this.http.post(url, { email }).pipe(
+      tap(() => {
+        this.toastService.showSuccess(
+          'Correo de restablecimiento de contraseña enviado.'
+        );
+      }),
+      catchError((error) => {
+        this.toastService.showError(
+          'Error al enviar el correo de restablecimiento de contraseña.'
+        );
+        return throwError(error);
+      })
+    );
+  }
+
+  getCurrentUser(): IAuth | null {
+    const user = this.isAuthenticated();
+
+    if (!user) {
+      return null; // Si no hay un usuario autenticado, devolver null
+    }
+
+    return user; // Devolver el objeto de usuario si está autenticado
+  }
+
+  hasPermission(permission) {
+    const user = this.getCurrentUser();
+    return user?.role?.permissions?.includes(permission);
+  }
+
+  getUserInfo() {
+    return this.store.select('auth').pipe(
+      map((authState) => {
+        return authState.auth;
+      })
+    );
   }
 }

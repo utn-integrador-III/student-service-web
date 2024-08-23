@@ -56,6 +56,8 @@
         class="btn btn-agregar w-100"
         data-bs-toggle="modal"
         data-bs-target="#addModal"
+        [disabled]="!canCreate"
+        [ngClass]="{ 'disabled-button': !canCreate }"
       >
         Agregar
       </button>
@@ -75,26 +77,13 @@
           class="mat-elevation-z8"
           style="text-align: center; width: 100%"
         >
-          <ng-container matColumnDef="image">
-            <th
-              mat-header-cell
-              *matHeaderCellDef
-              style="background-color: #89c1e0"
-            >
-              <p style="color: aliceblue; text-align: center">Imagen</p>
-            </th>
-            <td mat-cell *matCellDef="let element">
-              {{ element.image }}
-            </td>
-          </ng-container>
-
           <ng-container matColumnDef="name">
             <th
               mat-header-cell
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Artículo</p>
+              <p style="color: black; text-align: center">Artículo</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.name }}
@@ -107,7 +96,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Descripción</p>
+              <p style="color: black; text-align: center">Descripción</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.description }}
@@ -120,7 +109,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Categoría</p>
+              <p style="color: black; text-align: center">Categoría</p>
             </th>
             <td mat-cell *matCellDef="let element">
               <ul style="list-style-type: none; padding: 0; margin: 0">
@@ -145,7 +134,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Safekeeper</p>
+              <p style="color: black; text-align: center">Encargado</p>
             </th>
             <td mat-cell *matCellDef="let element">
               <ul style="list-style-type: none; padding: 0; margin: 0">
@@ -170,7 +159,7 @@
               *matHeaderCellDef
               style="background-color: #89c1e0"
             >
-              <p style="color: aliceblue; text-align: center">Estado</p>
+              <p style="color: black; text-align: center">Estado</p>
             </th>
             <td mat-cell *matCellDef="let element" class="fixed-width">
               {{ element.status }}
@@ -211,136 +200,135 @@
         <h5 class="modal-title w-100 text-center" id="addModalLabel">
           Agregar Objeto Perdido
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
       </div>
       <div class="modal-body">
-        <!--
-        <div class="mb-3">
-          <label for="item-image" class="form-label">Imagen</label>
-          <input
-            type="file"
-            class="form-control"
-            id="item-image"
-            accept="image/*"
-            (change)="previewImage($event)"
-          />
-          <img
-            id="image-preview"
-            class="img-preview"
-            src="#"
-            alt="Vista previa de la imagen"
-            style="display: none; max-width: 100%; max-height: 200px"
-          />
-          <button
-            type="button"
-            class="btn btn-danger mt-2"
-            (click)="removeImage()"
-          >
-            Eliminar imagen
-          </button>
-        </div>
-        -->
-        <div class="mb-3">
-          <label for="item-name" class="form-label">Nombre del Artículo</label>
-          <input
-            type="text"
-            class="form-control"
-            id="item-name"
-            [(ngModel)]="newObject.name"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label">Categorías</label>
-          <div class="categories-container">
-            <div class="checkbox-group">
-              <mat-checkbox
-                *ngFor="let category of categories"
-                [(ngModel)]="selectedCategories[category.category_name]"
-                (change)="onCategoryChange()"
-                class="categories-checkbox"
-              >
-                <span class="categories-label">{{
-                  category.category_name
-                }}</span>
-              </mat-checkbox>
-            </div>
-            <mat-error
-              *ngIf="!getSelectedCategories().length"
-              class="categories-error"
+        <div>
+          <div class="mb-3">
+            <label for="item-name" class="form-label"
+              >Nombre del Artículo</label
             >
-              Seleccione al menos una categoría.
-            </mat-error>
+            <input
+              type="text"
+              class="form-control"
+              id="item-name"
+              [(ngModel)]="newObject.name"
+            />
           </div>
-        </div>
 
-        <div class="mb-3">
-          <label class="form-label">Safekeepers</label>
-          <div class="safekeepers-container">
-            <div class="checkbox-group">
-              <mat-checkbox
-                *ngFor="let safekeeper of safekeepers"
-                [(ngModel)]="selectedSafekeepers[safekeeper.email]"
-                (change)="onSafekeepersChange()"
-                class="safekeepers-checkbox"
+          <div class="mb-2">
+            <label for="item-image" class="form-label">Imagen</label>
+            <input
+              type="file"
+              class="form-control"
+              id="item-image"
+              accept="image/*"
+              (change)="previewImage($event)"
+            />
+            <div class="image-preview-container">
+              <img
+                id="image-preview"
+                class="img-preview"
+                [src]="imagePreviewUrl"
+                alt="Vista previa de la imagen"
+                *ngIf="imagePreviewUrl"
+              />
+              <button
+                type="button"
+                class="btn btn-danger mt-2 mb-2"
+                (click)="removeImage()"
               >
-                <span class="safekeepers-label">{{ safekeeper.name }}</span>
-              </mat-checkbox>
+                Eliminar imagen
+              </button>
             </div>
-            <mat-error
-              *ngIf="!getSelectedSafekeepers().length"
-              class="safekeepers-error"
-            >
-              Seleccione al menos un safekeeper.
-            </mat-error>
           </div>
-        </div>
 
-        <div class="mb-3">
-          <label for="item-descripcion" class="form-label"
-            >Descripción Detallada</label
-          >
-          <textarea
-            class="form-control"
-            id="item-descripcion"
-            [(ngModel)]="newObject.description"
-            rows="4"
-          ></textarea>
-        </div>
+          <div class="mb-3">
+            <label class="form-label">Categorías</label>
+            <div class="categories-container">
+              <div class="checkbox-group">
+                <mat-checkbox
+                  *ngFor="let category of categories"
+                  [(ngModel)]="selectedCategories[category.category_name]"
+                  (change)="onCategoryChange()"
+                  class="categories-checkbox"
+                >
+                  <span class="categories-label">{{
+                    category.category_name
+                  }}</span>
+                </mat-checkbox>
+              </div>
+              <mat-error
+                *ngIf="!getSelectedCategories().length"
+                class="categories-error"
+              >
+                Seleccione al menos una categoría.
+              </mat-error>
+            </div>
+          </div>
 
-        <div class="mb-3">
-          <label for="item-email" class="form-label">Email</label>
-          <input
-            type="text"
-            class="form-control"
-            id="item-email"
-            [(ngModel)]="newObject.user_email"
-          />
-        </div>
+          <div class="mb-3">
+            <label class="form-label">Safekeepers</label>
+            <div class="safekeepers-container">
+              <div class="checkbox-group">
+                <mat-checkbox
+                  *ngFor="let safekeeper of safekeepers"
+                  [(ngModel)]="selectedSafekeepers[safekeeper.email]"
+                  (change)="onSafekeepersChange()"
+                  class="safekeepers-checkbox"
+                >
+                  <span class="safekeepers-label">{{ safekeeper.name }}</span>
+                </mat-checkbox>
+              </div>
+              <mat-error
+                *ngIf="!getSelectedSafekeepers().length"
+                class="safekeepers-error"
+              >
+                Seleccione al menos un encargado.
+              </mat-error>
+            </div>
+          </div>
 
-        <div class="modal-footer">
-          <div class="d-flex flex-wrap justify-content-between">
-            <button
-              type="button"
-              style="background-color: #299980; color: aliceblue"
-              class="btn btn-lg flex-grow-1 m-1"
-              (click)="addLostObject()"
+          <div class="mb-3">
+            <label for="item-descripcion" class="form-label"
+              >Descripción Detallada</label
             >
-              Agregar
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-lg flex-grow-1 m-1"
-              data-bs-dismiss="modal"
-              (click)="closeModal()"
-            >
-              Cerrar
-            </button>
+            <textarea
+              class="form-control"
+              id="item-descripcion"
+              [(ngModel)]="newObject.description"
+              rows="4"
+            ></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="item-email" class="form-label">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              id="item-email"
+              [(ngModel)]="newObject.user_email"
+            />
+          </div>
+
+          <div class="modal-footer">
+            <div class="d-flex flex-wrap justify-content-between">
+              <button
+                type="button"
+                style="background-color: #299980; color: aliceblue"
+                class="btn btn-lg flex-grow-1 m-1"
+                (click)="addLostObject()"
+              >
+                Agregar
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-lg flex-grow-1 m-1"
+                data-bs-dismiss="modal"
+                (click)="closeModal()"
+              >
+                Cerrar
+              </button>
+            </div>
           </div>
         </div>
       </div>

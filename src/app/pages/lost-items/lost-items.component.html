@@ -1,15 +1,5 @@
 <div class="fondo">
-  <h1
-    mat-dialog-title
-    style="
-      text-align: center;
-      color: black;
-      margin-top: 20px;
-      margin-bottom: -10px;
-    "
-  >
-    Modificar Artículo
-  </h1>
+  <h1 class="title">Modificar Artículo</h1>
   <hr />
   <div mat-dialog-content>
     <form [formGroup]="form" (ngSubmit)="onSaveClick()">
@@ -20,6 +10,34 @@
           El nombre es requerido.
         </mat-error>
       </div>
+
+      <div class="form-group">
+        <h2 for="item-image" class="form-label">Imagen</h2>
+        <input
+          type="file"
+          class="form-control"
+          id="item-image"
+          accept="image/*"
+          (change)="previewImage($event)"
+        />
+        <div class="image-preview-container">
+          <img
+            id="image-preview"
+            class="img-preview"
+            [src]="imagePreviewUrl"
+            alt="Vista previa de la imagen"
+            *ngIf="imagePreviewUrl"
+          />
+          <button
+            type="button"
+            class="btn btn-danger mt-2 mb-2"
+            (click)="removeImage()"
+          >
+            Eliminar imagen
+          </button>
+        </div>
+      </div>
+
       <div class="form-group">
         <h2>Descripción</h2>
         <textarea
@@ -73,7 +91,7 @@
       </div>
 
       <div class="form-group">
-        <h2>Selecciona safekeepers</h2>
+        <h2>Selecciona encargado</h2>
         <div style="display: flex; flex-direction: column; align-items: center">
           <div
             style="
@@ -86,7 +104,7 @@
             <mat-checkbox
               *ngFor="let safekeeper of safekeepers"
               [checked]="selectedSafekeepers[safekeeper.email]"
-              (change)="onSafekeepersChange()"
+              (change)="onSafekeeperChange(safekeeper.email, $event.checked)"
             >
               <span style="color: #333; margin-top: 8px; font-weight: 500">
                 {{ safekeeper.name }}
@@ -102,53 +120,19 @@
               width: 100%;
             "
           >
-            Seleccione al menos un safekeeper.
+            Seleccione al menos un encargado.
           </mat-error>
         </div>
       </div>
 
-      <!--
-      <div class="file-upload-wrapper" style="margin-bottom: 3px">
-        <button
-          type="button"
-          class="file-upload-button"
-          (click)="fileInput.click()"
-        >
-          Select File
-        </button>
-        <input
-          #fileInput
-          type="file"
-          (change)="onFileSelected($event)"
-          style="display: none"
-        />
-        <span class="file-name">{{ selectedFileName }}</span>
-      </div>
-      <div
-        class="form-group1"
-        (drop)="onDrop($event)"
-        (dragover)="onDragOver($event)"
-        (dragleave)="onDragLeave($event)"
-        [class.dragover]="isDragOver"
-      >
-        <h2>Imagen</h2>
-        <div *ngIf="filePreview" class="image-preview">
-          <img [src]="filePreview" alt="Image Preview" />
-          <button type="button" class="delete-button" (click)="onDelete()">
-            Delete
-          </button>
-        </div>
-        <p *ngIf="!filePreview">
-          Drag and drop an image here or click to select
-        </p>
-      </div>
-      -->
       <div mat-dialog-actions>
         <button
           type="submit"
           style="background-color: #1b3069; color: aliceblue"
           class="btn btn-secondary btn-lg flex-grow-1 m-1"
           [disabled]="form.invalid"
+          [disabled]="canEdit"
+          [ngClass]="{ 'disabled-button': canEdit }"
         >
           Guardar
         </button>

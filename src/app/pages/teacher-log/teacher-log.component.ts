@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ProfessorManaging } from '../../Services/professors/professor.service';
 import { LabManaging } from '../../Services/lab-Managing/labManaging.service';
+import { PermissionService } from '../../Services/permission/permission.service';
 import { AuthService } from '../../auth/auth.service';
 import { ProfessorEmail } from '../../Services/professorByEmail/professorByEmail.service';
 import { Router } from '@angular/router';
@@ -39,6 +40,7 @@ export class TeacherLogComponent implements OnInit {
   labs: any[] = [];
   selectedLab: any = null;
   selectedProfessorName: string = '';
+  canWrite = false;
   userAuthenticated: IAuth | null = null;
   menuOpen: boolean = false;
   professorName: string = '';
@@ -51,6 +53,14 @@ export class TeacherLogComponent implements OnInit {
   constructor(
     private professorManaging: ProfessorManaging,
     private cdr: ChangeDetectorRef,
+    private labManaging: LabManaging,
+    private permissionService: PermissionService
+  ) {
+    this.canWrite = this.permissionService.hasPermission(
+      'write',
+      '/teacherlog'
+    );
+  }
     private labManaging: LabManaging,
     private store: Store<fromApp.AppState>,
     private router: Router,

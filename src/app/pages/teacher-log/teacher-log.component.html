@@ -1,5 +1,6 @@
 <p class="titulo">Bitacora</p>
 <div class="linea-horizontal"></div>
+<div class="linea-horizontal"></div>
 <div class="container-fluid">
   <div class="row">
     <div class="col-5">
@@ -75,7 +76,7 @@
             >
               <option value="" [ngValue]="null">Selecciona un lab</option>
               <option *ngFor="let lab of labs" [ngValue]="lab">
-                {{ lab.lab_num }}
+                {{ lab.lab_name }}
               </option>
             </select>
           </div>
@@ -120,6 +121,7 @@
         <div
           class="col-1"
           style="border-right: 2px solid rgb(27, 48, 105); height: 130vh"
+          style="border-right: 2px solid rgb(27, 48, 105); height: 130vh"
         ></div>
       </div>
     </div>
@@ -155,6 +157,12 @@
                 placeholder="Ej. ium"
                 #input
               />
+              <input
+                matInput
+                (keyup)="applyFilter($event)"
+                placeholder="Ej. ium"
+                #input
+              />
               <button mat-icon-button matSuffix>
                 <mat-icon>search</mat-icon>
               </button>
@@ -166,19 +174,19 @@
                 <th mat-header-cell *matHeaderCellDef class="header-cell">Nombre</th>
                 <td mat-cell *matCellDef="let element" class="body-cell">{{ element.name }}</td>
               </ng-container>
-      
+
               <!-- computer_number Column -->
               <ng-container matColumnDef="computer_number">
                 <th mat-header-cell *matHeaderCellDef class="header-cell">Numero de computadora</th>
                 <td mat-cell *matCellDef="let element" class="body-cell">{{ element.computer_number }}</td>
               </ng-container>
-      
+
               <!-- date Column -->
               <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef class="header-cell">Fecha</th>
                 <td mat-cell *matCellDef="let element" class="body-cell">{{ element.date }}</td>
               </ng-container>
-      
+
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
               <tr style="background-color: white" class="mat-row" *matNoDataRow>

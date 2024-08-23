@@ -126,19 +126,18 @@ Estudiante       </p>
           
 
           <button
-          *ngIf="!buttonClicked"
-          type="button"
-          class="btn buttonApertura w-100"
-          (click)="saveBooking()"
-        >
-          Apertura de laboratorio
-        </button>
-        
-
+            type="button"
+            style="margin-top: 20px"
+            class="btn buttonApertura w-50"
+            [disabled]="!canCreate"
+            [ngClass]="{ 'disabled-button': !canCreate }"
+          >
+            Guardar
+          </button>
         </div>
         <div
           class="col-1"
-          style="border-right: 2px solid  rgb(27, 48, 105); height: 190vh"
+          style="border-right: 2px solid rgb(27, 48, 105); height: 110vh"
         ></div>
       </div>
     </div>
@@ -186,18 +185,34 @@ Estudiante       </p>
               <ng-container matColumnDef="accions">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let element">
-                  <button mat-button style="color: #FF0000;">
+                  <button
+                    mat-button
+                    style="color: #ff0000"
+                    (click)="deleteOption()"
+                    [disabled]="!canDelete"
+                    [ngClass]="{ 'disabled-button': !canDelete }"
+                  >
                     Eliminar
                   </button>
                 </td>
               </ng-container>
 
-              <tr  style="background-color: #89C1E0; text-align: center; color: white ;" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr
+                style="
+                  background-color: #89c1e0;
+                  text-align: center;
+                  color: white;
+                "
+                mat-header-row
+                *matHeaderRowDef="displayedColumns"
+              ></tr>
 
-              <tr class="tablaAbajo" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-              <tr class="mat-row" *matNoDataRow>
-             
-              </tr>
+              <tr
+                class="tablaAbajo"
+                mat-row
+                *matRowDef="let row; columns: displayedColumns"
+              ></tr>
+              <tr class="mat-row" *matNoDataRow></tr>
             </table>
           </div>
           <div class="col-1"></div>
@@ -205,6 +220,4 @@ Estudiante       </p>
       </div>
     </div>
   </div>
-
 </div>
-

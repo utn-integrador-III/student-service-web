@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../../store/app.reducer';
 import { IAuth } from '../../../login/models/login.model';
+import { PermissionService } from '../../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-show-dialog',
@@ -17,18 +18,52 @@ export class ShowDialogComponent implements OnInit {
   isOwner: boolean = false;
   canEdit: boolean = false;
   canDelete: boolean = false;
+  imagePreviewUrl: string | ArrayBuffer | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<ShowDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public element: any,
     private srvCategorias: CategoriaServices,
     private toastr: ToastrService,
-    private store: Store<fromApp.AppState>
-  ) {}
+    private store: Store<fromApp.AppState>,
+    private permissionService: PermissionService
+  ) {
+    this.canDelete = this.permissionService.canManageLostObjects();
+    this.canEdit = this.permissionService.canManageLostObjects();
+  }
 
   ngOnInit(): void {
     this.loadCategories();
     this.checkPermissions();
+    this.initializeImagePreview();
+  }
+
+  initializeImagePreview(): void {
+    if (this.element.image && this.element.image !== '') {
+      this.imagePreviewUrl = this.element.image;
+    } else {
+      this.imagePreviewUrl =
+        '../../../../assets/images/LostAndFoundDefaultjpeg.jpeg'; // Ajusta la ruta según tu estructura de proyecto
+    }
+  }
+
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else if (!this.element.image || this.element.image === '') {
+      // Si no hay archivo seleccionado y el campo de imagen está vacío, muestra una imagen predeterminada
+      this.imagePreviewUrl =
+        '../../../../assets/images/LostAndFoundDefaultjpeg.jpeg'; // Ajusta la ruta según tu estructura de proyecto
+    } else {
+      // Si hay una imagen en la base de datos, muéstrala
+      this.imagePreviewUrl = this.element.image;
+    }
   }
 
   loadCategories() {

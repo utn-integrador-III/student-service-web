@@ -7,6 +7,7 @@ import { IAuth } from '../../../login/models/login.model';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { ProfessorEmail } from '../../../Services/professorByEmail/professorByEmail.service';
+import { PermissionService } from '../../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-header',
@@ -17,14 +18,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userAuthenticated: IAuth | null = null;
   menuOpen: boolean = false;
   welcomeMessage: string = '';
+  showIssues = false;
+  showStudentLog = false;
   private subscriptions: Subscription = new Subscription();
 
   constructor(
+    private permissionService: PermissionService,
     private store: Store<fromApp.AppState>,
     private router: Router,
     private authService: AuthService,
     private professorEmail: ProfessorEmail
-  ) {}
+  ) {
+    this.showIssues = this.permissionService.canAccessScreen('/reportIssues');
+    this.showStudentLog = this.permissionService.canAccessScreen('/studentlog');
+  }
 
   ngOnInit() {
     this.subscriptions.add(
