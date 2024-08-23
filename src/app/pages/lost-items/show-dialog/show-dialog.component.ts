@@ -35,6 +35,16 @@ export class ShowDialogComponent implements OnInit {
   ngOnInit(): void {
     this.loadCategories();
     this.checkPermissions();
+    this.initializeImagePreview();
+  }
+
+  initializeImagePreview(): void {
+    if (this.element.image && this.element.image !== '') {
+      this.imagePreviewUrl = this.element.image;
+    } else {
+      this.imagePreviewUrl =
+        '../../../../assets/images/LostAndFoundDefaultjpeg.jpeg'; // Ajusta la ruta según tu estructura de proyecto
+    }
   }
 
   previewImage(event: Event): void {
@@ -46,8 +56,13 @@ export class ShowDialogComponent implements OnInit {
         this.imagePreviewUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+    } else if (!this.element.image || this.element.image === '') {
+      // Si no hay archivo seleccionado y el campo de imagen está vacío, muestra una imagen predeterminada
+      this.imagePreviewUrl =
+        '../../../../assets/images/LostAndFoundDefaultjpeg.jpeg'; // Ajusta la ruta según tu estructura de proyecto
     } else {
-      this.imagePreviewUrl = null;
+      // Si hay una imagen en la base de datos, muéstrala
+      this.imagePreviewUrl = this.element.image;
     }
   }
 

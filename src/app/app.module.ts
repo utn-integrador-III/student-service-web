@@ -7,7 +7,6 @@ import { ExampleComponent } from './components/example/example.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastService } from './Services/toaster.service';
 import { provideToastr } from 'ngx-toastr';
-import { MenuComponent } from './shared/components/menu/menu.component';
 import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { provideHttpClient } from '@angular/common/http';
@@ -39,7 +38,6 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
     ExampleComponent,
     FooterComponent,
     HeaderComponent,
-    MenuComponent,
   ],
   imports: [
     changePasswordMdule,
@@ -63,7 +61,7 @@ import { ResetPasswordModule } from './reset-password/reset-password.module';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     CommonModule,
     EnrollmentModule,
-    ResetPasswordModule, 
+    ResetPasswordModule,
   ],
   providers: [
     provideToastr(),

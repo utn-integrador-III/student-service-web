@@ -182,6 +182,9 @@ export class LostItemsComponent implements OnInit {
       next: (response) => {
         this.toastr.success('Objeto actualizado exitosamente');
         this.dialogRef.close(updatedObject);
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
       },
       error: (error: HttpErrorResponse) => {
         let errorMessage = 'Error desconocido al actualizar el objeto';
@@ -190,7 +193,6 @@ export class LostItemsComponent implements OnInit {
         } else if (typeof error.error === 'string') {
           errorMessage = error.error;
         }
-
         this.toastr.error(`Error al actualizar el objeto: ${errorMessage}`);
       },
     });
