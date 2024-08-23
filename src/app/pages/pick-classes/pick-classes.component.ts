@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ClassesDialogComponent } from './classes-dialog/classes-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Booking } from '../../Services/booking/booking.service';
+import { DataTransferService } from '../TranferServices/transfetServices.component';
 
 @Component({
   selector: 'app-pick-classes',
@@ -13,7 +14,11 @@ export class PickClassesComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   displayedColumns: string[] = ['subject', 'professor', 'lab'];
 
-  constructor(public dialog: MatDialog, public Booking: Booking) {}
+  constructor(
+    public dialog: MatDialog,
+    public Booking: Booking,
+    private dataTransferService: DataTransferService
+  ) {}
 
   ngOnInit(): void {
     this.loadBookings();
@@ -25,6 +30,7 @@ export class PickClassesComponent implements OnInit {
   }
 
   onRowClick(row: any) {
+    this.dataTransferService.setSelectedRowData(row);
     this.dialog.open(ClassesDialogComponent, {
       width: '500px',
       data: row,
@@ -38,9 +44,8 @@ export class PickClassesComponent implements OnInit {
   loadBookings(): void {
     this.Booking.getBookings().subscribe(
       (response: any) => {
-        // Asegúrate de tipar correctamente o usar 'any'
         if (response && response.data) {
-          const bookings = response.data; // Accede a la propiedad 'data'
+          const bookings = response.data;
           this.dataSource = new MatTableDataSource(bookings);
         } else {
           console.error('Data property not found in the response');

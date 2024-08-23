@@ -20,4 +20,5 @@ export const environment = {
   URL_LOGOUT: 'http://localhost:5002/auth/logout',
   URL_TEACHEREMAIL: 'http://localhost:5003/professor/byemail',
   URL_BOOKING: 'http://localhost:5003/booking',
+  URL_BOOKING_COMPUTER: 'http://localhost:5003/booking/computer',
 };

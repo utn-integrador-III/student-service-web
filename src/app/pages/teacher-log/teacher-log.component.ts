@@ -10,8 +10,9 @@ import * as fromApp from '../../store/app.reducer';
 import { IAuth } from '../../login/models/login.model';
 import { Subscription, of } from 'rxjs';
 import { Booking } from '../../Services/booking/booking.service';
-import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
+import { format, addHours } from 'date-fns';
+import { DataTransferService } from '../TranferServices/transfetServices.component';
 
 interface Professor {
   professor_name: string;
@@ -44,8 +45,8 @@ export class TeacherLogComponent implements OnInit {
   private subscriptions: Subscription = new Subscription();
   selectedCourse: any;
   endTime: string = '';
-  selectedCareer: any; // Carrera seleccionada
-  careers: Array<{ career_id: string; career_name: string }> = []; // Lista de carreras
+  selectedCareer: any;
+  careers: Array<{ career_id: string; career_name: string }> = [];
 
   constructor(
     private professorManaging: ProfessorManaging,
@@ -56,7 +57,8 @@ export class TeacherLogComponent implements OnInit {
     private authService: AuthService,
     private professorEmail: ProfessorEmail,
     private Booking: Booking,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private dataTransferService: DataTransferService
   ) {}
 
   ngOnInit() {
@@ -64,9 +66,23 @@ export class TeacherLogComponent implements OnInit {
       this.store.select('auth').subscribe((authState) => {
         this.userAuthenticated = authState.auth;
         this.loadLabs();
+        this.getSelectedRowDatas();
         this.infoInformacionByEmail(this.userAuthenticated.email);
+        const selectedRow = this.dataTransferService.getSelectedRowData();
+        console.log(selectedRow);
       })
     );
+  }
+
+  getSelectedRowDatas(): void {
+    const selectedRow = this.dataTransferService.getSelectedRowData();
+    if (selectedRow && selectedRow.students) {
+      this.dataSource.data = selectedRow.students.map((student) => ({
+        name: student.student_name,
+        computer_number: student.computer,
+        date: new Date(student.usage_time).toLocaleString(),
+      }));
+    }
   }
 
   infoInformacionByEmail(email: string): void {
@@ -126,7 +142,6 @@ export class TeacherLogComponent implements OnInit {
   }
 
   saveBooking() {
-    // Validaciones
     if (!this.endTime) {
       this.toastr.warning('Por favor, selecciona una hora de fin.');
       return;
@@ -153,13 +168,14 @@ export class TeacherLogComponent implements OnInit {
       new Date(this.endTime),
       "yyyy-MM-dd'T'HH:mm:ss"
     );
-
+    console.log('lab', this.selectedLab);
     const bookingData = {
       professor: this.professorName,
       professor_email: this.userAuthenticated?.email,
       career: this.selectedCareer?.career_name || '',
       subject: this.selectedCourse?.course_name || '',
       lab: this.selectedLab?.lab_name || '',
+
       start_time: startTime,
       end_time: formattedEndTime,
     };
@@ -175,5 +191,12 @@ export class TeacherLogComponent implements OnInit {
         this.toastr.error('Error al realizar la reserva');
       }
     );
+  }
+
+  addFourHours() {
+    const currentTime = new Date();
+    const newTime = addHours(currentTime, 4);
+    this.endTime = format(newTime, "yyyy-MM-dd'T'HH:mm:ss");
+    this.toastr.info('Hora de fin actualizada a las ' + this.endTime);
   }
 }

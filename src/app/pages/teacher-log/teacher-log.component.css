@@ -22,7 +22,14 @@
     background-color:#EEEEEE ;
 }
 .buttonApertura{
-    background-color:#1B3069 ;
+    background-color:#299980 ;
+    color: #EEEEEE;
+    margin: 0 auto; 
+    display: block; 
+}
+
+.closebutton{
+    background-color: grey ;
     color: #EEEEEE;
     margin: 0 auto; 
     display: block; 
@@ -62,4 +69,25 @@ th, td{
     padding: 10px 20px;
     font-size: 16px;
 }
+/* Estilos para la tabla personalizada */
+.custom-table {
+    width: 100%;
+  }
+  
+  .header-cell {
+    background-color: #89C1E0; 
+    color: white; 
+  }
+  
+  .body-cell {
+    background-color: #f5f5f5; 
+    color: black; 
 
+  }
+  
+  .mat-no-data-row {
+    background-color: #f7f7f7; 
+    color: black; 
+
+  }
+  

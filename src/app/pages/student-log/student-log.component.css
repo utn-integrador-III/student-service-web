@@ -89,4 +89,8 @@ tr,td, th{
   .clickable-image:active {
     transform: scale(0.95);
   }
+  .red-text {
+    color: red;
+    font-weight: bold;
+  }
   

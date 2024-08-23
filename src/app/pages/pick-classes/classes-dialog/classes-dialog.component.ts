@@ -24,4 +24,9 @@ export class ClassesDialogComponent {
     this.router.navigate(['/studentlog']);
     this.dialogRef.close();
   }
+
+  navigateToTeacherLog() {
+    this.router.navigate(['/teacherlog']);
+    this.dialogRef.close();
+  }
 }
