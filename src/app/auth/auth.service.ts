@@ -76,6 +76,9 @@ export class AuthService implements OnDestroy {
             this.toastService.showSuccess('Inicio de sesión exitoso', 'Éxito');
             this.updateAuthState(true);
             result.auth = user;
+            setTimeout(() => {
+              location.reload();
+            }, 2000);
           } else {
             result.isError = true;
             this.toastService.showError(
@@ -290,7 +293,7 @@ export class AuthService implements OnDestroy {
     this.store.dispatch(new AuthActions.LogoutUser());
     localStorage.removeItem(this.JWT_TOKEN);
     localStorage.removeItem('USER_INFO');
-    this.router.navigate(['/login']);
+    location.reload();
   }
 
   resetPassword(email: string): Observable<any> {
