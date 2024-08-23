@@ -12,5 +12,4 @@ export const environment = {
   URL_API_LABMANAGING: process.env['URL_API_LABMANAGING'],
   URL_API_PROFESSOR: process.env['URL_API_PROFESSOR'],
   URL_PASSWORD_RESET: process.env['URL_PASSWORD_RESET'],
-
 };
