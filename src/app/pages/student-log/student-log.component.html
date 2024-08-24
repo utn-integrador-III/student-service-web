@@ -126,15 +126,16 @@ Estudiante       </p>
           
 
           <button
-            type="button"
-            style="margin-top: 20px"
-            class="btn buttonApertura w-50"
-            [disabled]="!canCreate"
-            [ngClass]="{ 'disabled-button': !canCreate }"
-            onclick="saveBooking()"
-          >
-            Guardar
-          </button>
+          type="button"
+          style="margin-top: 20px"
+          class="btn buttonApertura w-50"
+          [disabled]="!canCreate"
+          [ngClass]="{ 'disabled-button': !canCreate }"
+          (click)="saveBooking()"
+        >
+          Guardar
+        </button>
+        
         </div>
         <div
           class="col-1"
