@@ -28,6 +28,7 @@ export class LostAndFoundComponent implements OnInit {
 
   selectedCategories: { [key: string]: boolean } = {};
   selectedSafekeepers: { [email: string]: boolean } = {};
+  selectedStatus: string = '';  // Nueva propiedad para guardar el estado seleccionado
 
   newObject: any = {
     category: [],
@@ -56,6 +57,19 @@ export class LostAndFoundComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadObjects();
+
+    // Configurando el filtro combinado (Texto + Estado)
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const searchTerms = filter.split('$');
+      const searchText = searchTerms[0];
+      const statusFilter = searchTerms[1];
+      const matchesText = 
+        data.name.toLowerCase().includes(searchText) || 
+        data.description.toLowerCase().includes(searchText);
+      const matchesStatus = statusFilter ? data.status.toLowerCase() === statusFilter : true;
+      
+      return matchesText && matchesStatus;
+    };
   }
 
   loadSafekeepers(): void {
@@ -171,8 +185,15 @@ export class LostAndFoundComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    const statusFilter = this.selectedStatus.toLowerCase(); // Estado seleccionado
+    this.dataSource.filter = filterValue + '$' + statusFilter;
+  }
+
+  filterByStatus(status: string) {
+    this.selectedStatus = status;
+    const filterValue = (document.querySelector('#input') as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue + '$' + status.toLowerCase();
   }
 
   previewImage(event: Event): void {
@@ -205,7 +226,6 @@ export class LostAndFoundComponent implements OnInit {
       safekeeper: [],
     };
     this.imagePreviewUrl = null;
-    this.dataSource.filter = '';
     this.selectedCategories = {};
     this.selectedSafekeepers = {};
   }

@@ -13,6 +13,7 @@
         <mat-label>Filtrar</mat-label>
         <input
           matInput
+          id="input"
           (keyup)="applyFilter($event)"
           placeholder="Ej. ium"
           #input
@@ -35,6 +36,7 @@
               id="sin-entregar"
               name="estado"
               value="sin-entregar"
+              (change)="filterByStatus('Pending')"
             />
             <label for="sin-entregar"> &nbsp;Sin Entregar</label>
           </div>
@@ -44,6 +46,7 @@
               id="entregado"
               name="estado"
               value="entregado"
+              (change)="filterByStatus('Done')"
             />
             <label for="entregado"> &nbsp;Entregado</label>
           </div>
@@ -187,6 +190,7 @@
     </div>
   </div>
 </div>
+
 <div
   class="modal fade"
   id="addModal"
@@ -268,7 +272,7 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Safekeepers</label>
+            <label class="form-label">Encargados</label>
             <div class="safekeepers-container">
               <div class="checkbox-group">
                 <mat-checkbox
