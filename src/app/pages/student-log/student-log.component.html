@@ -130,7 +130,8 @@ Estudiante       </p>
           style="margin-top: 20px"
           class="btn buttonApertura w-50"
           [disabled]="!canCreate"
-          [ngClass]="{ 'disabled-button': !canCreate }"
+          *ngIf="!buttonClicked"
+
           (click)="saveBooking()"
         >
           Guardar
