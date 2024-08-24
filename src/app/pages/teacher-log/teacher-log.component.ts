@@ -54,6 +54,13 @@ export class TeacherLogComponent implements OnInit {
     private professorManaging: ProfessorManaging,
     private cdr: ChangeDetectorRef,
     private labManaging: LabManaging,
+    private store: Store<fromApp.AppState>,
+    private router: Router,
+    private authService: AuthService,
+    private professorEmail: ProfessorEmail,
+    private Booking: Booking,
+    private toastr: ToastrService,
+    private dataTransferService: DataTransferService,
     private permissionService: PermissionService
   ) {
     this.canWrite = this.permissionService.hasPermission(
@@ -61,15 +68,6 @@ export class TeacherLogComponent implements OnInit {
       '/teacherlog'
     );
   }
-    private labManaging: LabManaging,
-    private store: Store<fromApp.AppState>,
-    private router: Router,
-    private authService: AuthService,
-    private professorEmail: ProfessorEmail,
-    private Booking: Booking,
-    private toastr: ToastrService,
-    private dataTransferService: DataTransferService
-  ) {}
 
   ngOnInit() {
     this.subscriptions.add(

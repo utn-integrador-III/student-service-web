@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { PermissionService } from '../../Services/permission/permission.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import { IAuth } from '../../login/models/login.model';
@@ -10,6 +9,7 @@ import { LabManaging } from '../../Services/lab-Managing/labManaging.service';
 import { BookingComputer } from '../../Services/bookingComputer/bookingComputer.service';
 import { ToastrService } from 'ngx-toastr';
 import { response } from 'express';
+import { PermissionService } from '../../Services/permission/permission.service';
 
 @Component({
   selector: 'app-student-log',
@@ -35,37 +35,18 @@ export class StudentLogComponent implements OnInit {
   imageUrlsRight: any[] = [];
   selectedImage: any = null;
   occupiedComputers: Set<string> = new Set();
+  canCreate = false;
+  canDelete = false;
 
   constructor(
+    private permissionService: PermissionService,
     private store: Store<fromApp.AppState>,
     private dataTransferService: DataTransferService,
     private labManaging: LabManaging,
     private cdr: ChangeDetectorRef,
     private BookingComputer: BookingComputer,
     private toastr: ToastrService
-  ) {}
-
-  ngOnInit() {
-    this.subscriptions.add(
-      this.store.select('auth').subscribe((authState) => {
-        this.userAuthenticated = authState.auth;
-        this.StudentName = this.userAuthenticated.name;
-        const selectedRow = this.dataTransferService.getSelectedRowData();
-        this.subject = selectedRow.subject;
-        this.lab = selectedRow.lab;
-        this.professor = selectedRow.professor;
-        this.labname = selectedRow.lab_name;
-        this.checkAndUpdateTableForAuthenticatedStudent();
-
-        this.loadLabs();
-        this.cdr.detectChanges();
-      })
-    );
-  selectedImage: any = null; // Variable para mantener la imagen seleccionada
-  canCreate = false;
-  canDelete = false;
-
-  constructor(private permissionService: PermissionService) {
+  ) {
     for (let i = 1; i <= 20; i++) {
       let formattedNumber = ('0' + i).slice(-2);
       let image = {
@@ -86,6 +67,23 @@ export class StudentLogComponent implements OnInit {
     this.canDelete = this.permissionService.hasPermission(
       'write',
       '/studentlog'
+    );
+  }
+
+  ngOnInit() {
+    this.subscriptions.add(
+      this.store.select('auth').subscribe((authState) => {
+        this.userAuthenticated = authState.auth;
+        this.StudentName = this.userAuthenticated.name;
+        const selectedRow = this.dataTransferService.getSelectedRowData();
+        this.subject = selectedRow.subject;
+        this.lab = selectedRow.lab;
+        this.professor = selectedRow.professor;
+        this.labname = selectedRow.lab_name;
+        this.checkAndUpdateTableForAuthenticatedStudent();
+        this.loadLabs();
+        this.cdr.detectChanges();
+      })
     );
   }
 

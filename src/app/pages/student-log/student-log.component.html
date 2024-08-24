@@ -131,6 +131,7 @@ Estudiante       </p>
             class="btn buttonApertura w-50"
             [disabled]="!canCreate"
             [ngClass]="{ 'disabled-button': !canCreate }"
+            onclick="saveBooking()"
           >
             Guardar
           </button>
@@ -188,7 +189,6 @@ Estudiante       </p>
                   <button
                     mat-button
                     style="color: #ff0000"
-                    (click)="deleteOption()"
                     [disabled]="!canDelete"
                     [ngClass]="{ 'disabled-button': !canDelete }"
                   >
