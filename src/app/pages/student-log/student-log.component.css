@@ -97,3 +97,23 @@ th {
 .clickable-image:active {
   transform: scale(0.95);
 }
+
+  .image-number {
+    position:absolute;
+    color: black; 
+    text-align: center;
+    font-size: 20px;
+  }
+  .clickable-image {
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  .clickable-image:active {
+    transform: scale(0.95);
+  }
+  .red-text {
+    color: red;
+    font-weight: bold;
+  }
+  

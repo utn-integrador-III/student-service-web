@@ -7,34 +7,71 @@
       <div class="row">
         <div class="col-1"></div>
         <div class="col-10">
-          <p style="text-align: center; margin-top: 20px; font-size: 20px">
-            Datos personales
-          </p>
-          <div class="mb-3">
-            <select id="seleccionarPersona" class="form-select inputs">
-              <option value="" disabled selected hidden>
-                Ingrese su nombre o identificación
-              </option>
-              <option value="Floribeth Vindas Parras">
-                Kenneth Piedra Vargas
-              </option>
-              <option value="Ever Barahoma Mendoza">
-                Sebastian Mata Ortega
-              </option>
-              <option value="Jorge Felix Fernández">Eduar Aras Quiros</option>
-            </select>
+          <p style="text-align: justify; margin-top: 20px; font-size: 15px">
+Estudiante       </p>
+
+          <div class="mt-2">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="StudentName"
+              disabled
+            />
           </div>
+   
+            
+          <div class="mt-2">
+            <p style="text-align: justify; margin-top: 5px; font-size: 15px">
+              Asignatura          </p>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="subject"
+              disabled
+            />
+          </div>
+  
+            
+          <div class="mt-2">
+            <p style="text-align: justify; margin-top: 5px; font-size: 15px">
+              Profesor       </p>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="professor"
+              disabled
+            />
+          </div>
+          <div class="mt-2">
+            <p style="text-align: justify; margin-top: 5px; font-size: 15px">
+              Laboratorio       </p>
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="lab"
+              disabled
+            />
+          </div>
+ 
+
+
+          <p style="text-align: justify; margin-top: 20px; font-size: 15px">
+            Seleccione la computadora
+          </p>
+        
           <div class="mb-3">
             <input
               placeholder="Seleccione computadora"
               type="text"
               class="form-control inputs"
               [(ngModel)]="selectedComputerNumber"
+              disabled
+
             />
           </div>
-
-          <div class="container-fluid">
-            <div class="row">
+          
+          <div class="container">
+            <div class="d-flex">
               <div class="col-6">
                 <div class="image-grid">
                   <div
@@ -48,14 +85,17 @@
                         alt="Imagen {{ image.number }}"
                         class="computer-image clickable-image"
                       />
-                      <span
-                        class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-1"
-                        >{{ image.number }}</span
+                      <span 
+                        class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-9"
+                        [ngClass]="image.textClass"
                       >
+                        {{ image.number }}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+          
               <div class="col-6">
                 <div class="image-grid">
                   <div
@@ -69,30 +109,38 @@
                         alt="Imagen {{ image.number }}"
                         class="computer-image clickable-image"
                       />
-                      <span
+                      <span 
                         class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-9"
-                        >{{ image.number }}</span
+                        [ngClass]="image.textClass"
                       >
+                        {{ image.number }}
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          
+          
+          
 
           <button
-            type="button"
-            style="margin-top: 20px"
-            class="btn buttonApertura w-50"
-            [disabled]="!canCreate"
-            [ngClass]="{ 'disabled-button': !canCreate }"
-          >
-            Guardar
-          </button>
+          type="button"
+          style="margin-top: 20px"
+          class="btn buttonApertura w-50"
+          [disabled]="!canCreate"
+          *ngIf="!buttonClicked"
+
+          (click)="saveBooking()"
+        >
+          Guardar
+        </button>
+        
         </div>
         <div
           class="col-1"
-          style="border-right: 2px solid rgb(27, 48, 105); height: 110vh"
+          style="border-right: 2px solid rgb(27, 48, 105); height: 150vh"
         ></div>
       </div>
     </div>
@@ -136,13 +184,13 @@
                   <td mat-cell *matCellDef="let element">{{ element.date }}</td>
                 </ng-container>
               </ng-container>
+
               <ng-container matColumnDef="accions">
                 <th mat-header-cell *matHeaderCellDef>Acciones</th>
                 <td mat-cell *matCellDef="let element">
                   <button
                     mat-button
                     style="color: #ff0000"
-                    (click)="deleteOption()"
                     [disabled]="!canDelete"
                     [ngClass]="{ 'disabled-button': !canDelete }"
                   >
