@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CategoriaServices } from '../Services/categoriasServices';
+import { ToastService } from '../Services/toaster.service';
 
 @Component({
   selector: 'app-categorias-modal',
@@ -14,6 +15,7 @@ export class CategoriasModalComponent implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
+    private toastService: ToastService,
     private _categoryService: CategoriaServices,
     private _dialogRef: MatDialogRef<CategoriasModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -28,26 +30,27 @@ export class CategoriasModalComponent implements OnInit {
 
   onFormSubmit() {
     if (this.categoryForm.valid) {
-      if (this.data) {
-        this._categoryService
-          .actualizarCategoria(this.data._id, this.categoryForm.value)
-          .subscribe({
-            next: (val: any) => {
-              console.log(this.data._id);
-              console.log(this.categoryForm.value);
-              alert('Se modificó');
-              this._dialogRef.close(true);
-            },
-            error: (err: any) => {
-              console.error(err);
-              alert(`Hubo un error`);
-              this._dialogRef.close(true);
-            },
-          });
-      } else {
+      if (this.data) { 
+        const categoriaActualizada = {
+          ...this.categoryForm.value,
+          _id: this.data._id
+        };
+  
+        this._categoryService.ChangeCategory(categoriaActualizada).subscribe({
+          next: (val: any) => {
+            this.toastService.showSuccess("La categoria de modifico carrectamente.")
+            this._dialogRef.close(true);
+          },
+          error: (err: any) => {
+            console.error(err);
+            this.toastService.showError("Hubo un error al modificar categoria.")
+            this._dialogRef.close(true);
+          },
+        });
+      } else { 
         this._categoryService.addCategory(this.categoryForm.value).subscribe({
           next: (val: any) => {
-            alert('La categoría se agregó correctamente');
+            this.toastService.showSuccess("La categoría se agregó correctamente.")
             this._dialogRef.close(true);
           },
           error: (err: any) => {
@@ -57,6 +60,7 @@ export class CategoriasModalComponent implements OnInit {
       }
     }
   }
+  
 
   CancelarDialog() {
     this._dialogRef.close();
