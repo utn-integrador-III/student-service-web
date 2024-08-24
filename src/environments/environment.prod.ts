@@ -11,6 +11,7 @@ export const environment = {
   URL_VERIFY: process.env['URL_VERIFY'],
   URL_API_LABMANAGING: process.env['URL_API_LABMANAGING'],
   URL_API_PROFESSOR: process.env['URL_API_PROFESSOR'],
+  URL_API_URL_TEACHEREMAIL: process.env['URL_API_URL_TEACHEREMAIL'],
+  URL_BOOKING: process.env['URL_BOOKING'],
   URL_PASSWORD_RESET: process.env['URL_PASSWORD_RESET'],
-
 };

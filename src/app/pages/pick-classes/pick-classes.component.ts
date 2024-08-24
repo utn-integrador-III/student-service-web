@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ClassesDialogComponent } from './classes-dialog/classes-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Booking } from '../../Services/booking/booking.service';
+import { DataTransferService } from '../TranferServices/transfetServices.component';
 
 @Component({
   selector: 'app-pick-classes',
@@ -10,26 +12,17 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class PickClassesComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
-  displayedColumns: string[] = ['course', 'professor', 'lab'];
+  displayedColumns: string[] = ['subject', 'professor', 'lab'];
 
-  constructor(public dialog: MatDialog) {
-    const data = [
-      {
-        course: 'Fundamentos de datos',
-        professor: 'Ever barahona ',
-        lab: 'Lab-306',
-      },
-      {
-        course: 'Fundamento de redes',
-        professor: 'Floribeth Vindas Parras',
-        lab: 'Lab-303',
-      },
-    ];
+  constructor(
+    public dialog: MatDialog,
+    public Booking: Booking,
+    private dataTransferService: DataTransferService
+  ) {}
 
-    this.dataSource = new MatTableDataSource(data);
+  ngOnInit(): void {
+    this.loadBookings();
   }
-
-  ngOnInit(): void {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -37,6 +30,7 @@ export class PickClassesComponent implements OnInit {
   }
 
   onRowClick(row: any) {
+    this.dataTransferService.setSelectedRowData(row);
     this.dialog.open(ClassesDialogComponent, {
       width: '500px',
       data: row,
@@ -45,5 +39,21 @@ export class PickClassesComponent implements OnInit {
 
   fill(element: any): void {
     console.log('Delete button clicked for:', element);
+  }
+
+  loadBookings(): void {
+    this.Booking.getBookings().subscribe(
+      (response: any) => {
+        if (response && response.data) {
+          const bookings = response.data;
+          this.dataSource = new MatTableDataSource(bookings);
+        } else {
+          console.error('Data property not found in the response');
+        }
+      },
+      (error) => {
+        console.error('Error loading bookings', error);
+      }
+    );
   }
 }
