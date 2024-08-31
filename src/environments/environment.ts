@@ -1,26 +1,33 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// Este archivo puede ser reemplazado durante la construcción utilizando el array `fileReplacements`.
+// `ng build --prod` reemplaza `environment.ts` con `environment.prod.ts`.
+// La lista de reemplazos de archivos se puede encontrar en `angular.json`.
+
+const URL_API_SECURITY =
+  'https://dashboard.render.com/web/srv-cr9pl2jv2p9s73bc2t7g';
+const URL_API_STUDENT_SERVICE =
+  'https://dashboard.render.com/web/srv-cr9pneaj1k6c73bjutpg';
+const URL_API_LABMANAGING =
+  'https://dashboard.render.com/web/srv-cr9pq3ij1k6c73bjvcv0';
 
 export const environment = {
   production: false,
-  URL_USERS: '',
-  URL_REPORT: '',
-  URL_AUTH: 'http://localhost:5002/auth',
-  URL_REFRESH: 'http://localhost:5002/auth/refresh',
-  URL_ZONE: 'http://localhost:5001/zone',
-  URL_API_CATEGORY: 'http://localhost:5001/category',
-  URL_LOSTANDFOUND: 'http://localhost:5001/lostObject',
-  URL_LOSTOBJECTSBYID: '',
-  URL_ENROLLMENT: 'http://localhost:5002/user/enrollment',
-  URL_VERIFY: 'http://localhost:5002/user/verification',
-  URL_API_LABMANAGING: 'http://localhost:5003/lab',
-  URL_API_PROFESSOR: 'http://localhost:5003/professor',
-  URL_API_SAFEKEEPER: 'http://localhost:5001/safekeeper',
-  URL_LOGOUT: 'http://localhost:5002/auth/logout',
-  URL_TEACHEREMAIL: 'http://localhost:5003/professor/byemail',
-  URL_BOOKING: 'http://localhost:5003/booking',
-  URL_BOOKING_COMPUTER: 'http://localhost:5003/booking/computer',
-  URL_PASSWORD_RESET: 'http://localhost:5002/user/password',
-  URL_CHANGE_PASSOWORD: 'http://localhost:5002/user/password',
+  URL_USERS: `${URL_API_SECURITY}/user`, // URL_API_SECURITY,
+  URL_REPORT: `${URL_API_LABMANAGING}/report`, // URL_API_LABMANAGING,
+  URL_AUTH: `${URL_API_SECURITY}/auth`, // URL_API_SECURITY,
+  URL_REFRESH: `${URL_API_SECURITY}/auth/refresh`, // URL_API_SECURITY,
+  URL_ZONE: `${URL_API_STUDENT_SERVICE}/zone`, // URL_API_STUDENT_SERVICE,
+  URL_API_CATEGORY: `${URL_API_STUDENT_SERVICE}/category`, // URL_API_STUDENT_SERVICE,
+  URL_LOSTANDFOUND: `${URL_API_STUDENT_SERVICE}/lostObject`, // URL_API_STUDENT_SERVICE,
+  URL_LOSTOBJECTSBYID: `${URL_API_STUDENT_SERVICE}/lostObjectById`, // URL_API_STUDENT_SERVICE,
+  URL_ENROLLMENT: `${URL_API_SECURITY}/user/enrollment`, // URL_API_SECURITY,
+  URL_VERIFY: `${URL_API_SECURITY}/user/verification`, // URL_API_SECURITY,
+  URL_API_LABMANAGING: `${URL_API_LABMANAGING}/lab`, // URL_API_LABMANAGING,
+  URL_API_PROFESSOR: `${URL_API_LABMANAGING}/professor`, // URL_API_LABMANAGING,
+  URL_API_SAFEKEEPER: `${URL_API_LABMANAGING}/safekeeper`, // URL_API_LABMANAGING,
+  URL_LOGOUT: `${URL_API_SECURITY}/auth/logout`, // URL_API_SECURITY,
+  URL_TEACHEREMAIL: `${URL_API_LABMANAGING}/professor/byemail`, // URL_API_LABMANAGING,
+  URL_BOOKING: `${URL_API_LABMANAGING}/booking`, // URL_API_LABMANAGING,
+  URL_BOOKING_COMPUTER: `${URL_API_LABMANAGING}/booking/computer`, // URL_API_LABMANAGING,
+  URL_PASSWORD_RESET: `${URL_API_SECURITY}/user/password`, // URL_API_SECURITY,
+  URL_CHANGE_PASSWORD: `${URL_API_SECURITY}/user/password`, // URL_API_SECURITY,
 };
