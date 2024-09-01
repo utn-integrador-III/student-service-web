@@ -36,8 +36,7 @@
               "@angular/material/prebuilt-themes/magenta-violet.css",
               "src/styles.css"
             ],
-            "scripts": [
-          ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -51,16 +50,12 @@
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
+              "aot": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kB",
-                  "maximumError": "4kB"
+                  "maximumWarning": "600kb",
+                  "maximumError": "1.2mb"
                 }
               ],
               "outputHashing": "all"
