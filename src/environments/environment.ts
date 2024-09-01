@@ -4,12 +4,9 @@
 // `ng build --prod` reemplaza `environment.ts` con `environment.prod.ts`.
 // La lista de reemplazos de archivos se puede encontrar en `angular.json`.
 
-const URL_API_SECURITY =
-  'https://dashboard.render.com/web/srv-cr9pl2jv2p9s73bc2t7g';
-const URL_API_STUDENT_SERVICE =
-  'https://dashboard.render.com/web/srv-cr9pneaj1k6c73bjutpg';
-const URL_API_LABMANAGING =
-  'https://dashboard.render.com/web/srv-cr9pq3ij1k6c73bjvcv0';
+const URL_API_SECURITY = 'https://security-service-api.onrender.com';
+const URL_API_STUDENT_SERVICE = 'https://student-service-api.onrender.com';
+const URL_API_LABMANAGING = 'https://lab-management-api.onrender.com';
 
 export const environment = {
   production: false,
