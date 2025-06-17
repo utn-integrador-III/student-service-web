@@ -8,7 +8,7 @@ import { ChangePassword } from '../interfaces/changePasswordInterface';
   providedIn: 'root',
 })
 export class ChangePasswordService {
-  private apiUrl = `${environment.URL_CHANGE_PASSOWORD}`;
+  private apiUrl = `${environment.URL_API_CHANGE_PASSOWORD}`;
 
   constructor(private http: HttpClient) {}
 

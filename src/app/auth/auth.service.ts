@@ -24,7 +24,7 @@ import { error_message_handler } from '../shared/helper/error-message.handler';
 export class AuthService implements OnDestroy {
   private subscriptionUser: Subscription;
   private readonly JWT_TOKEN = 'JWT_TOKEN';
-  private apiUrl = environment.URL_AUTH || '/api/auth';
+  private apiUrl = environment.URL_API_AUTH || '/api/auth';
   private authStateSubject = new BehaviorSubject<boolean>(false);
   authStateChanged = this.authStateSubject.asObservable();
 

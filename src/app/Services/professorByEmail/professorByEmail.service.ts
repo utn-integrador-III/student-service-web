@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class ProfessorEmail {
-  private URL_TEACHEREMAIL = environment.URL_TEACHEREMAIL;
+  private URL_TEACHEREMAIL = environment.URL_API_TEACHEREMAIL;
 
   constructor(private http: HttpClient) {}
 

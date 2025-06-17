@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment'; // Ajusta la ruta 
   providedIn: 'root'
 })
 export class ResetPasswordService {
-    private apiUrl = environment.URL_PASSWORD_RESET;
+    private apiUrl = environment.URL_API_PASSWORD_RESET;
 
   constructor(private http: HttpClient) { }
 

@@ -56,12 +56,12 @@ describe('AuthInterceptor', () => {
   });
 
   it('should not add Authorization header if the URL is excluded', () => {
-    // Excluye URL_LOSTANDFOUND en el interceptor
-    httpClient.get(environment.URL_LOSTANDFOUND).subscribe((response) => {
+    // Excluye URL_API_LOSTANDFOUND en el interceptor
+    httpClient.get(environment.URL_API_LOSTANDFOUND).subscribe((response) => {
       expect(response).toBeTruthy();
     });
 
-    const req = httpTestingController.expectOne(environment.URL_LOSTANDFOUND);
+    const req = httpTestingController.expectOne(environment.URL_API_LOSTANDFOUND);
     expect(req.request.headers.has('Authorization')).toBeFalse();
     req.flush({});
   });

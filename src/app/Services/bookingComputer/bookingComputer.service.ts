@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class BookingComputer {
-  private URL_BOOKING_COMPUTER = environment.URL_BOOKING_COMPUTER;
+  private URL_BOOKING_COMPUTER = environment.URL_API_BOOKING_COMPUTER;
 
   constructor(private http: HttpClient) {}
 

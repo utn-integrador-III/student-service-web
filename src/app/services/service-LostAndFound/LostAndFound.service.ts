@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class LostAndFoundService {
-  private URL_LOSTANDFOUND = environment.URL_LOSTANDFOUND;
+  private URL_LOSTANDFOUND = environment.URL_API_LOSTANDFOUND;
 
   constructor(private http: HttpClient) {}
 

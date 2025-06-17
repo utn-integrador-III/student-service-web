@@ -8,8 +8,8 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class EnrollmentService {
-  private apiUrl = environment.URL_ENROLLMENT;
-  private verifyUrl = environment.URL_VERIFY;
+  private apiUrl = environment.URL_API_ENROLLMENT;
+  private verifyUrl = environment.URL_API_VERIFY;
 
   constructor(private http: HttpClient) {}
 
