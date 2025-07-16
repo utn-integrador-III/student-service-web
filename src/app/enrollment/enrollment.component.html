@@ -1,30 +1,107 @@
 <div class="container">
-  <h1>Registro y Autenticación</h1>
-  <button (click)="openRegisterModal()">Registrar Usuario</button>
-  <button (click)="openVerifyModal()">Verificar Usuario</button>
-  
-  <!-- Modal de Registro -->
-  <div *ngIf="showRegisterModal" class="modal">
-    <div class="modal-content">
-      <span (click)="closeRegisterModal()" class="close">&times;</span>
-      <h2>Registro</h2>
-      <input type="text" [(ngModel)]="name" placeholder="Nombre">
-      <input type="text" [(ngModel)]="email" placeholder="Correo Electrónico">
-      <input type="password" [(ngModel)]="password" placeholder="Contraseña">
-      <button (click)="onSubmit()">Registrar</button>
-    </div>
-  </div>
-  
-  <!-- Modal de Verificación -->
-  <div *ngIf="showVerifyModal" class="modal">
-    <div class="modal-content">
-      <span (click)="closeVerifyModal()" class="close">&times;</span>
-      <h2>Verificación</h2>
-      <input type="text" [(ngModel)]="email" placeholder="Correo Electrónico">
-      <input type="text" [(ngModel)]="verificationCode" placeholder="Código de Verificación">
-      <button (click)="verifyCode()">Verificar</button>
-    </div>
+  <div class="login-left">
+    <img
+      src="../../../../assets/images/logoblanco.png"
+      alt="LogoUTN"
+      class="LogoUTN"
+    />
   </div>
 
-  <div id="message">{{ message }}</div>
+  <div class="login-right">
+    <h2>CREAR UNA CUENTA</h2>
+
+    <!-- Registro -->
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+      <div class="form-group">
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="name"
+          required
+          placeholder=" "
+        />
+        <label for="name">Nombre</label>
+      </div>
+      <div class="form-group">
+        <input
+          type="email"
+          id="email"
+          name="email"
+          [(ngModel)]="email"
+          required
+          placeholder=" "
+        />
+        <label for="email">Correo Electrónico</label>
+      </div>
+      <div class="form-group">
+        <input
+          type="password"
+          id="password"
+          name="password"
+          [(ngModel)]="password"
+          required
+          placeholder=" "
+        />
+        <label for="password">Contraseña</label>
+      </div>
+
+      <div class="login-button-container">
+        <button
+          type="submit"
+          [disabled]="!registerForm.valid"
+          class="login-button"
+        >
+          Registrarme
+        </button>
+        <button class="login-button" (click)="openVerifyModal()">
+          Verificar Cuenta
+        </button>
+      </div>
+    </form>
+
+    <!-- Modal de verificación -->
+    <div class="modal" [class.show]="showVerifyModal">
+      <div class="modal-content">
+        <span class="close" (click)="closeVerifyModal()">&times;</span>
+        <h2>Verificar Cuenta</h2>
+        <form (ngSubmit)="verifyCode()" #verifyForm="ngForm">
+          <div class="form-group">
+            <input
+              type="email"
+              id="verifyEmail"
+              name="verifyEmail"
+              [(ngModel)]="email"
+              required
+              placeholder=" "
+            />
+            <label for="verifyEmail">Correo Electrónico</label>
+          </div>
+          <div class="form-group">
+            <input
+              type="text"
+              id="verificationCode"
+              name="verificationCode"
+              [(ngModel)]="verificationCode"
+              required
+              placeholder=" "
+            />
+            <label for="verificationCode">Código de Verificación</label>
+          </div>
+
+          <div class="login-button-container">
+            <button
+              type="submit"
+              [disabled]="!verifyForm.valid"
+              class="login-button"
+            >
+              Verificar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div *ngIf="message" id="message">{{ message }}</div>
+  </div>
 </div>
