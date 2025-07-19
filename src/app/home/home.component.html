@@ -21,7 +21,11 @@
     <div class="col-8 text-center">
       <div class="row">
         <div class="col-12 col-md-3">
-          <div class="image-container" (click)="toggleBitacoraOptions()">
+          <div
+            class="image-container"
+            [ngClass]="{ expandable: showBitacoraOptions }"
+            (click)="toggleBitacoraOptions()"
+          >
             <img src="assets/images/bitacora.png" class="small-image" />
             <p>Bitácora</p>
             <div *ngIf="showBitacoraOptions" class="options1">
@@ -30,7 +34,6 @@
                   *ngIf="showClass"
                   class="custom-button"
                   routerLink="/classes"
-                  routerLinkActive="active"
                 >
                   Clases
                 </button>
@@ -38,7 +41,6 @@
                   *ngIf="showTeacherLog"
                   class="custom-button"
                   routerLink="/teacherlog"
-                  routerLinkActive="active"
                 >
                   Bitácora Profesor
                 </button>
@@ -46,7 +48,6 @@
                   *ngIf="showCategorias"
                   class="custom-button"
                   routerLink="/studentlog"
-                  routerLinkActive="active"
                 >
                   Bitácora Estudiante
                 </button>
@@ -71,13 +72,17 @@
           routerLink="/studentlog"
           routerLinkActive="active"
         >
-          <div class="image-container" style="margin-top: -20px">
-            <img src="assets/images/aulas.png" class="small-imageE" />
+          <div class="image-container">
+            <img src="assets/images/aulas.png" class="small-image" />
             <p>Asistencia</p>
           </div>
         </div>
         <div class="col-12 col-md-3">
-          <div class="image-container" (click)="toggleAjustesOptions()">
+          <div
+            class="image-container"
+            [ngClass]="{ expandable: showAjustesOptions }"
+            (click)="toggleAjustesOptions()"
+          >
             <img src="assets/images/ajustes.png" class="small-image" />
             <p>Ajustes</p>
             <div *ngIf="showAjustesOptions" class="options">
@@ -86,7 +91,6 @@
                   *ngIf="showZones"
                   class="custom-button"
                   routerLink="/zones"
-                  routerLinkActive="active"
                 >
                   Zonas
                 </button>
@@ -94,7 +98,6 @@
                   *ngIf="showCategorias"
                   class="custom-button"
                   routerLink="/categorias"
-                  routerLinkActive="active"
                 >
                   Categoría
                 </button>
@@ -102,7 +105,6 @@
                   *ngIf="showIssues"
                   class="custom-button"
                   routerLink="/issues"
-                  routerLinkActive="active"
                 >
                   Averías
                 </button>
@@ -171,7 +173,7 @@
                   <div class="lineaCarpeta"></div>
                   <img
                     src="assets/images/profile.png"
-                    class="imagenesEnlace2 img-fluid"
+                    class="imagenesEnlace img-fluid"
                   />
                 </div>
               </a>

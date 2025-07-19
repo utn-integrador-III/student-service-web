@@ -1,3 +1,4 @@
+/* Carousel Styles */
 .carousel {
   width: 100%;
   margin-top: -16px;
@@ -26,24 +27,32 @@
   padding: 10px;
 }
 
-.centered-text {
-  display: flex;
-  align-items: center;
-}
-.linea-horizontal {
-  border-top: 5px solid #1b3069;
-  margin: 20px auto 30px auto;
-  width: 30px;
-  display: flex;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
+/* Line separator styles */
+.linea-horizontal,
+.linea-horizontal1,
+.linea-horizontal2 {
+  border-top: 5px solid #89c1e0;
+  margin: 30px auto;
+  width: 300px;
 }
 
+.linea-horizontal2 {
+  margin-top: 50px;
+  width: 1400px;
+}
+
+/* Image containers (ACCIONES) */
 .image-container {
   border: 2px solid #89c1e0;
   border-radius: 5px;
-  transition: transform 0.3s, box-shadow 0.3s;
+  padding: 15px 10px 10px 10px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s, height 0.3s ease;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .image-container:hover {
@@ -51,76 +60,84 @@
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.5);
 }
 
+/* Optional taller container if buttons appear */
+.image-container.expandable {
+  min-height: 280px;
+}
+
+/* Image inside cards */
 .small-image {
-  width: 70%;
-  height: auto;
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  margin-bottom: 10px;
 }
 
-.linea-horizontal1 {
-  border-top: 5px solid #89c1e0;
-  margin: 0 auto;
-  margin-top: 25px;
+/* Links section images */
+.imagenesEnlace {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 20px auto 0 auto;
 }
-.linea-horizontal2 {
-  border-top: 5px solid #89c1e0;
-  margin-top: 50px;
+
+.imagenesEnlace2 {
+  display: none;
 }
-.letrasenlace {
+
+/* Button styles inside cards */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-button {
+  background-color: #1b3069;
   color: white;
-  padding-top: 20px;
-  text-align: center;
-}
-.small-imageE {
-  width: 70%;
-  height: auto;
-}
-
-.small-image1 {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  width: 160px;
+  font-size: 15px;
 }
 
-@media (max-width: 1000px) {
-  .small-image1 {
-    height: 220vh;
-  }
-}
-@media (max-width: 1000px) {
-  .container-fluid .folder,
-  .container-fluid .folder1 {
-    margin-top: 100px;
-  }
+button {
+  display: block;
+  margin: 5px 0;
 }
 
-@media (max-width: 1000px) {
-  .image-container {
-    margin-bottom: 30px;
-  }
+a {
+  text-decoration: none;
 }
 
-.folder {
-  height: 200px;
-  margin-top: 100px;
-  cursor: pointer;
-  transition: all 0.3s;
-  margin-bottom: -100px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  
-  
-}
+/* Folder cards (ENLACES DE INTERÉS) */
+.folder,
 .folder1 {
-  height: 250px;
-  margin-top: 75px;
+  height: 230px;
+  width: 100%;
+  margin-top: 100px;
+  background-color: #9bdadd;
   cursor: pointer;
   transition: all 0.3s;
-  margin-bottom: -100px;
+  text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .folder:hover,
 .folder1:hover {
   background-color: #1b3069;
+}
+
+.letrasenlace {
+  color: white;
+  padding-top: 20px;
+  text-align: center;
 }
 
 .lineaCarpeta {
@@ -129,58 +146,36 @@
   margin: 15px auto 0;
 }
 
-.imagenesEnlace {
-  width: 100%;
-  height: auto;
-  max-width: 120px;
-  max-height: 100px;
+/* Background banner image */
+.small-image1 {
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
-  margin-top: 20px;
 }
 
-.imagenesEnlace2 {
-  width: 100%;
-  height: auto;
-  max-width: 120px;
-  max-height: 120px;
-  object-fit: cover;
-  margin-top: 20px;
+/* Responsive Styles */
+@media (max-width: 1000px) {
+  .small-image1 {
+    height: 220vh;
+  }
+
+  .container-fluid .folder,
+  .container-fluid .folder1 {
+    margin-top: 100px;
+  }
+
+  .image-container {
+    margin-bottom: 30px;
+  }
 }
 
-.folder,
-.folder1 {
-  text-align: center;
-  background-color: #9bdadd;
-}
-
-
-
-
-
-
-
- button {
-  display: block; 
-  margin: 5px 0;
-  
-}
-a {
-  text-decoration: none;
-}
-.button-container {
+/* Miscellaneous layout classes */
+.centered-text {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 20px;
 }
 
-.custom-button {
-  background-color: #1b3069;
-  color: white;
-  height: 45px;
-  border-radius: 15px;
-  border: none;
-  width: 180px; 
-  text-align: center;
-  font-size: 16px;
+.options,
+.options1 {
+  margin-top: 10px;
 }
