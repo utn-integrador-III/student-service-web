@@ -259,4 +259,59 @@ export class StudentLogComponent implements OnInit {
       }
     );
   }
+
+  deleteBooking(element: any): void {
+    const selectedRow = this.dataTransferService.getSelectedRowData();
+    const studentEmail = this.userAuthenticated?.email;
+
+    if (!selectedRow || !studentEmail || !element.computer_number) {
+      this.toastr.error(
+        'No se puede eliminar la reserva. Faltan datos.',
+        'Error'
+      );
+      return;
+    }
+
+    const bookingData = {
+      lab_book_id: selectedRow.id,
+      student_email: studentEmail,
+      computer: element.computer_number,
+    };
+
+    this.BookingComputer.deleteBooking(bookingData).subscribe(
+      (response) => {
+        this.toastr.success('Reserva eliminada exitosamente.', 'Éxito');
+        console.log('Reserva eliminada:', response);
+
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item.computer_number !== element.computer_number
+        );
+
+        this.occupiedComputers.delete(element.computer_number);
+        this.updateComputerImage(element.computer_number, false);
+
+        this.cdr.detectChanges();
+      },
+      (error) => {
+        this.toastr.error('Ocurrió un error al eliminar la reserva.', 'Error');
+        console.error('Error al eliminar la reserva:', error);
+      }
+    );
+  }
+
+  private updateComputerImage(
+    computerNumber: string,
+    isOccupied: boolean
+  ): void {
+    const image = [...this.imageUrlsLeft, ...this.imageUrlsRight].find(
+      (img) => img.number === computerNumber
+    );
+    if (image) {
+      image.isOccupied = isOccupied;
+      image.imageUrl = isOccupied
+        ? '/assets/images/redComputer.png'
+        : '/assets/images/computer.png';
+      image.textClass = isOccupied ? 'red-text' : '';
+    }
+  }
 }

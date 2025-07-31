@@ -18,4 +18,10 @@ export class BookingComputer {
   addBooking(bookingData: any): Observable<any> {
     return this.http.post<any>(this.URL_BOOKING_COMPUTER, bookingData);
   }
+
+  deleteBooking(bookingData: any): Observable<any> {
+    return this.http.delete<any>(this.URL_BOOKING_COMPUTER, {
+      body: bookingData,
+    });
+  }
 }
