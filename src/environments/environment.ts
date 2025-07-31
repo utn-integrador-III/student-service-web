@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  URL_API_REPORT: '',
+  URL_API_REPORT: 'http://localhost:5003',
   URL_API_AUTH: 'http://localhost:5002/auth',
   URL_API_REFRESH: 'http://localhost:5002/auth/refresh',
   URL_API_ZONE: 'http://localhost:5001/zone',

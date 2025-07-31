@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LabManaging } from './../../../Services/lab-Managing/labManaging.service';
 import { PermissionService } from '../../../Services/permission/permission.service';
+import { IssueService } from '../../../Services/issue/issue.service';
 
 @Component({
   selector: 'app-report-issue',
@@ -16,38 +17,40 @@ export class ReportIssueComponent implements OnInit {
   labs: any[] = [];
   selectedLab: any = null;
   canCreate = false;
+  description: string = ''; // Para el textarea
+  issues: any[] = []; // Para la tabla de issues
 
   constructor(
     private labManaging: LabManaging,
     private cdr: ChangeDetectorRef,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private issueService: IssueService
   ) {
     this.canCreate = this.permissionService.canManageIssues();
   }
 
   ngOnInit(): void {
     this.loadLabs();
+    this.loadIssues();
   }
 
   loadLabs() {
     this.labManaging.getObjects().subscribe((response: any) => {
       console.log('Datos recibidos:', response);
       if (response && Array.isArray(response.data)) {
-        // ✅ Eliminar labs duplicados por 'lab_name'
         const uniqueLabsMap = new Map<string, any>();
         response.data.forEach((lab: any) => {
           if (!uniqueLabsMap.has(lab.lab_name)) {
             uniqueLabsMap.set(lab.lab_name, lab);
           }
         });
-
-        // ✅ Convertir a array y ordenar ascendentemente por nombre
         this.labs = Array.from(uniqueLabsMap.values()).sort((a: any, b: any) =>
           a.lab_name.localeCompare(b.lab_name)
         );
-
-        console.log('Labs únicos y ordenados:', this.labs.map(l => l.lab_name));
-
+        console.log(
+          'Labs únicos y ordenados:',
+          this.labs.map((l) => l.lab_name)
+        );
         if (this.labs.length > 0) {
           this.selectedLab = this.labs[0];
           this.updateImageUrls();
@@ -59,8 +62,29 @@ export class ReportIssueComponent implements OnInit {
     });
   }
 
+  loadIssues() {
+    this.issueService.getIssues().subscribe({
+      next: (response) => {
+        if (response.status === 200 && response.data) {
+          this.issues = response.data.map((issue: any) => ({
+            number: issue.issue.map((i: any) => i.computer).join(', '),
+            description: issue.issue.map((i: any) => i.description).join('; '),
+            date: issue.date_issue,
+          }));
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar issues:', err);
+      },
+    });
+  }
+
   updateImageUrls() {
-    console.log('Actualizando URLs de imágenes para laboratorio:', this.selectedLab);
+    console.log(
+      'Actualizando URLs de imágenes para laboratorio:',
+      this.selectedLab
+    );
     this.imageUrlsLeft = [];
     this.imageUrlsRight = [];
 
@@ -82,8 +106,11 @@ export class ReportIssueComponent implements OnInit {
         }
       }
     } else {
-      console.log('No se encontraron computadoras en el laboratorio seleccionado.');
+      console.log(
+        'No se encontraron computadoras en el laboratorio seleccionado.'
+      );
     }
+    this.updateCanCreate();
   }
 
   onImageClick(image: any): void {
@@ -95,6 +122,7 @@ export class ReportIssueComponent implements OnInit {
       this.selectedImages.add(image);
     }
     this.updateSelectedComputerNumber();
+    this.updateCanCreate();
   }
 
   updateSelectedComputerNumber() {
@@ -107,6 +135,54 @@ export class ReportIssueComponent implements OnInit {
   onLabSelect(lab: any) {
     console.log('Laboratorio seleccionado:', lab);
     this.selectedLab = lab;
+    this.selectedImages.clear();
+    this.updateSelectedComputerNumber();
     this.updateImageUrls();
+    this.updateCanCreate();
+  }
+
+  updateCanCreate() {
+    this.canCreate =
+      this.permissionService.canManageIssues() &&
+      !!this.selectedLab &&
+      this.selectedImages.size > 0 &&
+      !!this.description.trim();
+    this.cdr.detectChanges();
+  }
+
+  createIssue() {
+    if (!this.canCreate) return;
+
+    const issueData = {
+      lab: this.selectedLab.lab_name,
+      person: {
+        email: 'user@example.com', // Reemplazar con el email del usuario autenticado
+        student_name: 'Student Name', // Reemplazar con el nombre del usuario autenticado
+      },
+      issue: Array.from(this.selectedImages).map((image: any) => ({
+        computer: image.number,
+        description: this.description,
+        is_repaired: false,
+      })),
+      observations: this.description,
+    };
+
+    this.issueService.addIssue(issueData).subscribe({
+      next: (response) => {
+        if (response.status === 201) {
+          console.log('Issue creado:', response.data);
+          this.loadIssues(); // Refrescar la tabla
+          this.selectedImages.clear();
+          this.description = '';
+          this.updateSelectedComputerNumber();
+          this.updateImageUrls();
+          this.updateCanCreate();
+        }
+      },
+      error: (err) => {
+        console.error('Error al crear issue:', err);
+        // Aquí podrías mostrar un mensaje de error al usuario
+      },
+    });
   }
 }
