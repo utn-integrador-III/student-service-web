@@ -8,7 +8,8 @@
         <div class="col-1"></div>
         <div class="col-10">
           <p style="text-align: justify; margin-top: 20px; font-size: 15px">
-Estudiante       </p>
+            Estudiante
+          </p>
 
           <div class="mt-2">
             <input
@@ -18,11 +19,11 @@ Estudiante       </p>
               disabled
             />
           </div>
-   
-            
+
           <div class="mt-2">
             <p style="text-align: justify; margin-top: 5px; font-size: 15px">
-              Asignatura          </p>
+              Asignatura
+            </p>
             <input
               type="text"
               class="form-control"
@@ -30,11 +31,11 @@ Estudiante       </p>
               disabled
             />
           </div>
-  
-            
+
           <div class="mt-2">
             <p style="text-align: justify; margin-top: 5px; font-size: 15px">
-              Profesor       </p>
+              Profesor
+            </p>
             <input
               type="text"
               class="form-control"
@@ -44,7 +45,8 @@ Estudiante       </p>
           </div>
           <div class="mt-2">
             <p style="text-align: justify; margin-top: 5px; font-size: 15px">
-              Laboratorio       </p>
+              Laboratorio
+            </p>
             <input
               type="text"
               class="form-control"
@@ -52,13 +54,11 @@ Estudiante       </p>
               disabled
             />
           </div>
- 
-
 
           <p style="text-align: justify; margin-top: 20px; font-size: 15px">
             Seleccione la computadora
           </p>
-        
+
           <div class="mb-3">
             <input
               placeholder="Seleccione computadora"
@@ -66,10 +66,9 @@ Estudiante       </p>
               class="form-control inputs"
               [(ngModel)]="selectedComputerNumber"
               disabled
-
             />
           </div>
-          
+
           <div class="container">
             <div class="d-flex">
               <div class="col-6">
@@ -85,7 +84,7 @@ Estudiante       </p>
                         alt="Imagen {{ image.number }}"
                         class="computer-image clickable-image"
                       />
-                      <span 
+                      <span
                         class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-9"
                         [ngClass]="image.textClass"
                       >
@@ -95,7 +94,7 @@ Estudiante       </p>
                   </div>
                 </div>
               </div>
-          
+
               <div class="col-6">
                 <div class="image-grid">
                   <div
@@ -109,7 +108,7 @@ Estudiante       </p>
                         alt="Imagen {{ image.number }}"
                         class="computer-image clickable-image"
                       />
-                      <span 
+                      <span
                         class="image-number mt-3 mb-2 d-block text-center display-4 display-lg-9"
                         [ngClass]="image.textClass"
                       >
@@ -121,22 +120,17 @@ Estudiante       </p>
               </div>
             </div>
           </div>
-          
-          
-          
 
           <button
-          type="button"
-          style="margin-top: 20px"
-          class="btn buttonApertura w-50"
-          [disabled]="!canCreate"
-          *ngIf="!buttonClicked"
-
-          (click)="saveBooking()"
-        >
-          Guardar
-        </button>
-        
+            type="button"
+            style="margin-top: 20px"
+            class="btn buttonApertura w-50"
+            [disabled]="!canCreate"
+            *ngIf="!buttonClicked"
+            (click)="saveBooking()"
+          >
+            Guardar
+          </button>
         </div>
         <div
           class="col-1"
@@ -193,6 +187,7 @@ Estudiante       </p>
                     style="color: #ff0000"
                     [disabled]="!canDelete"
                     [ngClass]="{ 'disabled-button': !canDelete }"
+                    (click)="deleteBooking(element)"
                   >
                     Eliminar
                   </button>
