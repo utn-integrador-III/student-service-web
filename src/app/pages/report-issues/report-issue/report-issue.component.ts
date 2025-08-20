@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table'; // Importar MatTableDataSource
 import { LabManaging } from './../../../Services/lab-Managing/labManaging.service';
 import { PermissionService } from '../../../Services/permission/permission.service';
 import { IssueService } from '../../../Services/issue/issue.service';
@@ -12,6 +13,7 @@ import { ToastService } from '../../../Services/toaster.service';
 })
 export class ReportIssueComponent implements OnInit {
   displayedColumns: string[] = ['number', 'description', 'date'];
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]); // Usar MatTableDataSource
   imageUrlsLeft: any[] = [];
   imageUrlsRight: any[] = [];
   selectedImages: Set<any> = new Set();
@@ -20,7 +22,6 @@ export class ReportIssueComponent implements OnInit {
   selectedLab: any = null;
   canCreate = false;
   description: string = '';
-  issues: any[] = [];
 
   constructor(
     private labManaging: LabManaging,
@@ -73,24 +74,36 @@ export class ReportIssueComponent implements OnInit {
     });
   }
 
-  loadIssues() {
-    this.issueService.getIssues().subscribe({
-      next: (response) => {
-        if (response.status === 200 && response.data) {
-          this.issues = response.data.map((issue: any) => ({
-            number: issue.issue.map((i: any) => i.computer).join(', '),
-            description: issue.issue.map((i: any) => i.description).join('; '),
-            date: issue.date_issue,
-          }));
-          this.cdr.detectChanges();
-        }
-      },
-      error: (err) => {
-        console.error('Error al cargar issues:', err);
-        this.toastService.showError('Error al cargar los reportes.');
-      },
-    });
-  }
+loadIssues() {
+  this.issueService.getIssues().subscribe({
+    next: (response) => {
+      console.log('Respuesta de la API:', response);
+      if (response && response.data && Array.isArray(response.data)) {
+        const issues = response.data.map((issue: any) => ({
+          number: issue.issue
+            ? issue.issue.map((i: any) => i.computer).join(', ')
+            : issue.computers
+            ? issue.computers.join(', ')
+            : 'N/A',
+          description: issue.issue
+            ? issue.issue.map((i: any) => i.description).join('; ')
+            : issue.description || 'Sin descripción',
+          date: issue.date_issue || issue.date || 'N/A',
+        }));
+        this.dataSource.data = issues;
+        console.log('Issues cargados:', issues);
+        this.cdr.detectChanges();
+      } else {
+        console.error('Respuesta de la API no válida:', response);
+        this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
+      }
+    },
+    error: (err) => {
+      console.error('Error al cargar issues:', err);
+      this.toastService.showError('Error al cargar los reportes.');
+    },
+  });
+}
 
   updateImageUrls() {
     console.log(
@@ -165,7 +178,6 @@ export class ReportIssueComponent implements OnInit {
   createIssue() {
     if (!this.canCreate) return;
 
-    // Obtener los datos del usuario autenticado
     const user = this.authService.getCurrentUser();
     if (!user) {
       this.toastService.showError('Debes iniciar sesión para reportar un problema.');
@@ -175,8 +187,8 @@ export class ReportIssueComponent implements OnInit {
     const issueData = {
       lab: this.selectedLab.lab_name,
       person: {
-        email: user.email, // Usar el email del usuario autenticado
-        student_name: user.name, // Usar el nombre del usuario autenticado
+        email: user.email,
+        student_name: user.name,
       },
       issue: Array.from(this.selectedImages).map((image: any) => ({
         computer: image.number,
