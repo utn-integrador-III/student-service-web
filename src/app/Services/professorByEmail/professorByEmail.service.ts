@@ -3,6 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+interface ApiResponse {
+  status: number;
+  data: any;
+  message?: string;
+  message_code?: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -11,8 +18,7 @@ export class ProfessorEmail {
 
   constructor(private http: HttpClient) {}
 
-  getProfessorByEmail(email: string): Observable<any> {
-    const params = new HttpParams().set('professor_email', email);
-    return this.http.get<any>(this.URL_TEACHEREMAIL, { params });
+  getProfessorByEmail(email: string): Observable<ApiResponse> {
+    return this.http.get<ApiResponse>(`${this.URL_TEACHEREMAIL}/${email}`);
   }
 }
