@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { LabManaging } from './../../../Services/lab-Managing/labManaging.service';
 import { PermissionService } from '../../../Services/permission/permission.service';
@@ -24,6 +24,8 @@ export class ReportIssueComponent implements OnInit {
   selectedLab: any = null;
   canCreate = false;
   description: string = '';
+
+  @ViewChild(MatTable) table!: MatTable<any>;   // para refrescar la tabla
 
   constructor(
     private labManaging: LabManaging,
@@ -64,7 +66,7 @@ export class ReportIssueComponent implements OnInit {
         }
         this.cdr.detectChanges();
       },
-      error: (err) => {
+      error: () => {
         this.toastService.showError('Error al cargar los laboratorios.');
       },
     });
@@ -75,7 +77,7 @@ export class ReportIssueComponent implements OnInit {
       next: (response) => {
         if (response && response.data && Array.isArray(response.data)) {
           const issues = response.data.map((issue: any) => ({
-            lab: issue.lab || 'N/A',  // <-- agregamos el laboratorio
+            lab: issue.lab || 'N/A',
             number: issue.issue
               ? issue.issue.map((i: any) => i.computer).join(', ')
               : issue.computers
@@ -85,15 +87,20 @@ export class ReportIssueComponent implements OnInit {
               ? issue.issue.map((i: any) => i.description).join('; ')
               : issue.description || 'Sin descripción',
             date: issue.date_issue || issue.date || 'N/A',
-            issue: issue.issue || issue.computers?.map((c: any) => ({ computer: c, description: issue.description }))
+            issue:
+              issue.issue ||
+              issue.computers?.map((c: any) => ({
+                computer: c,
+                description: issue.description,
+              })),
           }));
-          this.dataSource.data = issues;
+          this.dataSource = new MatTableDataSource(issues);
           this.cdr.detectChanges();
         } else {
           this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
         }
       },
-      error: (err) => {
+      error: () => {
         this.toastService.showError('Error al cargar los reportes.');
       },
     });
@@ -161,7 +168,9 @@ export class ReportIssueComponent implements OnInit {
   }
 
   createIssue() {
-    if (!this.canCreate) return;
+    if (!this.canCreate) {
+      return;
+    }
 
     const user = this.authService.getCurrentUser();
     if (!user) {
@@ -185,9 +194,23 @@ export class ReportIssueComponent implements OnInit {
 
     this.issueService.addIssue(issueData).subscribe({
       next: (response) => {
-        if (response.status === 201) {
+        if (response.message_code === 'ISSUE_SUCCESSFULLY_CREATED') {
           this.toastService.showSuccess('Reporte creado exitosamente.');
-          this.loadIssues();
+
+          const newIssue = {
+            lab: issueData.lab,
+            number: issueData.issue.map((i: any) => i.computer).join(', '),
+            description: issueData.issue.map((i: any) => i.description).join('; '),
+            date: new Date().toISOString(),
+            issue: issueData.issue,
+          };
+
+          this.dataSource.data = [...this.dataSource.data, newIssue];
+
+          if (this.table) {
+            this.table.renderRows();
+          }
+
           this.selectedImages.clear();
           this.description = '';
           this.updateSelectedComputerNumber();
@@ -195,13 +218,12 @@ export class ReportIssueComponent implements OnInit {
           this.updateCanCreate();
         }
       },
-      error: (err) => {
+      error: () => {
         this.toastService.showError('Error al crear el reporte.');
       },
     });
   }
 
-  // Abrir modal al hacer click en fila
   onRowClick(row: any) {
     this.dialog.open(VisualizationIssueDialogComponent, {
       width: '600px',
