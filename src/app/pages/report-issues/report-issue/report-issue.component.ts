@@ -1,10 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table'; // Importar MatTableDataSource
+import { MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 import { LabManaging } from './../../../Services/lab-Managing/labManaging.service';
 import { PermissionService } from '../../../Services/permission/permission.service';
 import { IssueService } from '../../../Services/issue/issue.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ToastService } from '../../../Services/toaster.service';
+import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
 
 @Component({
   selector: 'app-report-issue',
@@ -13,7 +15,7 @@ import { ToastService } from '../../../Services/toaster.service';
 })
 export class ReportIssueComponent implements OnInit {
   displayedColumns: string[] = ['number', 'description', 'date'];
-  dataSource: MatTableDataSource<any> = new MatTableDataSource([]); // Usar MatTableDataSource
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   imageUrlsLeft: any[] = [];
   imageUrlsRight: any[] = [];
   selectedImages: Set<any> = new Set();
@@ -29,7 +31,8 @@ export class ReportIssueComponent implements OnInit {
     private permissionService: PermissionService,
     private issueService: IssueService,
     private authService: AuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private dialog: MatDialog
   ) {
     this.canCreate = this.permissionService.canManageIssues();
   }
@@ -42,7 +45,6 @@ export class ReportIssueComponent implements OnInit {
   loadLabs() {
     this.labManaging.getObjects().subscribe({
       next: (response: any) => {
-        console.log('Datos recibidos:', response);
         if (response && Array.isArray(response.data)) {
           const uniqueLabsMap = new Map<string, any>();
           response.data.forEach((lab: any) => {
@@ -53,63 +55,50 @@ export class ReportIssueComponent implements OnInit {
           this.labs = Array.from(uniqueLabsMap.values()).sort((a: any, b: any) =>
             a.lab_name.localeCompare(b.lab_name)
           );
-          console.log(
-            'Labs únicos y ordenados:',
-            this.labs.map((l) => l.lab_name)
-          );
           if (this.labs.length > 0) {
             this.selectedLab = this.labs[0];
             this.updateImageUrls();
           }
         } else {
-          console.error('La propiedad `data` no es un array o no está presente');
           this.toastService.showError('Error al cargar los laboratorios.');
         }
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error al cargar laboratorios:', err);
         this.toastService.showError('Error al cargar los laboratorios.');
       },
     });
   }
 
-loadIssues() {
-  this.issueService.getIssues().subscribe({
-    next: (response) => {
-      console.log('Respuesta de la API:', response);
-      if (response && response.data && Array.isArray(response.data)) {
-        const issues = response.data.map((issue: any) => ({
-          number: issue.issue
-            ? issue.issue.map((i: any) => i.computer).join(', ')
-            : issue.computers
-            ? issue.computers.join(', ')
-            : 'N/A',
-          description: issue.issue
-            ? issue.issue.map((i: any) => i.description).join('; ')
-            : issue.description || 'Sin descripción',
-          date: issue.date_issue || issue.date || 'N/A',
-        }));
-        this.dataSource.data = issues;
-        console.log('Issues cargados:', issues);
-        this.cdr.detectChanges();
-      } else {
-        console.error('Respuesta de la API no válida:', response);
-        this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
-      }
-    },
-    error: (err) => {
-      console.error('Error al cargar issues:', err);
-      this.toastService.showError('Error al cargar los reportes.');
-    },
-  });
-}
+  loadIssues() {
+    this.issueService.getIssues().subscribe({
+      next: (response) => {
+        if (response && response.data && Array.isArray(response.data)) {
+          const issues = response.data.map((issue: any) => ({
+            number: issue.issue
+              ? issue.issue.map((i: any) => i.computer).join(', ')
+              : issue.computers
+              ? issue.computers.join(', ')
+              : 'N/A',
+            description: issue.issue
+              ? issue.issue.map((i: any) => i.description).join('; ')
+              : issue.description || 'Sin descripción',
+            date: issue.date_issue || issue.date || 'N/A',
+            issue: issue.issue || issue.computers?.map((c: any) => ({ computer: c, description: issue.description })) // Para el modal
+          }));
+          this.dataSource.data = issues;
+          this.cdr.detectChanges();
+        } else {
+          this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
+        }
+      },
+      error: (err) => {
+        this.toastService.showError('Error al cargar los reportes.');
+      },
+    });
+  }
 
   updateImageUrls() {
-    console.log(
-      'Actualizando URLs de imágenes para laboratorio:',
-      this.selectedLab
-    );
     this.imageUrlsLeft = [];
     this.imageUrlsRight = [];
 
@@ -130,10 +119,6 @@ loadIssues() {
           this.imageUrlsRight.push(image);
         }
       }
-    } else {
-      console.log(
-        'No se encontraron computadoras en el laboratorio seleccionado.'
-      );
     }
     this.updateCanCreate();
   }
@@ -158,7 +143,6 @@ loadIssues() {
   }
 
   onLabSelect(lab: any) {
-    console.log('Laboratorio seleccionado:', lab);
     this.selectedLab = lab;
     this.selectedImages.clear();
     this.updateSelectedComputerNumber();
@@ -201,9 +185,8 @@ loadIssues() {
     this.issueService.addIssue(issueData).subscribe({
       next: (response) => {
         if (response.status === 201) {
-          console.log('Issue creado:', response.data);
           this.toastService.showSuccess('Reporte creado exitosamente.');
-          this.loadIssues(); // Refrescar la tabla
+          this.loadIssues();
           this.selectedImages.clear();
           this.description = '';
           this.updateSelectedComputerNumber();
@@ -212,9 +195,16 @@ loadIssues() {
         }
       },
       error: (err) => {
-        console.error('Error al crear issue:', err);
         this.toastService.showError('Error al crear el reporte.');
       },
+    });
+  }
+
+  // NUEVO: abrir modal al hacer click en fila
+  onRowClick(row: any) {
+    this.dialog.open(VisualizationIssueDialogComponent, {
+      width: '600px',
+      data: row,
     });
   }
 }

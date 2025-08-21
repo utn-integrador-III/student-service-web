@@ -1,33 +1,42 @@
-import { NgModule } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
-import {
-  BrowserAnimationsModule,
-  provideAnimations,
-} from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+
+// Angular Material
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ReportIssueComponent } from './report-issue.component';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+
+// Componentes
+import { ReportIssueComponent } from './report-issue.component';
+import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
 
 @NgModule({
-  declarations: [ReportIssueComponent],
-
+  declarations: [
+    ReportIssueComponent,
+    VisualizationIssueDialogComponent, // Declarar el modal
+  ],
   imports: [
-    MatTableModule,
-    MatButtonModule,
+    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    HttpClientModule,
+    MatTableModule,
+    MatButtonModule,
     MatDialogModule,
     MatToolbarModule,
-    HttpClientModule,
-    BrowserModule,
     MatFormFieldModule,
     MatSelectModule,
+    MatInputModule,
+    MatIconModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // opcional, para elementos desconocidos
 })
-export class ReportIssueModule { }
+export class ReportIssueModule {}

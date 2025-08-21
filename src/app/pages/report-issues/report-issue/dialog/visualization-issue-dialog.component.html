@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>Detalles del Reporte</h2>
+
+<mat-dialog-content>
+  <p><strong>Laboratorio:</strong> {{ data.lab || "N/A" }}</p>
+  <p><strong>Fecha:</strong> {{ data.date || "N/A" }}</p>
+  <p><strong>Observaciones:</strong> {{ data.description || "N/A" }}</p>
+
+  <h3>Computadoras y Descripciones</h3>
+
+  <!-- Tabla sin clases de Angular que aplican colores -->
+  <table mat-table [dataSource]="data.issue || [data]" class="custom-table">
+    <ng-container matColumnDef="computer">
+      <th mat-header-cell *matHeaderCellDef>Computadora</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.computer || element.number }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Descripción</th>
+      <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['computer', 'description']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['computer', 'description']"></tr>
+  </table>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button class="close-button" (click)="dialogRef.close()">
+    Cerrar
+  </button>
+</mat-dialog-actions>
