@@ -14,7 +14,7 @@ import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-
   styleUrls: ['./report-issue.component.css'],
 })
 export class ReportIssueComponent implements OnInit {
-  displayedColumns: string[] = ['number', 'description', 'date'];
+  displayedColumns: string[] = ['lab', 'number', 'description', 'date'];
   dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
   imageUrlsLeft: any[] = [];
   imageUrlsRight: any[] = [];
@@ -75,6 +75,7 @@ export class ReportIssueComponent implements OnInit {
       next: (response) => {
         if (response && response.data && Array.isArray(response.data)) {
           const issues = response.data.map((issue: any) => ({
+            lab: issue.lab || 'N/A',  // <-- agregamos el laboratorio
             number: issue.issue
               ? issue.issue.map((i: any) => i.computer).join(', ')
               : issue.computers
@@ -84,7 +85,7 @@ export class ReportIssueComponent implements OnInit {
               ? issue.issue.map((i: any) => i.description).join('; ')
               : issue.description || 'Sin descripción',
             date: issue.date_issue || issue.date || 'N/A',
-            issue: issue.issue || issue.computers?.map((c: any) => ({ computer: c, description: issue.description })) // Para el modal
+            issue: issue.issue || issue.computers?.map((c: any) => ({ computer: c, description: issue.description }))
           }));
           this.dataSource.data = issues;
           this.cdr.detectChanges();
@@ -200,7 +201,7 @@ export class ReportIssueComponent implements OnInit {
     });
   }
 
-  // NUEVO: abrir modal al hacer click en fila
+  // Abrir modal al hacer click en fila
   onRowClick(row: any) {
     this.dialog.open(VisualizationIssueDialogComponent, {
       width: '600px',

@@ -101,12 +101,10 @@
       </div>
     </div>
 
-    <!-- Divisor Vertical -->
     <div class="col-md-1 d-flex align-items-stretch">
       <div class="linea-vertical"></div>
     </div>
 
-    <!-- Sección Derecha: Tabla -->
     <div class="col-md-6">
       <div style="text-align: center; font-size: 20px; margin-top: 30px">
         Visualización de comentarios
@@ -119,11 +117,19 @@
           class="mat-elevation-z8"
           style="width: 100%"
         >
+          <!-- Columna Laboratorio -->
+          <ng-container matColumnDef="lab">
+            <th mat-header-cell *matHeaderCellDef>Laboratorio</th>
+            <td mat-cell *matCellDef="let element">{{ element.lab }}</td>
+          </ng-container>
+
+          <!-- Columna Computadora -->
           <ng-container matColumnDef="number">
             <th mat-header-cell *matHeaderCellDef>Computadora</th>
             <td mat-cell *matCellDef="let element">{{ element.number }}</td>
           </ng-container>
 
+          <!-- Columna Comentario -->
           <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef>Comentario</th>
             <td mat-cell *matCellDef="let element">
@@ -131,11 +137,13 @@
             </td>
           </ng-container>
 
+          <!-- Columna Fecha -->
           <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef>Fecha</th>
             <td mat-cell *matCellDef="let element">{{ element.date }}</td>
           </ng-container>
 
+          <!-- Filas de Encabezado y Datos -->
           <tr
             mat-header-row
             *matHeaderRowDef="displayedColumns"
@@ -147,11 +155,10 @@
             *matRowDef="let row; columns: displayedColumns"
             class="tablaAbajo"
             (click)="onRowClick(row)"
-            style="cursor: pointer"
           ></tr>
 
           <tr class="mat-row" *matNoDataRow>
-            <td class="mat-cell" colspan="3">No hay datos disponibles</td>
+            <td class="mat-cell" colspan="4">No hay datos disponibles</td>
           </tr>
         </table>
       </div>
