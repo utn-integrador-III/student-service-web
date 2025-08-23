@@ -101,8 +101,7 @@ export class TeacherLogComponent implements OnInit {
           this.professorName = response.data.professor_name;
 
           this.courses = response.data.Courses;
-          this.selectedCourse =
-            this.courses.length > 0 ? this.courses[0].course_id : null;
+          this.selectedCourse = this.courses.length > 0 ? this.courses[0] : null;
 
           if (response.data.Career && response.data.CareerId) {
             this.careers = [
@@ -149,57 +148,60 @@ export class TeacherLogComponent implements OnInit {
     this.selectedLab = lab;
   }
 
-  saveBooking() {
-    if (!this.endTime) {
-      this.toastr.warning('Por favor, selecciona una hora de fin.');
-      return;
-    }
-
-    if (!this.selectedCareer) {
-      this.toastr.warning('Por favor, selecciona una carrera.');
-      return;
-    }
-
-    if (!this.selectedCourse) {
-      this.toastr.warning('Por favor, selecciona un curso.');
-      return;
-    }
-
-    if (!this.selectedLab) {
-      this.toastr.warning('Por favor, selecciona un laboratorio.');
-      return;
-    }
-
-    // Obtención de datos
-    const startTime = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
-    const formattedEndTime = format(
-      new Date(this.endTime),
-      "yyyy-MM-dd'T'HH:mm:ss"
-    );
-    console.log('lab', this.selectedLab);
-    const bookingData = {
-      professor: this.professorName,
-      professor_email: this.userAuthenticated?.email,
-      career: this.selectedCareer?.career_name || '',
-      subject: this.selectedCourse?.course_name || '',
-      lab: this.selectedLab?.lab_name || '',
-
-      start_time: startTime,
-      end_time: formattedEndTime,
-    };
-
-    // Enviar datos al servicio
-    this.Booking.addBooking(bookingData).subscribe(
-      (response) => {
-        console.log('Reserva realizada con éxito', response);
-        this.toastr.success('Reserva realizada con éxito');
-      },
-      (error) => {
-        console.error('Error al realizar la reserva', error);
-        this.toastr.error('Error al realizar la reserva');
-      }
-    );
+ saveBooking() {
+  if (!this.endTime) {
+    this.toastr.warning('Por favor, selecciona una hora de fin.');
+    return;
   }
+
+  if (!this.selectedCareer) {
+    this.toastr.warning('Por favor, selecciona una carrera.');
+    return;
+  }
+
+  if (!this.selectedCourse || !this.selectedCourse.course_name) {
+    this.toastr.warning('Por favor, selecciona un curso válido.');
+    return;
+  }
+
+  if (!this.selectedLab) {
+    this.toastr.warning('Por favor, selecciona un laboratorio.');
+    return;
+  }
+
+  if (!this.userAuthenticated?.email.endsWith('@utn.ac.cr')) {
+    this.toastr.error('El correo debe ser institucional (@utn.ac.cr)');
+    return;
+  }
+
+  // Datos de reserva
+  const startTime = format(new Date(), "yyyy-MM-dd'T'HH:mm:ss");
+  const formattedEndTime = format(new Date(this.endTime), "yyyy-MM-dd'T'HH:mm:ss");
+
+  const bookingData = {
+    professor: this.professorName,
+    professor_email: this.userAuthenticated.email,
+    career: this.selectedCareer.career_name,
+    subject: this.selectedCourse.course_name,  // ✅ Aquí ya no estará vacío
+    lab: this.selectedLab.lab_name,
+    start_time: startTime,
+    end_time: formattedEndTime,
+  };
+
+  console.log('Datos de reserva:', bookingData); // ✅ Para depuración
+
+  this.Booking.addBooking(bookingData).subscribe(
+    (response) => {
+      console.log('Reserva realizada con éxito', response);
+      this.toastr.success('Reserva realizada con éxito');
+    },
+    (error) => {
+      console.error('Error al realizar la reserva', error);
+      this.toastr.error(error?.error?.message || 'Error al realizar la reserva');
+    }
+  );
+}
+
 
   addFourHours() {
     const currentTime = new Date();
