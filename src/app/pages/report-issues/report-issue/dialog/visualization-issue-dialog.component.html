@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>Detalles del Reporte</h2>
 
 <mat-dialog-content>
-  <p><strong>Laboratorio:</strong> {{ data.lab || "N/A" }}</p>
-  <p><strong>Fecha:</strong> {{ data.date || "N/A" }}</p>
+  <p><strong>Laboratorio:</strong> {{ data.lab || "N/A" }}</p>  
+<p><strong>Fecha:</strong> {{ data.date ? (data.date | date:'dd/MM/yyyy') : 'N/A' }}</p>  
   <p><strong>Observaciones:</strong> {{ data.description || "N/A" }}</p>
 
   <h3>Computadoras y Descripciones</h3>
