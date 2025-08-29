@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
+  production: true,
   URL_API_REPORT: 'http://localhost:5003',
   URL_API_AUTH: 'http://localhost:5002/auth',
   URL_API_REFRESH: 'http://localhost:5002/auth/refresh',
@@ -20,5 +20,5 @@ export const environment = {
   URL_API_BOOKING: 'http://localhost:5003/booking',
   URL_API_BOOKING_COMPUTER: 'http://localhost:5003/booking/computer',
   URL_API_PASSWORD_RESET: 'http://localhost:5002/user/password',
-  URL_API_CHANGE_PASSOWORD: 'http://localhost:5002/user/password',
+  URL_API_CHANGE_PASSWORD: 'http://localhost:5002/user/password',
 };
