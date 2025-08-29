@@ -73,7 +73,7 @@ export class ReportIssueComponent implements OnInit {
   }
 
   loadIssues() {
-    //Obtener el usuario actual.
+    //Obtener el usuario actual
     const currentUser = this.authService.getCurrentUser();
 
     if (!currentUser || !currentUser.email) {
