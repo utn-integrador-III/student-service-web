@@ -110,7 +110,7 @@ export class ReportIssueComponent implements OnInit {
           this.dataSource = new MatTableDataSource(issues);
           this.cdr.detectChanges();
         } else {
-          this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
+          this.toastService.showError('Error al cargar los reportes, respuesta no válida.');
         }
       },
       error: () => {
