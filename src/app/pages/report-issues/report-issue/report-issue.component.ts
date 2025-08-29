@@ -73,21 +73,24 @@ export class ReportIssueComponent implements OnInit {
   }
 
   loadIssues() {
-    //Obtener el usuario actual
+    // Obtener el usuario actual.
     const currentUser = this.authService.getCurrentUser();
 
+    //Validar que el usuario exista y tenga un email.
     if (!currentUser || !currentUser.email) {
-      this.dataSource.data = []; 
+      this.dataSource.data = []; // Limpia la tabla si no hay usuario.
       return;
     }
 
     this.issueService.getIssues().subscribe({
       next: (response) => {
         if (response && response.data && Array.isArray(response.data)) {
+          //Filtrar los reportes para que coincidan con el email del usuario actual.
           const userIssues = response.data.filter(
             (issue: any) => issue.person && issue.person.email === currentUser.email
           );
 
+          //Mapear únicamente los reportes del usuario.
           const issues = userIssues.map((issue: any) => ({
             lab: issue.lab || 'N/A',
             number: issue.issue
@@ -110,7 +113,7 @@ export class ReportIssueComponent implements OnInit {
           this.dataSource = new MatTableDataSource(issues);
           this.cdr.detectChanges();
         } else {
-          this.toastService.showError('Error al cargar los reportes, respuesta no válida.');
+          this.toastService.showError('Error al cargar los reportes: respuesta no válida.');
         }
       },
       error: () => {
