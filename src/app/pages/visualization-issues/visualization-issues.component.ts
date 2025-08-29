@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { IssueService } from '../../Services/issue/issue.service';
 import { ToastService } from '../../Services/toaster.service';
 import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-visualization-issues',
@@ -42,12 +43,14 @@ export class VisualizationIssuesComponent implements OnInit {
             number: issue.issue
               ? issue.issue.map((i: any) => i.computer).join(', ')
               : 'N/A',
-            description: issue.issue
-              ? issue.issue.map((i: any) => i.description).join('; ')
-              : 'Sin descripción',
+            description:
+              issue.issue && issue.issue.length > 0
+                ? issue.issue[0].description
+                : 'Sin descripción',
             date: issue.date_issue || 'N/A',
-            status: issue.status || 'Pendiente',
+            status: issue.status || 'Pending',
             issue: issue.issue,
+            person: issue.person,
           }));
           this.dataSource = new MatTableDataSource(issues);
           this.cdr.detectChanges();
@@ -76,6 +79,21 @@ export class VisualizationIssuesComponent implements OnInit {
     }
   }
 
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'Pending':
+        return 'Pendiente';
+      case 'In Progress':
+        return 'En progreso';
+      case 'Completed':
+        return 'Completado';
+      case 'Rejected':
+        return 'Rechazado';
+      default:
+        return status;
+    }
+  }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -84,7 +102,7 @@ export class VisualizationIssuesComponent implements OnInit {
   openEditDialog(element: any) {
     const dialogRef = this.dialog.open(VisualizationIssueDialogComponent, {
       width: '600px',
-      panelClass: 'custom-dialog-container', // ⬅️ aquí se engancha tu CSS
+      panelClass: 'custom-dialog-container',
       data: { ...element },
     });
 
@@ -95,21 +113,27 @@ export class VisualizationIssuesComponent implements OnInit {
     });
   }
 
-  onDeleteClick(element: any) {
-    if (confirm('¿Estás seguro de que quieres eliminar esta avería?')) {
-      this.issueService.deleteIssue(element._id).subscribe({
-        next: (response) => {
-          if (response.message_code === 'ISSUE_SUCCESSFULLY_DELETED') {
-            this.toastService.showSuccess('Avería eliminada exitosamente.');
+  onDeleteClick(issue: any) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirmar eliminación',
+        message: `¿Deseas eliminar el issue del laboratorio ${issue.lab}?`,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed: boolean) => {
+      if (confirmed) {
+        this.issueService.deleteIssue(issue._id).subscribe({
+          next: (res) => {
+            this.toastService.showSuccess('Issue eliminado con éxito');
             this.loadIssues();
-          } else {
-            this.toastService.showError('Error al eliminar la avería.');
-          }
-        },
-        error: () => {
-          this.toastService.showError('Error al eliminar la avería.');
-        },
-      });
-    }
+          },
+          error: (err) => {
+            this.toastService.showError('Error al eliminar el issue');
+          },
+        });
+      }
+    });
   }
 }

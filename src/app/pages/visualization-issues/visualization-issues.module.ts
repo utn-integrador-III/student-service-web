@@ -20,17 +20,19 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog'; // <- elimina MatDialogContent
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSelectModule } from '@angular/material/select'; // ⬅️ Nuevo: Importa MatSelectModule
+import { MatSelectModule } from '@angular/material/select';
 
 import { VisualizationIssuesComponent } from './visualization-issues.component';
 import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
     VisualizationIssuesComponent,
     VisualizationIssueDialogComponent,
+    ConfirmDialogComponent,
   ],
 
   imports: [
@@ -51,7 +53,7 @@ import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-
     MatListModule,
     MatPaginatorModule,
     MatToolbarModule,
-    MatSelectModule, // ⬅️ Nuevo: Añade MatSelectModule al arreglo de imports
+    MatSelectModule,
     ToastrModule.forRoot({
       timeOut: 100,
       positionClass: 'toast-bottom-right',

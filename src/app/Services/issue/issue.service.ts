@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
@@ -24,11 +24,6 @@ export class IssueService {
     return this.http.get<ApiResponse>(this.URL_ISSUE);
   }
 
-  // Obtener un issue por ID
-  getIssueById(id: string): Observable<ApiResponse> {
-    return this.http.get<ApiResponse>(`${this.URL_ISSUE}/${id}`);
-  }
-
   // Crear un nuevo issue
   addIssue(issueData: any): Observable<ApiResponse> {
     return this.http.post<ApiResponse>(this.URL_ISSUE, issueData);
@@ -42,12 +37,13 @@ export class IssueService {
     });
   }
 
-  // Eliminar un issue
-  deleteIssue(id: string): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(this.URL_ISSUE, { body: { _id: id } });
+  // **Eliminar un issue**
+  deleteIssue(issueId: string) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.delete(`${this.URL_ISSUE}/${issueId}`, { headers });
   }
 
-  // Actualizar estado o agregar comentario a un issue
+  // Actualizar estado o comentario de un issue
   updateIssueStatusOrComment(
     issueId: string,
     updateData: { status?: string; new_update?: string; computer?: any[] }
