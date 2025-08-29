@@ -1,6 +1,181 @@
-.home{
-    margin-top: 50px;
-    text-align: center;
-    vertical-align: middle;
-    align-content: center;
+/* Carousel Styles */
+.carousel {
+  width: 100%;
+  margin-top: -16px;
+}
+
+.carousel-inner img {
+  height: 400px;
+  object-fit: cover;
+}
+
+.carousel-indicators button {
+  background-color: #333;
+  border-radius: 50%;
+  width: 12px;
+  height: 12px;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%);
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Line separator styles */
+.linea-horizontal,
+.linea-horizontal1,
+.linea-horizontal2 {
+  border-top: 5px solid #89c1e0;
+  margin: 30px auto;
+  width: 300px;
+}
+
+.linea-horizontal2 {
+  margin-top: 50px;
+  width: 1400px;
+}
+
+/* Image containers (ACCIONES) */
+.image-container {
+  border: 2px solid #89c1e0;
+  border-radius: 5px;
+  padding: 15px 10px 10px 10px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s, height 0.3s ease;
+  min-height: 220px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.image-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.5);
+}
+
+/* Optional taller container if buttons appear */
+.image-container.expandable {
+  min-height: 280px;
+}
+
+/* Image inside cards */
+.small-image {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+/* Links section images */
+.imagenesEnlace {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin: 20px auto 0 auto;
+}
+
+.imagenesEnlace2 {
+  display: none;
+}
+
+/* Button styles inside cards */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.custom-button {
+  background-color: #1b3069;
+  color: white;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  width: 160px;
+  font-size: 15px;
+}
+
+button {
+  display: block;
+  margin: 5px 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Folder cards (ENLACES DE INTERÉS) */
+.folder,
+.folder1 {
+  height: 230px;
+  width: 100%;
+  margin-top: 100px;
+  background-color: #9bdadd;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.folder:hover,
+.folder1:hover {
+  background-color: #1b3069;
+}
+
+.letrasenlace {
+  color: white;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.lineaCarpeta {
+  border-top: 2px solid white;
+  width: 60px;
+  margin: 15px auto 0;
+}
+
+/* Background banner image */
+.small-image1 {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+
+/* Responsive Styles */
+@media (max-width: 1000px) {
+  .small-image1 {
+    height: 220vh;
+  }
+
+  .container-fluid .folder,
+  .container-fluid .folder1 {
+    margin-top: 100px;
+  }
+
+  .image-container {
+    margin-bottom: 30px;
+  }
+}
+
+/* Miscellaneous layout classes */
+.centered-text {
+  display: flex;
+  align-items: center;
+}
+
+.options,
+.options1 {
+  margin-top: 10px;
 }

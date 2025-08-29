@@ -1,0 +1,288 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { LostAndFoundService } from '../../../Services/service-LostAndFound/LostAndFound.service';
+import { LostItemsComponent } from '../lost-items.component';
+import { CategoriaServices } from '../../../Services/categoriasServices';
+import { ShowDialogComponent } from '../show-dialog/show-dialog.component';
+import { SafekeeperService } from '../../../Services/safekeeper/safekeeper.service';
+import { PermissionService } from '../../../Services/permission/permission.service';
+
+@Component({
+  selector: 'app-lost-and-found',
+  templateUrl: './lost-and-found.component.html',
+  styleUrls: ['./lost-and-found.component.css'],
+})
+export class LostAndFoundComponent implements OnInit {
+  dataSource: MatTableDataSource<any> = new MatTableDataSource([]);
+  displayedColumns: string[] = [
+    'name',
+    'description',
+    'category',
+    'safekeeper',
+    'status',
+  ];
+
+  @ViewChild('addModal') addModal!: ElementRef;
+
+  selectedCategories: { [key: string]: boolean } = {};
+  selectedSafekeepers: { [email: string]: boolean } = {};
+  selectedStatus: string = '';  // Nueva propiedad para guardar el estado seleccionado
+
+  newObject: any = {
+    category: [],
+    name: '',
+    description: '',
+    user_email: '',
+    safekeeper: [],
+  };
+
+  categories: any[] = [];
+  safekeepers: any[] = [];
+  imagePreviewUrl: string | ArrayBuffer | null = null;
+  canCreate = false;
+  fileInput: any;
+
+  constructor(
+    private srvlostObjects: LostAndFoundService,
+    private toastr: ToastrService,
+    public dialog: MatDialog,
+    private srvCategorias: CategoriaServices,
+    private srvSafekeepers: SafekeeperService,
+    private permissionService: PermissionService
+  ) {
+    this.canCreate = this.permissionService.canManageLostObjects();
+  }
+
+  ngOnInit(): void {
+    this.loadObjects();
+
+    // Configurando el filtro combinado (Texto + Estado)
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+      const searchTerms = filter.split('$');
+      const searchText = searchTerms[0];
+      const statusFilter = searchTerms[1];
+      const matchesText = 
+        data.name.toLowerCase().includes(searchText) || 
+        data.description.toLowerCase().includes(searchText);
+      const matchesStatus = statusFilter ? data.status.toLowerCase() === statusFilter : true;
+      
+      return matchesText && matchesStatus;
+    };
+  }
+
+  loadSafekeepers(): void {
+    this.srvSafekeepers.getAllSafekeepers().subscribe(
+      (response: any) => {
+        this.safekeepers = response.data;
+      },
+      (error) => {
+        this.toastr.error('Error al cargar los safekeepers.');
+      }
+    );
+  }
+
+  getSelectedSafekeepers(): any[] {
+    return Object.keys(this.selectedSafekeepers)
+      .filter((email) => this.selectedSafekeepers[email])
+      .map((email) => ({ email, accepted: false }));
+  }
+
+  onSafekeepersChange(): void {
+    this.newObject.safekeeper = this.getSelectedSafekeepers();
+  }
+
+  loadObjects() {
+    this.srvlostObjects.getObjects().subscribe(
+      (response: any) => {
+        this.dataSource.data = response.data;
+        this.loadCategories();
+        this.loadSafekeepers();
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.toastr.error('No hay objetos registrados.');
+        } else {
+          this.toastr.error('Error al cargar los objetos.');
+        }
+      }
+    );
+  }
+
+  loadCategories() {
+    this.srvCategorias.getAllCategories().subscribe(
+      (response: any) => {
+        this.categories = response.data;
+        this.categories.forEach((category) => {
+          this.selectedCategories[category.category_name] = false;
+        });
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.toastr.error('No se encontraron categorías.');
+        } else {
+          this.toastr.error('Error al cargar las categorías.');
+        }
+      }
+    );
+  }
+
+  onCategoryChange() {
+    this.newObject.category = this.getSelectedCategories();
+  }
+
+  getSelectedCategories(): string[] {
+    return Object.keys(this.selectedCategories).filter(
+      (category) => this.selectedCategories[category]
+    );
+  }
+
+  addLostObject() {
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@(est\.utn\.ac\.cr|utn\.ac\.cr|adm\.utn\.ac\.cr)$/i;
+
+    if (
+      !this.newObject.name ||
+      !this.newObject.description ||
+      !this.newObject.user_email ||
+      !this.newObject.category.length ||
+      !this.newObject.safekeeper.length
+    ) {
+      this.toastr.error('Por favor llene todos los espacios');
+      return;
+    }
+    if (!emailRegex.test(this.newObject.user_email)) {
+      this.toastr.error('El formato del correo es incorrecto');
+      return;
+    }
+
+    this.srvlostObjects.addObjects(this.newObject).subscribe(
+      () => {
+        this.toastr.success('Objeto añadido exitosamente');
+        this.loadObjects();
+        this.closeModal();
+      },
+      (error) => {
+        this.toastr.error('Error al añadir el objeto');
+      }
+    );
+  }
+
+  closeModal() {
+    this.resetForm();
+    const modalElement = this.addModal.nativeElement;
+    const backdropElement = document.querySelector('.modal-backdrop');
+
+    modalElement.classList.remove('show');
+    modalElement.style.display = 'none';
+
+    if (backdropElement) {
+      backdropElement.parentNode!.removeChild(backdropElement);
+    }
+
+    document.body.classList.remove('modal-open');
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    const statusFilter = this.selectedStatus.toLowerCase(); // Estado seleccionado
+    this.dataSource.filter = filterValue + '$' + statusFilter;
+  }
+
+  filterByStatus(status: string) {
+    this.selectedStatus = status;
+    const filterValue = (document.querySelector('#input') as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue + '$' + status.toLowerCase();
+  }
+
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      this.imagePreviewUrl = null;
+    }
+  }
+
+  removeImage(): void {
+    this.imagePreviewUrl = null;
+    if (this.fileInput) {
+      this.fileInput.nativeElement.value = '';
+    }
+  }
+
+  resetForm() {
+    this.newObject = {
+      category: [],
+      name: '',
+      description: '',
+      user_email: '',
+      safekeeper: [],
+    };
+    this.imagePreviewUrl = null;
+    this.selectedCategories = {};
+    this.selectedSafekeepers = {};
+  }
+
+  deleteObject(id: string): void {
+    this.srvlostObjects.deleteObjects(id).subscribe(
+      () => {
+        this.toastr.success('Objeto eliminado con éxito');
+        this.dataSource.data = this.dataSource.data.filter(
+          (item) => item._id !== id
+        );
+      },
+      (error) => {
+        if (error.status === 403) {
+          const errorMessage =
+            error.error?.message ||
+            'No tienes permiso para acceder a este recurso.';
+          this.toastr.error(errorMessage, 'Error');
+        } else if (error.status === 404) {
+          this.toastr.error('El objeto no se encontró.', 'Error');
+        } else if (error.status === 500) {
+          this.toastr.error('Se produjo un error en el servidor.', 'Error');
+        } else {
+          this.toastr.error('Error inesperado al eliminar el objeto.', 'Error');
+        }
+      }
+    );
+  }
+
+  capitalizeFirstLetter(text: string): string {
+    if (!text) return 'No disponible';
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
+
+  openEditDialog(item: any): void {
+    const dialogRef = this.dialog.open(LostItemsComponent, {
+      width: '500px',
+      data: { ...item },
+    });
+  }
+
+  openDialog(element: any): void {
+    const dialogRef = this.dialog.open(ShowDialogComponent, {
+      width: '520px',
+      maxHeight: '80vh',
+      data: element,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadObjects();
+        if (result.action === 'edit') {
+          this.openEditDialog(result.data);
+        } else if (result.action === 'delete') {
+          this.deleteObject(result.data._id);
+        }
+      }
+    });
+  }
+}

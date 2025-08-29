@@ -4,15 +4,21 @@
 
 export const environment = {
   production: false,
-  URL_USERS:"",
-  URL_REPORT:""
+  URL_API_REPORT: 'http://localhost:5003',
+  URL_API_AUTH: 'http://localhost:5002/auth',
+  URL_API_REFRESH: 'http://localhost:5002/auth/refresh',
+  URL_API_ZONE: 'http://localhost:5001/zone',
+  URL_API_CATEGORY: 'http://localhost:5001/category',
+  URL_API_LOSTANDFOUND: 'http://localhost:5001/lostObject',
+  URL_API_ENROLLMENT: 'http://localhost:5002/user/enrollment',
+  URL_API_VERIFY: 'http://localhost:5002/user/verification',
+  URL_API_LABMANAGING: 'http://localhost:5003/lab',
+  URL_API_PROFESSOR: 'http://localhost:5003/professor',
+  URL_API_SAFEKEEPER: 'http://localhost:5001/safekeeper',
+  URL_API_LOGOUT: 'http://localhost:5002/auth/logout',
+  URL_API_TEACHEREMAIL: 'http://localhost:5003/professor/byemail',
+  URL_API_BOOKING: 'http://localhost:5003/booking',
+  URL_API_BOOKING_COMPUTER: 'http://localhost:5003/booking/computer',
+  URL_API_PASSWORD_RESET: 'http://localhost:5002/user/password',
+  URL_API_CHANGE_PASSOWORD: 'http://localhost:5002/user/password',
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

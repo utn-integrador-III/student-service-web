@@ -1,32 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import * as fromApp from './store/app.reducer';
+import { AuthService } from './auth/auth.service';
+import { IAuth } from './login/models/login.model';
 
 @Component({
   selector: 'app-root',
-  //standalone: true,
-  //imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit { 
-  pageTitle = 'Student Service';
-  userName: string ='';
-  isAuth: boolean = false;
+export class AppComponent implements OnInit, OnDestroy {
+  userAuthenticated: IAuth | null = null;
+  private subscriptions: Subscription = new Subscription();
 
-  constructor(private store: Store<fromApp.AppState>, private router: Router){
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private authService: AuthService
+  ) {}
 
+  ngOnInit() {
+    this.authService.checkAuthState().subscribe({
+      next: () => {
+        this.subscriptions.add(
+          this.store.select('auth').subscribe((authState) => {
+            this.userAuthenticated = authState.auth;
+          })
+        );
+      },
+      error: (error) => {
+        console.error('Error checking auth state:', error);
+      },
+    });
   }
 
-  ngOnInit(): void {
-    
-  }
-
-  logOut(): void  {
-    this.userName="";
-    this.isAuth=false;
-    //this.store.dispatch(new LoginActios.LogoutUser());
-    //this.router.navigate(['/login']);
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
+    this.authService.logout();
   }
 }

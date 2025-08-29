@@ -1,0 +1,169 @@
+.custom-dialog-container .mat-mdc-dialog-surface {
+  background-color: #fcfcfc !important; /* color de fondo del dialog */
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  padding-top: 0 !important;
+}
+
+/* ====== TÍTULO ====== */
+.custom-dialog-container .mat-mdc-dialog-title {
+  color: #1b3069 !important;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 0;
+}
+
+/* ====== CONTENIDO ====== */
+.custom-dialog-container .mat-mdc-dialog-content {
+  padding: 0 24px 24px 24px !important;
+  color: #333 !important;
+}
+
+/* ====== FORM FIELDS ====== */
+.custom-dialog-container .mat-mdc-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Fondo del wrapper del input/select */
+.custom-dialog-container .mat-mdc-text-field-wrapper {
+  background-color: #ffffff !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+/* Borde del outline (estado normal) */
+.custom-dialog-container .mdc-notched-outline__leading,
+.custom-dialog-container .mdc-notched-outline__trailing {
+  border-color: #e0e0e0 !important;
+}
+
+/* Borde del outline (en foco) */
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: #89c1e0 !important;
+}
+
+/* Etiqueta flotante */
+.custom-dialog-container .mdc-floating-label {
+  color: #555 !important;
+  font-size: 14px !important;
+}
+
+/* Etiqueta en foco */
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-floating-label {
+  color: #1b3069 !important;
+}
+
+/* Texto de inputs/textarea */
+.custom-dialog-container .mat-mdc-input-element {
+  padding: 12px 16px !important;
+  font-size: 16px !important;
+  color: #333 !important;
+}
+
+/* Textarea */
+.custom-dialog-container textarea.mat-mdc-input-element {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Select: color de la flecha y del valor */
+.custom-dialog-container .mat-mdc-select .mat-mdc-select-arrow {
+  color: #333 !important;
+}
+.custom-dialog-container .mat-mdc-select-value {
+  color: #333 !important;
+}
+
+/* ====== ACCIONES ====== */
+.custom-dialog-container .mat-mdc-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 0 24px 24px 24px !important;
+}
+
+/* Botones (base) */
+.custom-dialog-container .mat-mdc-button,
+.custom-dialog-container .mat-mdc-raised-button,
+.custom-dialog-container .mat-mdc-unelevated-button {
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  border-radius: 50px !important;
+  padding: 0 24px !important;
+}
+
+/* Botón Guardar (primary) */
+.custom-dialog-container .mat-mdc-raised-button.mat-primary,
+.custom-dialog-container .mat-mdc-unelevated-button.mat-primary {
+  background-color: #1b3069 !important;
+  color: #fff !important;
+}
+
+/* Botón Cancelar (texto) */
+.custom-dialog-container .mat-mdc-button {
+  color: #1b3069 !important;
+}
+
+/* ====== BACKDROP TRANSPARENTE (si lo usas) ====== */
+/* En el open(): { panelClass: 'custom-dialog-container', backdropClass: 'dialog-backdrop-transparent' } */
+.dialog-backdrop-transparent {
+  background: transparent !important;
+}
+
+/* ====== COLOR AZUL EN FOCUS ====== */
+
+/* Ripple (select y textfield) */
+.mat-mdc-select-panel,
+.mdc-line-ripple,
+.mat-mdc-form-field-focus-overlay {
+  background-color: white !important; /* azul corporativo */
+  color: #1b3069 !important;
+}
+
+/* Outline focus */
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-notched-outline__leading,
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-notched-outline__trailing {
+  border-color: #1b3069 !important;
+}
+
+/* Label en foco */
+.custom-dialog-container
+  .mat-mdc-text-field-wrapper.mdc-text-field--focused
+  .mdc-floating-label {
+  color: #1b3069 !important;
+}
+
+/* ====== LABEL CORTADO (alinear bien) ====== */
+.custom-dialog-container .mdc-floating-label {
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+}
+
+/* Cuando sube (float arriba) */
+.custom-dialog-container .mdc-floating-label--float-above {
+  top: 0 !important;
+  transform: translateY(-100%) scale(0.75) !important;
+}
+
+/* ====== BACKDROP BLANCO ====== */
+.dialog-backdrop-white {
+  background-color: #ffffff !important;
+  opacity: 1 !important;
+}
