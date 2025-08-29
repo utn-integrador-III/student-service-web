@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Editar Avería</h1>
 <div mat-dialog-content>
-  <mat-form-field appearance="outline" class="w-100 mb-3">
+  <mat-form-field appearance="outline" class="w-100 mb-3 mt-3">
     <mat-label>Laboratorio</mat-label>
     <input matInput [(ngModel)]="lab" disabled />
   </mat-form-field>
@@ -13,8 +13,8 @@
   <mat-form-field appearance="outline" class="w-100 mb-3">
     <mat-label>Estado</mat-label>
     <mat-select [(ngModel)]="status" name="status">
-      <mat-option *ngFor="let option of statusOptions" [value]="option">
-        {{ option }}
+      <mat-option *ngFor="let option of statusOptions" [value]="option.value">
+        {{ option.label }}
       </mat-option>
     </mat-select>
   </mat-form-field>

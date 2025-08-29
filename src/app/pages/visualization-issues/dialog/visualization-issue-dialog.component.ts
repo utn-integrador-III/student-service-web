@@ -14,12 +14,14 @@ export class VisualizationIssueDialogComponent implements OnInit {
   computer: string = '';
   description: string = '';
   status: string = '';
-  statusOptions: string[] = [
-    'Pendiente',
-    'En progreso',
-    'Completado',
-    'Rechazado',
+  statusOptions: { value: string; label: string }[] = [
+    { value: 'Pending', label: 'Pendiente' },
+    { value: 'In Progress', label: 'En progreso' },
+    { value: 'Completed', label: 'Completado' },
+    { value: 'Rejected', label: 'Rechazado' },
   ];
+
+  observations: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<VisualizationIssueDialogComponent>,
@@ -32,8 +34,9 @@ export class VisualizationIssueDialogComponent implements OnInit {
     if (this.data) {
       this.lab = this.data.lab;
       this.computer = this.data.number;
-      this.description = this.data.description;
-      this.status = this.data.status || 'Pendiente';
+      this.description = this.data.issue[0]?.description || '';
+      this.status = this.data.status || 'Pending';
+      this.observations = this.data.observations || '';
     }
   }
 
@@ -42,17 +45,26 @@ export class VisualizationIssueDialogComponent implements OnInit {
   }
 
   onSave(): void {
+    if (!this.description || !this.observations || !this.status) {
+      this.toastService.showError(
+        'La descripción, las observaciones y el estado son obligatorios.'
+      );
+      return;
+    }
+
     const updatedData = {
-      lab: this.lab,
-      status: this.status,
+      _id: this.data._id,
       issue: this.data.issue.map((i: any) => ({
         ...i,
         description: this.description,
       })),
+      observations: this.observations,
+      status: this.status,
+      email: this.data.person.email,
     };
 
     this.issueService
-      .updateIssueStatusOrComment(this.data._id, updatedData)
+      .updateIssueStatusOrComment(updatedData._id, updatedData)
       .subscribe({
         next: (response) => {
           if (response.message_code === 'ISSUE_SUCCESSFULLY_UPDATED') {

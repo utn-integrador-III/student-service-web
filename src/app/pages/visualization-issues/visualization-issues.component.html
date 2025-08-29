@@ -97,7 +97,7 @@
             </th>
             <td mat-cell *matCellDef="let element">
               <span [ngClass]="getStatusClass(element.status)">
-                {{ element.status }}
+                {{ getStatusLabel(element.status) }}
               </span>
             </td>
           </ng-container>
