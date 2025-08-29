@@ -22,25 +22,36 @@ import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSelectModule } from '@angular/material/select'; // ⬅️ Nuevo: Importa MatSelectModule
+
 import { VisualizationIssuesComponent } from './visualization-issues.component';
+import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
 
 @NgModule({
-  declarations: [VisualizationIssuesComponent],
+  declarations: [
+    VisualizationIssuesComponent,
+    VisualizationIssueDialogComponent,
+  ],
 
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     BrowserModule,
-    MatIconModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule,
     MatButtonModule,
-    CommonModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
+    MatIconModule,
+    MatDialogModule,
+    MatSidenavModule,
+    MatCardModule,
+    MatListModule,
+    MatPaginatorModule,
+    MatToolbarModule,
+    MatSelectModule, // ⬅️ Nuevo: Añade MatSelectModule al arreglo de imports
     ToastrModule.forRoot({
       timeOut: 100,
       positionClass: 'toast-bottom-right',
@@ -48,21 +59,6 @@ import { VisualizationIssuesComponent } from './visualization-issues.component';
       closeButton: true,
       progressBar: true,
     }),
-    MatSidenavModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatCardModule,
-    MatListModule,
-    MatPaginatorModule,
-    FormsModule,
-    MatDialogModule,
-    MatToolbarModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
   ],
 })
 export class VisualizationIssuesModule {}
