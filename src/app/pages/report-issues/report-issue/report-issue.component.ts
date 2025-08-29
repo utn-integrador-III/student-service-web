@@ -7,7 +7,7 @@ import { IssueService } from '../../../Services/issue/issue.service';
 import { AuthService } from '../../../auth/auth.service';
 import { ToastService } from '../../../Services/toaster.service';
 import { VisualizationIssueDialogComponent } from './dialog/visualization-issue-dialog.component';
-
+//Texto para hacer nuevo commit
 @Component({
   selector: 'app-report-issue',
   templateUrl: './report-issue.component.html',
