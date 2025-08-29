@@ -1,0 +1,163 @@
+.container {
+  display: flex;
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 50px auto;
+  flex-direction: column;
+  margin-bottom: 150px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    flex-direction: row;
+    height: 480px;
+  }
+}
+
+.login-left {
+  background-color: #1b3069;
+  color: #ffffff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 768px) {
+  .login-left {
+    width: 300px;
+    border-radius: 20px 0 0 20px;
+    padding: 30px;
+  }
+}
+
+.login-left img.LogoUTN {
+  max-width: 100%;
+  height: auto;
+}
+
+.login-right {
+  padding: 20px;
+  flex: 2;
+  background-color: white;
+  border-radius: 0 0 20px 20px;
+}
+
+@media (min-width: 768px) {
+  .login-right {
+    padding: 40px;
+    border-radius: 0 20px 20px 0;
+  }
+}
+
+.login-right h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #1b3069;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  border: none;
+  border-bottom: 2px solid #1b3069;
+  outline: none;
+  background: transparent;
+  color: #1b3069;
+}
+
+.form-group label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  font-size: 16px;
+  color: #1b3069;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -20px;
+  font-size: 12px;
+  color: #1b3069;
+}
+
+.login-button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.login-button {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #1b3069;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.login-button:hover {
+  background-color: #d8a737;
+}
+
+.modal {
+  display: none; /* oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+}

@@ -1,0 +1,193 @@
+/* Navbar */
+.mat-toolbar {
+  background-color: #6fc0a8;
+  border: 3px solid #2B9980;
+}
+
+.mat-toolbar button {
+  color: #fff;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-left: auto;
+}
+
+.modal-lg {
+  max-width: 50%;
+}
+
+.editar-btn {
+  margin-right: 8px;
+}
+
+.eliminar-btn {
+  margin-left: 8px;
+}
+
+.btn-agregar {
+  height: 40px;
+  border: 2px solid #2B9980;
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+  background-color: #e8f2f4;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  flex: 1;
+}
+
+.container-fluid {
+  background-color: #E8F2F4;
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-center {
+  font-size: 40px;
+  animation: fadeInUp 1s ease; /* Animation fadeInUp */
+}
+
+footer {
+  background-color: #fff;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.logo-utn {
+  height: 40px;
+  display: block; 
+  margin: 0 auto; 
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.table th,
+.table td {
+  padding: 8px;
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 876px) {
+  /* Navbar */
+ .mat-toolbar {
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: none;
+  }
+ .mat-toolbar button {
+    margin: 10px auto;
+    font-size: 16px;
+    width: 100%;
+    margin-left: 0;
+  }
+
+  /* Container fluid */
+ .container-fluid {
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  /* Text center */
+ .text-center {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  /* Buttons */
+ .editar-btn,.eliminar-btn {
+    margin: 10px auto;
+    width: 100%;
+    display: block;
+  }
+ .btn-agregar {
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+    left: 0;
+    border: 2px solid #2B9980;
+    box-shadow: none;
+  }
+
+  /* Table */
+ .table th,.table td {
+    padding: 4px;
+    width: auto;
+    max-width: 200px;
+    overflow-x: auto; /* Enable horizontal scrolling for long tables */
+    white-space: normal; /* Allow text to jump to next line */
+  }
+
+  /* Footer */
+  footer {
+    padding: 10px;
+    font-size: 14px;
+    display: block;
+    text-align: center;
+  }
+ .logo-utn {
+    height: 30px;
+    margin: 10px auto;
+  }
+}
+
+/* Custom styles for filter field */
+.custom-filter-field .mat-form-field-wrapper .mat-form-field-flex {
+  color: black;
+  border-color: #6fc0a8; /* Same color as nav */
+}
+
+.custom-filter-field .mat-form-field-underline .mat-form-field-ripple {
+  background-color: #6fc0a8; /* Same color as nav */
+}
+
+/* Custom styles for table */
+.custom-table {
+  background-color: rgb(255, 255, 255)
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.line {
+  flex: 1;
+  height: 5px;
+  background-color: #1B3069;
+}
+.title {
+  margin: 0 10px;
+  font-size: 20px;
+  color: #1B3069 ;
+}
+

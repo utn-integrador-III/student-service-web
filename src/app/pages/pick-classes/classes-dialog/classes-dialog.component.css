@@ -1,0 +1,57 @@
+.popup {
+  background-color: white;
+  padding: 20px;
+  position: relative;
+}
+
+.title {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.info {
+  margin-left: 20px;
+  margin-right: 180px; /* Add margin to make space for the buttons */
+}
+
+p {
+  margin-bottom: 20px;
+}
+
+.buttonclose-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 20px;
+  top: 110px; 
+}
+
+.buttonclose {
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border-radius: 12px;
+  width: 150px;
+}
+
+.buttonclose.red {
+  background-color: red;
+}
+
+.buttonclose.red:hover {
+  background-color: #d32f2f;
+}
+
+.buttonclose.blue {
+  background-color: #1b3069;
+}
+
+.buttonclose.blue:hover {
+  background-color: #89c1e0;
+}

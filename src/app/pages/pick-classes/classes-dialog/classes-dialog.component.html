@@ -1,0 +1,28 @@
+<div class="popup">
+  <h5 class="title">Detalles del curso</h5>
+  <hr />
+
+  <div class="info">
+    <p><strong>Curso:</strong> {{ data.subject }}</p>
+    <p><strong>Profesor:</strong> {{ data.professor }}</p>
+    <p><strong>Correo:</strong> {{ data.professor_email }}</p>
+
+    <p><strong>Laboratorio:</strong> {{ data.lab }}</p>
+
+    <p><strong>Carrera:</strong> {{ data.career }}</p>
+
+  </div>
+
+  <div class="buttonclose-container">
+    <button
+      class="buttonclose blue"
+    (click)="navigateToStudentLog()"
+    >
+      Llenar
+    </button>
+
+    <button class="buttonclose" style="background-color: #696969;" (click)="navigateToTeacherLog()">Visualizar</button>
+
+    <button class="buttonclose red" (click)="onClose()">Cerrar</button>
+  </div>
+</div>

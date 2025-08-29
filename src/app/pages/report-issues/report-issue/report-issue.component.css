@@ -1,0 +1,98 @@
+.disabled-button {
+  background-color: #d3d3d3;
+  color: #a9a9a9;
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.titulo {
+  text-align: center;
+  color: #1b3069;
+  font-size: 20px;
+  margin-top: 30px;
+  font-style: normal;
+}
+
+.linea-horizontal {
+  border-top: 2px solid #1b3069;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.linea-vertical {
+  border-right: 2px solid #1b3069;
+  width: 2px;
+  height: 100%;
+}
+
+.inputs {
+  margin: 0 auto;
+  display: block;
+  border-radius: 3px;
+  height: 50px;
+  background-color: #eeeeee;
+}
+
+.buttonApertura {
+  background-color: #1b3069;
+  color: #eeeeee;
+  margin: 0 auto;
+  display: block;
+}
+
+table {
+  background-color: #f7f7f7;
+  text-align: center;
+  width: 100%;
+}
+
+.tablaAbajo {
+  text-align: center;
+  color: black;
+}
+
+tr,
+td,
+th {
+  text-align: center;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.image-container {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.computer-image {
+  width: 90%;
+  height: auto;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.image-number {
+  color: black;
+  text-align: center;
+  font-size: 16px;
+}
+
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.clickable-image:active {
+  transform: scale(0.95);
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}

@@ -1,7 +1,19 @@
-
-
 export const environment = {
-  production: true,
-  URL_USERS: process.env['URL_USERS'], //"https://kdhexm3qap.us-east-1.awsapprunner.com/users",
-  URL_REPORT: process.env['URL_REPORT'] //"https://ceapuskw2b.us-east-1.awsapprunner.com/products"
+  URL_API_REPORT: process.env['URL_API_REPORT'],
+  URL_API_AUTH: process.env['URL_API_AUTH'],
+  URL_API_REFRESH: process.env['URL_API_REFRESH'],
+  URL_API_ZONE: process.env['URL_API_ZONE'],
+  URL_API_CATEGORY: process.env['URL_API_CATEGORY'],
+  URL_API_LOSTANDFOUND: process.env['URL_API_LOSTANDFOUND'],
+  URL_API_ENROLLMENT: process.env['URL_API_ENROLLMENT'],
+  URL_API_VERIFY: process.env['URL_API_VERIFY'],
+  URL_API_LABMANAGING: process.env['URL_API_LABMANAGING'],
+  URL_API_PROFESSOR: process.env['URL_API_PROFESSOR'],
+  URL_API_SAFEKEEPER: process.env['URL_API_SAFEKEEPER'],
+  URL_API_LOGOUT: process.env['URL_API_LOGOUT'],
+  URL_API_TEACHEREMAIL: process.env['URL_API_TEACHEREMAIL'],
+  URL_API_BOOKING: process.env['URL_API_BOOKING'],
+  URL_API_BOOKING_COMPUTER: process.env['URL_API_BOOKING_COMPUTER'],
+  URL_API_PASSWORD_RESET: process.env['URL_API_PASSWORD_RESET'],
+  URL_API_CHANGE_PASSWORD: process.env['URL_API_CHANGE_PASSWORD'],
 };
