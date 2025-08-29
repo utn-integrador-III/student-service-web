@@ -20,5 +20,5 @@ export const environment = {
   URL_API_BOOKING: 'http://localhost:5003/booking',
   URL_API_BOOKING_COMPUTER: 'http://localhost:5003/booking/computer',
   URL_API_PASSWORD_RESET: 'http://localhost:5002/user/password',
-  URL_API_CHANGE_PASSOWORD: 'http://localhost:5002/user/password',
+  URL_API_CHANGE_PASSWORD: 'http://localhost:5002/user/password',
 };
