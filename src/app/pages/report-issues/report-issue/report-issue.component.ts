@@ -25,7 +25,7 @@ export class ReportIssueComponent implements OnInit {
   canCreate = false;
   description: string = '';
 
-  @ViewChild(MatTable) table!: MatTable<any>;   // para refrescar la tabla
+  @ViewChild(MatTable) table!: MatTable<any>;
 
   constructor(
     private labManaging: LabManaging,
@@ -73,10 +73,21 @@ export class ReportIssueComponent implements OnInit {
   }
 
   loadIssues() {
+    const currentUser = this.authService.getCurrentUser();
+
+    if (!currentUser || !currentUser.email) {
+      this.dataSource.data = []; 
+      return;
+    }
+
     this.issueService.getIssues().subscribe({
       next: (response) => {
         if (response && response.data && Array.isArray(response.data)) {
-          const issues = response.data.map((issue: any) => ({
+          const userIssues = response.data.filter(
+            (issue: any) => issue.person && issue.person.email === currentUser.email
+          );
+
+          const issues = userIssues.map((issue: any) => ({
             lab: issue.lab || 'N/A',
             number: issue.issue
               ? issue.issue.map((i: any) => i.computer).join(', ')
@@ -94,6 +105,7 @@ export class ReportIssueComponent implements OnInit {
                 description: issue.description,
               })),
           }));
+
           this.dataSource = new MatTableDataSource(issues);
           this.cdr.detectChanges();
         } else {
